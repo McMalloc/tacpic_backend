@@ -1,41 +1,33 @@
 # encoding: UTF-8
 require 'sinatra/base'
-require 'sequel'
-require 'mysql2'
-require 'dotenv'
-require_relative './helper/auth'
-# require 'json'
 
-module Tacpic
-  class App < Sinatra::Base
-    configure do
-      Dotenv.load 'dev.env'
-      $_db = Sequel.connect(
-          adapter: 'mysql2',
-          user: 'tacpic',
-          host: 'localhost',
-          database: 'tacpic',
-          password: ENV['DB_PASSWORD']
-      )
-    end
+# require_relative './helper/auth'
+require_relative './models/init' # gets Store
+require_relative './db/config' # gets Database
+# wann werden die Funktionen überall gebraucht? vllt doch register
 
-    get '/' do
-      'Hallo ' + @id.to_s
-    end
 
-    post '/user/layout' do
-      $_db[:user_layouts].insert(
-                             user_id: @id,
-                             name: 'Layout',
-                             created_at: Date.today,
-                             layout: request.body.read
-      )
-      status 202
-    end
+class Main < Sinatra::Base
+  VERSION = '0.1'
 
-    before do #auch mit negativem lookahead
-      request.body.rewind
-      @id = Auth.auth request.env['HTTP_AUTHORIZATION']
-    end
+  $_db = Database.init 'development' # TODO make dynamic
+  Store.init
+
+  configure :development do
+    disable :logging
   end
+
+  get '/' do
+    'Hallo ' + @id.to_s
+  end
+
+  # if Sinatra::Application.environment != 'test' # funktioniert nicht so gut. die tests sollten den auth header mitsenden, um auch authorisierung zu testen
+  #   before do #auch mit negativem lookahead
+  #     request.body.rewind
+  #     @id = Auth.auth request.env['HTTP_AUTHORIZATION']
+  #   end
+  # end
 end
+
+require_relative './routes/user_layouts'
+require_relative './routes/graphics'

@@ -1,3 +1,4 @@
+require 'rake/testtask'
 require_relative 'db/config'
 
 namespace 'db' do
@@ -18,3 +19,11 @@ namespace 'db' do
   desc 'Reset the database then run the migrations'
   task :reset, [:mode] => [:zap, :migrate]
 end
+
+namespace 'test' do
+  desc "Run all tests"
+  task(:all) do
+    Dir['./tests/**/*_test.rb'].each { |file| load file }
+  end
+end
+

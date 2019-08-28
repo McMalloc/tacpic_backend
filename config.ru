@@ -1,2 +1,2 @@
 require './main'
-run Tacpic::App
+run Main

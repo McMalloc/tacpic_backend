@@ -14,7 +14,8 @@ module Auth
                                  { algorithm: 'HS256' }
     rescue => msg
       puts "#{msg.class}: #{msg.message}"
-      halt 400, "#{msg.class}: #{msg.message}" #todo https://leastprivilege.com/2014/10/02/401-vs-403/
+      # status ist nicht verfügbar als sinatra helper, sollte der before hook regeln
+      status 400, "#{msg.class}: #{msg.message}" #todo https://leastprivilege.com/2014/10/02/401-vs-403/
     end
 
     decoded_token.first['data']['user']['id'].to_i

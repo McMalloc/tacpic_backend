@@ -2,10 +2,11 @@ class CreateUserLayouts < Sequel::Migration
   def up
     create_table :user_layouts do
       primary_key :id
-      int :user_id
-      text :name
+      foreign_key :user_id
+
+      String :name, size: 256
       DateTime :created_at
-      longtext :layout
+      String :layout, text: true
     end
   end
 

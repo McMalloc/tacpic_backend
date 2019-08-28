@@ -1,0 +1,6 @@
+development:
+  HMAC_SECRET: ''
+  DB_PASSWORD: ''
+  DB_URL: ''
+  DB_USER: ''
+  DB_NAME: ''
