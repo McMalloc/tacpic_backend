@@ -16,7 +16,6 @@ module Database
 
   def self.init (mode)
     Sequel.connect url(mode)
-
         # adapter: 'mysql2',
         # user: user,
         # host: 'localhost',

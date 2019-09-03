@@ -1,9 +1,10 @@
 class CreateFavs < Sequel::Migration
   def up
     create_table :favs do
-      primary_key :id
-      foreign_key :list_id
-      foreign_key :variant_id
+      foreign_key :variant_id, :variants
+      foreign_key :list_id, :lists
+      primary_key [:variant_id, :list_id], name: :fav_pk
+
       DateTime :created_at
     end
   end

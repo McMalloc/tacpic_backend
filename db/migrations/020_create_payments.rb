@@ -2,11 +2,12 @@ class CreatePayments < Sequel::Migration
   def up
     create_table :payments do
       primary_key :id
-      foreign_key :invoice_id
-      foreign_key :order_id
 
-      Integer :status, null: false, default: 1
-      String :comment, text: true
+      Integer :user_id # no key or required, since some payments cannot be matched
+      Integer :invoice_id
+      Integer :amount
+      # String :currency, size: 3
+      String :service # what infos does the PSP transmit?
       DateTime :created_at
     end
   end

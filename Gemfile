@@ -16,4 +16,5 @@ group :test, :development do
   gem 'minitest-sequel'
   gem 'rack-test'
   gem 'yard'
+  gem 'faker'
 end

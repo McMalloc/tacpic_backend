@@ -2,6 +2,7 @@ class CreateUsers < Sequel::Migration
   def up
     create_table :users do
       primary_key :id
+
       String :email, null: false
       String :password, size: 16, null: false, fixed: true
       String :salt, size: 8, null: false, fixed: true

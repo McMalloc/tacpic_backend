@@ -1,12 +1,15 @@
 class CreateVersions < Sequel::Migration
   def up
     create_table :versions do
-      primary_key :id
-      foreign_key :user_id
-      foreign_key :variant_id
+      String :id, size: 16
+      foreign_key :user_id, :users
+      foreign_key :variant_id, :variants
+
       Integer :number, null: false
       String :document, mediumtext: true # max. 16MB
       DateTime :created_at
+
+      primary_key [:id]
     end
   end
 
