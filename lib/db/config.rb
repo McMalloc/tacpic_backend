@@ -15,7 +15,6 @@ module Database
   end
 
   def self.init mode
-    puts mode
     Sequel.connect url mode
         # adapter: 'mysql2',
         # user: user,

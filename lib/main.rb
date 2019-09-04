@@ -10,11 +10,11 @@ require_relative 'db/config' # gets Database
 class Tacpic < Sinatra::Base
   VERSION = '0.1'
 
-  puts ENV
   $_db = Database.init 'development' # TODO make dynamic
   Store.init
 
   configure do
+    set :server, :puma
     set :environemnt, :production
   end
 
