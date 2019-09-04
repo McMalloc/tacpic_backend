@@ -1,2 +1,2 @@
-require './main'
-run Main
+require './lib/main'
+run Tacpic

@@ -14,8 +14,9 @@ module Database
     "mysql2://#{CONFIG[mode]['DB_USER']}:#{CONFIG[mode]['DB_PASSWORD']}@#{CONFIG[mode]['DB_URL']}/#{CONFIG[mode]['DB_NAME']}-#{mode}"
   end
 
-  def self.init (mode)
-    Sequel.connect url(mode)
+  def self.init mode
+    puts mode
+    Sequel.connect url mode
         # adapter: 'mysql2',
         # user: user,
         # host: 'localhost',

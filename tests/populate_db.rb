@@ -1,4 +1,4 @@
-require_relative '../db/config'
+require_relative '../lib/db/config'
 require 'faker'
 
 $_db = Database::init 'development'
