@@ -11,9 +11,10 @@ gem 'sinatra-contrib'
 
 # Test requirements
 group :test, :development do
-  gem 'minitest'
   gem 'minitest-reporters'
   gem 'minitest-sequel'
+  gem 'win32console'
   gem 'rack-test'
   gem 'yard'
+  gem 'faker'
 end

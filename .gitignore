@@ -2,4 +2,4 @@
 .idea
 *.env
 *.lock
-config.yml
+lib/config.yml
