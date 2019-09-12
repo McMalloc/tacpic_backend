@@ -5,6 +5,7 @@ class CreateVariants < Sequel::Migration
       foreign_key :user_id, :users
       foreign_key :graphic_id, :graphics
 
+      TrueClass :public, default: true
       String :title, null: false
       String :description, longtext: true
       String :long_description, longtext: true

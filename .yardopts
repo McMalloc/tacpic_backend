@@ -1,0 +1,5 @@
+--plugin yard-sinatra
+--plugin yard-doctest
+--plugin yard-appendix
+--plugin yard-minitest-spec
+-m markdown

@@ -1,2 +1,2 @@
 require './lib/main'
-run Tacpic
+Tacpic.run!

@@ -1,7 +1,7 @@
 class CreateVersions < Sequel::Migration
   def up
     create_table :versions do
-      String :id, size: 16
+      String :id, size: 16 # hash
       foreign_key :user_id, :users
       foreign_key :variant_id, :variants
 

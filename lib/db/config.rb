@@ -1,25 +1,13 @@
 require 'sequel'
-require 'yaml'
 
 module Database
-  CONFIG = YAML::load_file(
-      File.join(
-          File.dirname(
-              File.expand_path(__FILE__)), '../config.yml'))
-
-  DB_MODES = %w{development production test}
-
-  def self.url(mode)
-    raise "Unsupported runtime mode: #{mode.inspect}" unless DB_MODES.include? mode.to_s
-    "mysql2://#{CONFIG[mode]['DB_USER']}:#{CONFIG[mode]['DB_PASSWORD']}@#{CONFIG[mode]['DB_URL']}/#{CONFIG[mode]['DB_NAME']}-#{mode}"
+  # method isn't loading env-specific settings since tests and development can happen on one machine with a simple database setup, while production instances use different config files anyway
+  def self.url(user, pw, dbname, host, mode)
+    "mysql2://#{user}:#{pw}@#{host}/#{dbname}-#{mode}"
   end
 
-  def self.init mode
-    Sequel.connect url mode
-        # adapter: 'mysql2',
-        # user: user,
-        # host: 'localhost',
-        # database: db,
-        # password: pw
+  def self.init(*args)
+    Sequel::Model.plugin :validation_class_methods
+    Sequel.connect url *args
   end
 end

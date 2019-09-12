@@ -1,4 +1,4 @@
-class Main < Sinatra::Base
+class Tacpic < Sinatra::Base
   get '/' do
     # $_db[:user_layouts].insert(
     #     user_id: @id,

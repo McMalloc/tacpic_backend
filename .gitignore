@@ -1,5 +1,6 @@
 .idea/*
 .idea
-*.env
 *.lock
-lib/config.yml
+env.yml
+doc
+.yardoc
