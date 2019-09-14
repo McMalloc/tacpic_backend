@@ -1,8 +1,10 @@
 require 'sequel'
 
+# https://github.com/jeremyevans/sequel-annotate
 module Store
   def self.init
     %w[User
+    Account
     Product
     Graphic
     Variant

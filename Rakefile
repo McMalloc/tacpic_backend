@@ -1,45 +1,47 @@
 require 'rake/testtask'
 require 'yard'
-require_relative 'lib/db/config'
-require_relative 'load_env'
+require 'sequel'
+require_relative 'db/config'
+require_relative 'env'
 
-ENV['SINATRA_ACTIVESUPPORT_WARNING'] = 'false'
-
-config = parse_config
-
+Sequel.extension :migration
 # currently, the user, url and database in general needs to be the same per machine/env
 namespace 'db' do
+  _db = Database.init ENV['TACPIC_DATABASE_URL']
+
   desc "Run database migrations"
-  task :migrate, :mode do |t, args|
-    url = Database.url(
-        config['DB_USER'],
-        config['DB_PASSWORD'],
-        config['DB_NAME'],
-        config['DB_URL'],
-        args[:mode])
-    sh "sequel -m lib/db/migrations #{url}"
+  task :migrate do |t, args|
+    Sequel::Migrator.run(_db, './db/migrations')
   end
 
   desc 'Zap the database by running all the down migrations'
-  task :zap, [:mode] do |t, args|
-    url = Database.url(
-        config['DB_USER'],
-        config['DB_PASSWORD'],
-        config['DB_NAME'],
-        config['DB_URL'],
-        args[:mode])
-    sh "sequel -m lib/db/migrations -M 0 #{url}"
+  task :zap do |t, args|
+    Sequel::Migrator.run(_db, './db/migrations', target: 0)
   end
 
+  desc 'Populate database with test data'
   task :populate, [:mode] do |t, args|
-    sh "ruby tests/populate_db.rb #{args[:mode]}"
+    sh "ruby tests/populate_db.rb #{ENV['RACK_ENV']}"
   end
+
+  desc 'Setting up database tables for authentication provided by rodauth'
+  task :migrate_auth do |t, args|
+    Sequel::Migrator.run(_db, './db/auth_migrations', table: 'schema_info_password')
+  end
+
+  desc 'Zapping database tables for authentication provided by rodauth'
+  task :zap_auth do |t, args|
+    Sequel::Migrator.run(_db, './db/auth_migrations', target: 0, table: 'schema_info_password')
+  end
+
+  desc 'Reset authentication database'
+  task :reset_auth => [:zap_auth, :migrate_auth]
 
   desc 'Zaps the database then run the migrations'
-  task :purge, [:mode] => [:zap, :migrate]
+  task :purge => [:zap, :migrate]
 
   desc 'Performs factory reset: Zap, migrate, repopulate'
-  task :reset, [:mode] => [:zap, :migrate, :populate]
+  task :reset => [:zap, :migrate, :populate]
 end
 
 namespace 'test' do

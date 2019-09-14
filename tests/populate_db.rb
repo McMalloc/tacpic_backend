@@ -1,13 +1,8 @@
-require_relative '../lib/db/config'
-require_relative '../load_env'
-config = parse_config
+require_relative '../db/config'
+require_relative '../env'
 require 'faker'
 
-$_db = Database::init config['DB_USER'],
-                      config['DB_PASSWORD'],
-                      config['DB_NAME'],
-                      config['DB_URL'],
-                      ARGV[0]
+$_db = Database.init ENV['TACPIC_DATABASE_URL']
 
 nrOfUsers = 50
 nrOfTags = 3

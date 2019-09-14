@@ -7,7 +7,7 @@ require "minitest/autorun"
 require 'minitest/reporters'
 require 'json'
 
-require_relative '../lib/db/config' # gets Database
+require_relative '../db/config' # gets Database
 require_relative '../load_env' # gets Config
 
 include Rack::Test::Methods

@@ -1,2 +1,2 @@
-require './lib/main'
-Tacpic.run!
+require './main'
+run Tacpic.freeze.app

@@ -7,8 +7,9 @@ gem 'jwt'
 gem 'sequel'
 gem 'puma'
 gem 'mysql2'
-gem 'sinatra'
-gem 'sinatra-contrib'
+gem 'roda'
+gem 'bcrypt'
+gem 'rodauth'
 
 # Test requirements
 group :test, :development do
