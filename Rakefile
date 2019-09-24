@@ -7,6 +7,7 @@ require_relative 'env'
 Sequel.extension :migration
 # currently, the user, url and database in general needs to be the same per machine/env
 namespace 'db' do
+  puts ENV['TACPIC_DATABASE_URL']
   _db = Database.init ENV['TACPIC_DATABASE_URL']
 
   desc "Run database migrations"
@@ -21,7 +22,7 @@ namespace 'db' do
 
   desc 'Populate database with test data'
   task :populate, [:mode] do |t, args|
-    sh "ruby tests/populate_db.rb #{ENV['RACK_ENV']}"
+    sh "ruby tests/populate_db.rb"
   end
 
   desc 'Setting up database tables for authentication provided by rodauth'
@@ -46,14 +47,11 @@ end
 
 namespace 'test' do
   Rake::TestTask.new do |t|
-    t.name = 'all'
+    t.name = 'routes'
     t.libs << "."
-    t.test_files = FileList['tests/*_tests.rb']
+    t.test_files = FileList['tests/graphic_tests.rb']
     t.verbose = true
     t.warning = false
-
-    # gets called everytime?
-    # at_exit { Rake::Task['db:purge'].invoke("test") }
   end
 
   Rake::TestTask.new do |t|
@@ -66,11 +64,15 @@ namespace 'test' do
 
   desc 'Purges test db and runs model tests'
   task :purge_and_models, [:mode] => ['db:purge', :models]
+  task :purge_and_routes, [:mode] => ['db:purge', :routes]
 end
 
 namespace 'run' do
   task :main do
     sh "rackup"
+  end
+  task :rerun do
+    sh 'rerun "rackup"'
   end
 end
 
@@ -79,7 +81,4 @@ namespace 'doc' do
     t.name = 'all'
     t.files = %w(./lib/**/*.rb ./tests/*.rb)
   end
-  # task :main do
-  #   sh "yard "
-  # end
 end

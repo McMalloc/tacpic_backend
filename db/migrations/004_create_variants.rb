@@ -2,7 +2,6 @@ class CreateVariants < Sequel::Migration
   def up
     create_table :variants do
       primary_key :id
-      foreign_key :user_id, :users
       foreign_key :graphic_id, :graphics
 
       TrueClass :public, default: true

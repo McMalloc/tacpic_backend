@@ -1,59 +1,72 @@
 require_relative '../db/config'
-require_relative '../env'
-require 'faker'
+require_relative '../models/init'
+require_relative '../env.rb'
+require "faker"
 
 $_db = Database.init ENV['TACPIC_DATABASE_URL']
+Store.init
 
-nrOfUsers = 50
-nrOfTags = 3
-nrOfVariants = 10
-
-def map_fields(field)
-  case field
-  when "email"
-    Faker::Internet.email
-  when "password"
-    Faker::JapaneseMedia::DragonBall.character
-  when "salt"
-    Faker::Internet.password(min_length: 4, max_length: 4)
-  when "salt"
-    Faker::Internet.password(min_length: 4, max_length: 4)
-  else
-    Faker::Lorem.sentence
-  end
+def random_record(model)
+  model.order(Sequel.lit('RAND()')).first
 end
 
-def insert(db_name, n, fields)
-  $_db[db_name]
-
-  Hash[fields.collect { |f| [f, faker_map(f)]}]
+def random(max)
+  rand(max).to_i + 1
 end
 
-for a in 0..nrOfUsers do
+n_users = 500
+n_tags = 50
+n_graphics = 300
+n_taggings = 2000
+
+puts "creating users ..."
+# bypass auth
+(1..n_users).each do
   $_db[:users].insert(
-      email: Faker::Internet.email,
-      password: Faker::Internet.password(min_length: 10, max_length: 20),
-      salt: Faker::Internet.password(min_length: 4, max_length: 4),
       role: 1,
       created_at: Time.now
   )
 end
 
-for a in 0..nrOfTags do
-  $_db[:tags].insert name: Faker::Color.color_name, user_id: rand(nrOfUsers) + 1, created_at: Time.now
+puts "creating tags ..."
+(1..n_tags).each do |i|
+  Tag.create(
+         # user_id: rand(98).to_i + 1,
+         name: Faker::Lorem.unique.word
+  )
 end
 
-$_db[:graphics].insert(
-    title: Faker::Lorem.sentence,
-    user_id: rand(nrOfUsers) + 1,
-    created_at: Time.now
-)
+puts "creating graphics ..."
+(1..n_graphics).each do |i|
+  graphic = Graphic.create(
+      description: Faker::Lorem.sentence, #
+      title: Faker::Quote.famous_last_words,
 
-for a in 0..nrOfVariants do
-  $_db[:variants].insert(
-      title: Faker::Lorem.sentence,
-      user_id: rand(nrOfUsers) + 1,
-      graphic_id: 1,
-      created_at: Time.now
+      )
+
+  puts "creating variants and versions for graphic no " + graphic.id.to_s + " ..."
+  (1..random(5)).each do |j|
+    variant = graphic.add_variant(
+        title: Faker::Lorem.paragraph + " -- " + j.to_s,
+        description: Faker::Lorem.sentence,
+        long_description: Faker::Lorem.paragraph
+    )
+
+    (1..random(10)).each do |k|
+      user = random_record(User)
+      variant.add_version(
+          user_id: user.id,
+          document: "<svg tacpic:graphic_id=\"#{graphic.id}\" tacpic:variant_id=\"#{variant.id}\"></svg>"
+      )
+    end
+  end
+end
+
+puts "creating taggings..."
+(1..n_taggings).each do
+  Tagging.create(
+      user_id: random_record(User).id,
+      tag_id: random_record(Tag).id,
+      variant_id: random_record(Variant).id
   )
 end

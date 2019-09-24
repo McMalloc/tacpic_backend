@@ -19,10 +19,10 @@ group :test, :development do
   gem 'faker'
   gem 'yard'
   # correct new 1.0 version wasn't marked as release, neither on Github nor on rubygems
-  gem 'yard-sinatra', git: 'https://github.com/rkh/yard-sinatra', ref: 'b0d8403'
   gem 'yard-appendix'
   gem 'yard-doctest'
   gem 'prmd'
   gem 'json_schemer'
   gem 'yard-minitest-spec'
+  gem 'rerun'
 end

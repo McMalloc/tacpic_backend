@@ -1,11 +1,10 @@
 class CreateTags < Sequel::Migration
   def up
     create_table :tags do
-      # primary_key :id
+      primary_key :id
       foreign_key :user_id, :users
 
-      String :name, size: 255
-      primary_key [:name]
+      String :name, size: 255, unique: true
 
       String :description
       Integer :taxonomy # domain value

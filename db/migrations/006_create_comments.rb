@@ -3,9 +3,7 @@ class CreateComments < Sequel::Migration
     create_table :comments do
       primary_key :id
       foreign_key :user_id, :users
-
-      String :version_id, size: 16
-      foreign_key [:version_id], :versions
+      foreign_key :version_id, :versions
 
       Integer :state, null: false
       String :content, text: true

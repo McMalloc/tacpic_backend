@@ -13,6 +13,11 @@ class Tacpic < Roda
   Store.init
 
   plugin :route_csrf, :csrf_failure=>:clear_session
+
+  # handle json responses, serialize Sequel models
+  plugin :json, classes: [Array, Hash, Sequel::Model]
+  plugin :json_parser
+
   plugin :rodauth, json: :only, csrf: :route_csrf do
     enable :login, :logout, :jwt
     after_login do
@@ -25,14 +30,25 @@ class Tacpic < Roda
   # file.sync = true
   # use Rack::CommonLogger, file
 
+  plugin :error_handler do |e|
+    {
+        type: e.class.name,
+        backtrace: e.backtrace,
+        message: e.message
+    }
+  end
+
+  puts "loading routes"
   route do |r|
     # GET / request
     r.root do
-      "hello"
+      @graphics = Graphic.all
+      @graphics.map(&:values)
     end
   end
 end
 
-# require_relative 'routes/users'
+require_relative 'routes/graphics'
+# require_relative 'routes/variants'
 # require_relative 'routes/user_layouts'
-# require_relative 'routes/graphics'
+#
