@@ -48,6 +48,15 @@ class Tacpic < Roda
   end
 end
 
+# thrown when requesting parameters compromise the sanity of the response
+class DataError < StandardError
+  attr_reader :parameter
+  def initialize(msg="The request cannot reasonably be processed.", parameter)
+    @parameter = parameter
+    super
+  end
+end
+
 require_relative 'routes/graphics'
 # require_relative 'routes/variants'
 # require_relative 'routes/user_layouts'

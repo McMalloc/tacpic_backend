@@ -16,8 +16,8 @@ end
 
 n_users = 500
 n_tags = 50
-n_graphics = 300
-n_taggings = 2000
+n_graphics = 100
+n_taggings = 500
 
 puts "creating users ..."
 # bypass auth

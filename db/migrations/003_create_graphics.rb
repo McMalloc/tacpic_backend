@@ -7,6 +7,9 @@ class CreateGraphics < Sequel::Migration
       String :title, size: 256, null: false
       String :description, text: true
       DateTime :created_at
+
+      full_text_index :title
+      full_text_index :description
     end
   end
 
