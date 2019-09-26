@@ -56,7 +56,7 @@ puts "creating graphics ..."
       user = random_record(User)
       variant.add_version(
           user_id: user.id,
-          document: "<svg tacpic:graphic_id=\"#{graphic.id}\" tacpic:variant_id=\"#{variant.id}\"></svg>"
+          document: "<svg tacpic:graphic_id=\"#{graphic.id}\" tacpic:variant_id=\"#{variant.id}\">#{rand(100).to_s}</svg>"
       )
     end
   end

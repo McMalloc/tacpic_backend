@@ -38,7 +38,7 @@ end
 
 class Sequel::Model
   def before_create
-    self.created_at ||= Time.now
+    self.created_at ||= (Time.now - rand(10000).to_i) # Time.now
     super
   end
 end

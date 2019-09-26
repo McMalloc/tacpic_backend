@@ -79,6 +79,6 @@ end
 namespace 'doc' do
   YARD::Rake::YardocTask.new do |t|
     t.name = 'all'
-    t.files = %w(./lib/**/*.rb ./tests/*.rb)
+    t.files = %w(./**/*.rb ./tests/*.rb)
   end
 end

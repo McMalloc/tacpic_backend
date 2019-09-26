@@ -9,8 +9,4 @@ class Version < Sequel::Model
   def before_save
     self.hash = Digest::MD5.hexdigest self.document
   end
-
-  def before_create
-    self.created_at = Time.now
-  end
 end
