@@ -15,9 +15,9 @@ def random(max)
 end
 
 n_users = 500
-n_tags = 50
-n_graphics = 100
-n_taggings = 500
+n_tags = 20
+n_graphics = 80
+n_taggings = 2500
 
 puts "creating users ..."
 # bypass auth
@@ -39,7 +39,7 @@ end
 puts "creating graphics ..."
 (1..n_graphics).each do |i|
   graphic = Graphic.create(
-      description: Faker::Lorem.sentence, #
+      # description: Faker::Lorem.sentence, #
       title: Faker::Quote.famous_last_words,
 
       )

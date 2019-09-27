@@ -5,6 +5,7 @@ require 'roda'
 require_relative 'models/init' # gets Store
 require_relative 'db/config' # gets Database
 require_relative 'env' # gets Config
+require_relative 'helper/functions'
 
 class Tacpic < Roda
   VERSION = '0.1'

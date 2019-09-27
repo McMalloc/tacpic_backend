@@ -1,5 +1,5 @@
 require 'sequel'
-
+Sequel.extension :symbol_as
 # https://github.com/jeremyevans/sequel-annotate
 module Store
   def self.init

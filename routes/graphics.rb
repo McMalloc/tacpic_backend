@@ -20,68 +20,55 @@ class Tacpic < Roda
 
         # TODO: sortieren danach, ob eine Variante alle tags erfüllt
 
-        result = $_db["SELECT id, first, title, description, graphics_with_counts_and_first.created_at, variants_count, document FROM
-(SELECT * FROM # first, counts
-
-    (SELECT graphic_id, MIN(id) AS first # first variant_id, graphic_id
-    FROM variants
-    GROUP BY graphic_id) AS first_variant
-
-INNER JOIN (
-    SELECT * FROM graphics # graphic values, count
-                      INNER JOIN (SELECT graphic_id AS graphic_id_counted, COUNT(graphic_id) AS variants_count
-                                  FROM `variants`
-                                  GROUP BY graphic_id) AS counts
-                                 ON (`counts`.`graphic_id_counted` = `graphics`.`id`)
-    ) AS variant_counts
-ON first_variant.graphic_id = variant_counts.id) AS graphics_with_counts_and_first
-
-INNER JOIN
-
-    (SELECT versions.variant_id, document, versions.created_at, graphic_id # graphic_id, variant_id, document
-    FROM (SELECT variant_id, MAX(created_at) AS created_at
-        FROM versions
-        GROUP BY variant_id) AS latest_version
-        INNER JOIN versions
-    ON
-        versions.variant_id = latest_version.variant_id AND
-        versions.created_at = latest_version.created_at
-        JOIN variants
-        ON versions.variant_id = variants.id) AS previews
-
-
-ON graphics_with_counts_and_first.id = previews.graphic_id AND
-   graphics_with_counts_and_first.first = previews.variant_id"]
+        result = Graphic
+        variants = Variant
+        tag_filtered_ids = nil
 
         unless r.params['tags'].nil?
           tag_ids = r.params['tags'].split(',').map(&:to_i)
-          counts = $_db["SELECT *, COUNT(id) AS tag_count FROM variants AS variants INNER JOIN (SELECT variant_id FROM `taggings` WHERE tag_id IN (#{tag_ids.join(',')})) AS taggings ON (`taggings`.`variant_id` = `variants`.`id`) GROUP BY variants.id HAVING tag_count = #{tag_ids.length}"]
-          # counts = $_db["SELECT *, COUNT(id) AS tag_count FROM variants AS variants INNER JOIN (SELECT variant_id FROM `taggings` WHERE tag_id IN (#{tag_ids.join(',')})) AS taggings ON (`taggings`.`variant_id` = `variants`.`id`) GROUP BY variants.id HAVING tag_count = #{tag_ids.length}"]
-          result = result.where({id: counts.map{|count| count[:graphic_id]}})
+          tag_filtered_ids = Tagging
+              .where(tag_id: tag_ids)
+              .group(:variant_id)
+              .select(:variant_id, :graphic_id, Sequel.lit("COUNT(variant_id) as count"))
+              .having(count: tag_ids.length)
+              .join(:variants, id: :variant_id)
+              .map{|t| t[:graphic_id]}
+              .uniq
+          variants = variants.where(graphic_id: tag_filtered_ids)
         end
 
+        # r.params['columns']
         if not r.params['search'].nil?
-          match_string = "MATCH (#{r.params['columns'] || "title"}) AGAINST ('#{r.params['search']}')"
-          result = result # .select(Sequel.as(:id, 'graphic_id')) # .association_join(:variants) # noch nicht, ist vielleicht gerade zu kompliziert, da sonst auch gewichtet gesucht wird
-              .select(Sequel.lit("*, " + match_string + " AS score"))
-              .where(Sequel.lit(match_string)) # optional > 1 für genauere Suchergebnisse
-              .order(Sequel.desc(:score))
+          match_string = "MATCH (variants.title, description, long_description) AGAINST ('#{r.params['search']}')"
+
+          search_filtered_ids = variants
+              .select(
+                  Sequel[:graphics][:title].as(:graphic_title),
+                  Sequel[:variants][:title].as(:variant_title),
+                  Sequel[:variants][:id].as(:variant_id),
+                  Sequel[:graphics][:id].as(:graphic_id),
+                  :long_description,
+                  :description,
+                  Sequel.lit(match_string + " AS score"))
+              .join(:graphics, id: :graphic_id)
+              .where(Sequel.lit(match_string))
+              .order(Sequel.desc(:score)) # best score first
+              .map{|t| t[:graphic_id]}
+              .uniq
+          result = result.where(id: search_filtered_ids)
         else
           result = result.order(Sequel.desc(:created_at)) # newest first
         end
 
-        # .select(Sequel.as(:id, 'graphic_id'))
-        # SELECT * FROM (SELECT id, title as graphics__title FROM `graphics`) AS graphics
-        # INNER JOIN (SELECT graphic_id, id AS variants__id, title FROM `variants`) AS variants
-        # ON (`variants`.`graphic_id` = `graphics`.`id`);
-
         # TODO Vorschaubild
-        # entweder mit SQL wie unten (aber dann welche Variante?) oder als ASSET unter fixer URL ablegen (z.B. assets/graphics/3/latest_preview)
+        # entweder mit SQL wie unten (aber dann welche Variante?) oder als ASSET unter fixer URL ablegen (z.B. assets/graphics/3/latest_preview) <- initialer Request kann schneller bearbeitet werden
         result = result
+            .select(:id, :title, :created_at, :variants_count)
             .offset(r.params['offset'] || 0)
-            .limit(r.params['limit']) # .join(Sequel.lit("(SELECT graphic_id, COUNT(graphic_id) AS count FROM `variants` GROUP BY graphic_id) AS counts ON (`counts`.`graphic_id` = `graphics`.`id`)"))
-            # .join(Sequel.lit("(SELECT graphic_id, COUNT(graphic_id) AS variants_count FROM `variants` GROUP BY graphic_id) AS counts ON (`counts`.`graphic_id` = `graphics`.`id`)"))
+            .limit(r.params['limit'])
+            .join(Sequel.lit("(SELECT graphic_id, COUNT(graphic_id) AS variants_count FROM `variants` GROUP BY graphic_id) AS counts ON (`counts`.`graphic_id` = `graphics`.`id`)"))
 
+        # TODO last_updated hinzufügen
         result.all.map(&:values)
       end
 

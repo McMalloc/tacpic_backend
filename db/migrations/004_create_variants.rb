@@ -10,9 +10,7 @@ class CreateVariants < Sequel::Migration
       String :long_description, longtext: true
       DateTime :created_at
 
-      full_text_index :title
-      full_text_index :description
-      full_text_index :long_description
+      full_text_index [:title, :description, :long_description]
     end
   end
 
