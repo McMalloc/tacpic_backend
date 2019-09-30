@@ -19,6 +19,8 @@ class Tacpic < Roda
   plugin :json, classes: [Array, Hash, Sequel::Model]
   plugin :json_parser
 
+  plugin :multi_route
+
   plugin :rodauth, json: :only, csrf: :route_csrf do
     enable :login, :logout, :jwt
     after_login do
@@ -34,19 +36,42 @@ class Tacpic < Roda
   plugin :error_handler do |e|
     {
         type: e.class.name,
-        backtrace: e.backtrace,
+        # backtrace: e.backtrace,
         message: e.message
     }
   end
 
   puts "loading routes"
-  route do |r|
-    # GET / request
-    r.root do
-      @graphics = Graphic.all
-      @graphics.map(&:values)
-    end
-  end
+
+  route(&:multi_route)
+
+  # route do |r|
+  #   r.on "a" do           # /a branch
+  #
+  #     r.on "b" do         # /a/b branch
+  #
+  #       r.is "c" do       # /a/b/c request
+  #         r.get do
+  #           "GET /a/b/c"
+  #         end    # GET  /a/b/c request
+  #         r.post do
+  #           "POST /a/b/c"
+  #         end   # POST /a/b/c request
+  #       end
+  #
+  #       r.is "c", Integer do |id|       # /a/b/c request
+  #         r.get do
+  #           "GET /a/b/c/" + id.to_s
+  #         end    # GET  /a/b/c request
+  #         r.post do
+  #           "POST /a/b/c" + id.to_s
+  #         end   # POST /a/b/c request
+  #       end
+  #       r.get "d" do end  # GET  /a/b/d request
+  #       r.post "e" do end # POST /a/b/e request
+  #     end
+  #   end
+  # end
 end
 
 # thrown when requesting parameters compromise the sanity of the response
@@ -59,6 +84,7 @@ class DataError < StandardError
 end
 
 require_relative 'routes/graphics'
+require_relative 'routes/versions'
 # require_relative 'routes/variants'
 # require_relative 'routes/user_layouts'
 #

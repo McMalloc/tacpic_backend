@@ -13,13 +13,11 @@ describe "Versions" do
         }
     post 'versions', data.to_json
 
-
     assert_equal 202, last_response.status
     $db[:versions].first
     puts $db[:graphics][0]
   end
 end
-
 
 describe "routes" do
   it "..." do
@@ -39,15 +37,6 @@ describe "routes" do
     random_id = (rand 9).to_i
     get "graphic/#{random_id}"
 
-    assert_equal 200, last_response.status
-    assert_equal $db[:graphics][random_id].title, JSON.parse(last_response.body).title
-  end
-
-  it "should get all variants" do
-    random_id = (rand 9).to_i
-    get "graphic/#{random_id}/variants"
-
-    # all variants should be available at once
     assert_equal 200, last_response.status
     assert_equal $db[:graphics][random_id].title, JSON.parse(last_response.body).title
   end

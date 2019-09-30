@@ -7,6 +7,7 @@ class CreateVersions < Sequel::Migration
       foreign_key :variant_id, :variants
 
       String :document, mediumtext: true # max. 16MB
+      String :change_message, null: false
       column :created_at, 'timestamp(6)'
     end
   end
