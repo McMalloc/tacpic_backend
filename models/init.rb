@@ -4,7 +4,6 @@ Sequel.extension :symbol_as
 module Store
   def self.init
     %w[User
-    Account
     Product
     Graphic
     Variant

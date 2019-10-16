@@ -7,6 +7,7 @@ class Version < Sequel::Model
   one_to_many :comments
 
   def before_save
+    self.change_message = "..." # TODO: Diff der Objekte im document?
     self.hash = Digest::MD5.hexdigest self.document
   end
 end

@@ -1,15 +1,19 @@
 source "https://rubygems.org"
 
 gem 'rack'
+gem 'rack-cors'
 gem 'rake'
 gem 'slim'
 gem 'jwt'
 gem 'sequel'
 gem 'puma'
-gem 'mysql2'
+gem 'mysql2' # todo deprecated
+gem 'pg'
 gem 'roda'
+gem 'erubi'
+gem 'mail'
 gem 'bcrypt'
-gem 'rodauth'
+gem 'rodauth', git: 'https://github.com/jeremyevans/rodauth.git' # todo use release when merged
 
 # Test requirements
 group :test, :development do

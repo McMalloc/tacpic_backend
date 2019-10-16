@@ -10,14 +10,14 @@ namespace 'db' do
   puts ENV['TACPIC_DATABASE_URL']
   _db = Database.init ENV['TACPIC_DATABASE_URL']
 
-  desc "Run database migrations"
+  desc "Run database app_migrations"
   task :migrate do |t, args|
-    Sequel::Migrator.run(_db, './db/migrations')
+    Sequel::Migrator.run(_db, './db/app_migrations')
   end
 
-  desc 'Zap the database by running all the down migrations'
+  desc 'Zap the database by running all the down app_migrations'
   task :zap do |t, args|
-    Sequel::Migrator.run(_db, './db/migrations', target: 0)
+    Sequel::Migrator.run(_db, './db/app_migrations', target: 0)
   end
 
   desc 'Populate database with test data'
@@ -38,7 +38,7 @@ namespace 'db' do
   desc 'Reset authentication database'
   task :reset_auth => [:zap_auth, :migrate_auth]
 
-  desc 'Zaps the database then run the migrations'
+  desc 'Zaps the database then run the app_migrations'
   task :purge => [:zap, :migrate]
 
   desc 'Performs factory reset: Zap, migrate, repopulate'
@@ -49,7 +49,7 @@ namespace 'test' do
   Rake::TestTask.new do |t|
     t.name = 'routes'
     t.libs << "."
-    t.test_files = FileList['tests/graphic_tests.rb']
+    t.test_files = FileList['tests/*_tests.rb']
     t.verbose = true
     t.warning = false
   end
@@ -65,6 +65,7 @@ namespace 'test' do
   desc 'Purges test db and runs model tests'
   task :purge_and_models, [:mode] => ['db:purge', :models]
   task :purge_and_routes, [:mode] => ['db:purge', :routes]
+  task :all_routes, [:mode] => [:routes]
 end
 
 namespace 'run' do

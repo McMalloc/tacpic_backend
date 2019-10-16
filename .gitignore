@@ -4,4 +4,5 @@
 env.yml
 env.rb
 doc
+logs
 .yardoc

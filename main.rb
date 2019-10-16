@@ -1,5 +1,6 @@
 # encoding: UTF-8
 require 'roda'
+require 'logger'
 
 # require_relative './helper/auth'
 require_relative 'models/init' # gets Store
@@ -13,71 +14,68 @@ class Tacpic < Roda
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
   Store.init
 
-  plugin :route_csrf, :csrf_failure=>:clear_session
-
+  plugin :route_csrf
   # handle json responses, serialize Sequel models
   plugin :json, classes: [Array, Hash, Sequel::Model]
   plugin :json_parser
-
+  plugin :request_headers
+  plugin :render, :escape => true
   plugin :multi_route
+  plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
 
+  secret = SecureRandom.random_bytes(64)
+  # read and instantly delete sensitive information from the ENV hash
+  # secret = ENV.delete('RODAUTH_SESSION_SECRET') || SecureRandom.random_bytes(64)
+  plugin :sessions, :secret => secret, :key => 'rodauth-demo.session'
   plugin :rodauth, json: :only, csrf: :route_csrf do
-    enable :login, :logout, :jwt
+    # plugin :rodauth, json: :only, csrf: :route_csrf do
+    enable :login, :logout, :jwt, :create_account, :jwt_cors
+    # , :verify_account # requires an SMTP server on port 25 by default
+    create_account_route :users # was create-account
+    jwt_cors_allow_origin 'http://localhost:3000'
+    jwt_secret 'TEST_wRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+    accounts_table :users
     after_login do
-      LOGGER.info "#{account[:email]} logged in!"
+      ###
+    end
+
+    before_create_account do
+      @account[:display_name] = request.params['display_name']
+      puts "before create"
     end
   end
-
-  # enable :logging
-  # file = File.new("#{File.expand_path File.dirname(__FILE__)}/logs/#{ENV['RACK_ENV']}.log", 'a+')
-  # file.sync = true
-  # use Rack::CommonLogger, file
 
   plugin :error_handler do |e|
     {
         type: e.class.name,
-        # backtrace: e.backtrace,
         message: e.message
     }
   end
 
-  puts "loading routes"
+  route do |r|
+    # csrf_token(path=nil, method='POST')
+    # Handling of CORS preflight. All requests from the web app will be allowed.
+    # TODO options request, aber falscher origin
+    if request.request_method == 'OPTIONS' && request.env['HTTP_ORIGIN'] == 'http://localhost:3000'
+      response['Access-Control-Allow-Origin'] = request.env['HTTP_ORIGIN']
+      response['Access-Control-Allow-Methods'] = 'POST'
+      response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept'
+      response['Access-Control-Max-Age'] = '86400'
+      response.status = 204
+      request.halt
+    else
+      r.rodauth
+      r.multi_route
+    end
+  end
 
-  route(&:multi_route)
-
-  # route do |r|
-  #   r.on "a" do           # /a branch
-  #
-  #     r.on "b" do         # /a/b branch
-  #
-  #       r.is "c" do       # /a/b/c request
-  #         r.get do
-  #           "GET /a/b/c"
-  #         end    # GET  /a/b/c request
-  #         r.post do
-  #           "POST /a/b/c"
-  #         end   # POST /a/b/c request
-  #       end
-  #
-  #       r.is "c", Integer do |id|       # /a/b/c request
-  #         r.get do
-  #           "GET /a/b/c/" + id.to_s
-  #         end    # GET  /a/b/c request
-  #         r.post do
-  #           "POST /a/b/c" + id.to_s
-  #         end   # POST /a/b/c request
-  #       end
-  #       r.get "d" do end  # GET  /a/b/d request
-  #       r.post "e" do end # POST /a/b/e request
-  #     end
-  #   end
-  # end
 end
 
 # thrown when requesting parameters compromise the sanity of the response
 class DataError < StandardError
   attr_reader :parameter
-  def initialize(msg="The request cannot reasonably be processed.", parameter)
+
+  def initialize(msg = "The request cannot reasonably be processed.", parameter)
     @parameter = parameter
     super
   end
@@ -85,6 +83,7 @@ end
 
 require_relative 'routes/graphics'
 require_relative 'routes/versions'
+require_relative 'routes/tags'
 # require_relative 'routes/variants'
 # require_relative 'routes/user_layouts'
 #

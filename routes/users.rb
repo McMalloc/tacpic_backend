@@ -1,29 +1,15 @@
-class Tacpic < Sinatra::Base
-  namespace '/users' do
-    before do
-      request.body.rewind
-      @request_payload = JSON.parse(request.body.read)[0]
-    end
+Tacpic.route 'users' do |r|
+  r.rodauth
 
-    # Get all users
-    get do
-      status 401
-    end
+  r.options do
+    puts "-----------    OPTIONS"
 
-    # Get specific user
-    get '/:id' do
+    response["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response["Access-Control-Allow-Origin"] = "*"
+  end
 
-    end
-
-    # create new user
-    post do
-      User.new do |u|
-        u.email = @request_payload.email
-        u.password = @request_payload.password
-      end
-
-      status 202
-      @user.to_json
-    end
+  r.get do
+    "eingeloggt?" + rodauth
   end
 end

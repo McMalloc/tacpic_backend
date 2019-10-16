@@ -3,8 +3,8 @@ class CreatePayments < Sequel::Migration
     create_table :payments do
       primary_key :id
 
-      Integer :user_id # no key or required, since some payments cannot be matched
-      Integer :invoice_id
+      foreign_key :user_id, :users # no key or required, since some payments cannot be matched
+      foreign_key :invoice_id, :invoices
       Integer :amount
       # String :currency, size: 3
       String :service # what infos does the PSP transmit?

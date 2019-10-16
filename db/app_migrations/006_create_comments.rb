@@ -1,9 +1,10 @@
-class CreateAnnotations < Sequel::Migration
+class CreateComments < Sequel::Migration
   def up
-    create_table :annotations do
+    create_table :comments do
       primary_key :id
       foreign_key :user_id, :users
-      foreign_key :variants_id, :variants
+      foreign_key :version_id, :versions
+      TrueClass :edited, default: false
 
       Integer :state, null: false
       String :content, text: true
@@ -12,6 +13,6 @@ class CreateAnnotations < Sequel::Migration
   end
 
   def down
-    drop_table :annotations
+    drop_table :comments
   end
 end

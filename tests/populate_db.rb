@@ -7,7 +7,7 @@ $_db = Database.init ENV['TACPIC_DATABASE_URL']
 Store.init
 
 def random_record(model)
-  model.order(Sequel.lit('RAND()')).first
+  model.order(Sequel.lit('RANDOM()')).first
 end
 
 def random(max)
@@ -22,19 +22,19 @@ n_taggings = 2500
 puts "creating users ..."
 # bypass auth
 (1..n_users).each do
+  individual = Faker::Lorem.paragraph.split(" ").sample
   $_db[:users].insert(
       role: 1,
+      email: "test_#{individual}_#{random(99999999)}@example.com",
       created_at: Time.now
   )
 end
 
 puts "creating tags ..."
-(1..n_tags).each do |i|
-  Tag.create(
-         # user_id: rand(98).to_i + 1,
-         name: Faker::Lorem.unique.word
-  )
+(1..n_tags-1).each do |i|
+  Tag.create(name: Faker::Lorem.unique.word)
 end
+Tag.create(name: "DIN A4") # ensure certain tags for testing
 
 puts "creating graphics ..."
 (1..n_graphics).each do |i|

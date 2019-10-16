@@ -7,7 +7,7 @@ module Database
   # end
 
   def self.init(url)
-    Sequel::Model.plugin :validation_class_methods
+    # Sequel::Model.plugin :validation_class_methods
     Sequel.connect url
   end
 end
