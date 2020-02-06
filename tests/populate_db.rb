@@ -32,9 +32,9 @@ end
 
 puts "creating tags ..."
 (1..n_tags-1).each do |i|
-  Tag.create(name: Faker::Lorem.unique.word)
+  Tag.create(name: Faker::Lorem.unique.word, taxonomy: random(4))
 end
-Tag.create(name: "DIN A4") # ensure certain tags for testing
+Tag.create(name: "din a4") # ensure certain tags for testing
 
 puts "creating graphics ..."
 (1..n_graphics).each do |i|

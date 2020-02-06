@@ -73,7 +73,7 @@ namespace 'run' do
     sh "rackup"
   end
   task :rerun do
-    sh 'rerun "rackup"'
+    sh 'rerun --background rackup'
   end
 end
 

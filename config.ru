@@ -1,3 +1,4 @@
 require './main'
 
-run Tacpic.freeze.app
+run Tacpic.app
+# run Tacpic.freeze.app

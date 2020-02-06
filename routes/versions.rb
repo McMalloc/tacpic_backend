@@ -1,6 +1,7 @@
-Tacpic.route "versions" do |r|
-  @request = JSON.parse r.body.read
+Tacpic.hash_branch "versions" do |r|
+  # @request = JSON.parse r.body.read
 
+  # TODO DEPRECATED
   # POST /versions
   # login required, roles: all
   # Will create a new version for a variant if a variant ID is present,
@@ -15,30 +16,10 @@ Tacpic.route "versions" do |r|
   r.post do
     rodauth.require_authentication
     user_id = rodauth.logged_in?
-    if @request['variant_id'].nil?
-      title = @request['title'] || "Unbenannte Grafik"
-
-      @created_graphic = Graphic.create(
-          title: title
-          )
-
-      @default_variant = @created_graphic.add_variant(
-          title: @request['title'],
-          public: false
-      )
-
-      @default_variant.add_version(
-                          document: @request['document'],
-                          user_id: user_id,
-                          change_message: "Erste Version"
-      )
-    else
-      Variant[@request['variant_id']].add_version(
-          document: @request['document'],
-          user_id: user_id,
-          change_message: @request['change_message']
-      )
-    end
+    Variant[request['variant_id']].add_version(
+        document: request['pages'].to_json,
+        user_id: user_id
+    ).values
   end
 end
 
