@@ -31,9 +31,8 @@ Tacpic.hash_branch 'tags' do |r|
 
   r.post do
     rodauth.require_authentication
-    @request = JSON.parse r.body.read
     user_id = rodauth.logged_in?
-    name = @request['name'].strip.downcase
+    name = request[:name].strip.downcase
 
     if Tag.where(name: name).all.length > 0
       response.status = 409 # Conflict
@@ -41,13 +40,13 @@ Tacpic.hash_branch 'tags' do |r|
       request.halt
     end
 
-    @tag = Tag.create(
+    tag = Tag.create(
         name: name,
-        taxonomy: @request['taxonomy'] || 0, # 0 is default, a taxonomy for content-related tags
+        # taxonomy: request[:taxonomy_id] || 0, # 0 is default, a taxonomy for content-related tags
         user_id: user_id
     )
     response.status = 202
-    @tag.values
+    tag.values
   end
 
 end

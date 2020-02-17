@@ -24,9 +24,9 @@ Tacpic.hash_branch "users" do |r|
               Sequel[:variants][:title].as(:variant_title),
               Sequel[:graphics][:id].as(:graphic_id),
               Sequel[:variants][:id].as(:variant_id),
-              :long_description,
+              Sequel[:variants][:description].as(:variant_description),
+              Sequel[:graphics][:description].as(:graphic_description),
               :public,
-              :description,
               Sequel[:variants][:created_at].as(:created_at),
               Sequel[:versions][:created_at].as(:updated_at))
           .join(:variants, id: :variant_id)

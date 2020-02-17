@@ -4,13 +4,13 @@ class CreateVariants < Sequel::Migration
       primary_key :id
       foreign_key :graphic_id, :graphics
 
+      Integer :derived_from
       TrueClass :public, default: true
       String :title, null: false
       String :description, longtext: true
-      String :long_description, longtext: true
       DateTime :created_at
 
-      full_text_index [:title, :description, :long_description]
+      full_text_index [:title, :description]
     end
   end
 

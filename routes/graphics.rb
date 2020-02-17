@@ -46,7 +46,7 @@ Tacpic.hash_branch "graphics" do |r|
 
     # r.params['columns']
     if not r.params['search'].nil?
-      match_string = "MATCH (variants.title, description, long_description) AGAINST ('#{r.params['search']}')"
+      match_string = "MATCH (variants.title, variants.description, graphics.title, graphics.description) AGAINST ('#{r.params['search']}')"
 
       search_filtered_ids = variants
                                 .select(
@@ -54,8 +54,8 @@ Tacpic.hash_branch "graphics" do |r|
                                     Sequel[:variants][:title].as(:variant_title),
                                     Sequel[:variants][:id].as(:variant_id),
                                     Sequel[:graphics][:id].as(:graphic_id),
-                                    :long_description,
-                                    :description,
+                                    Sequel[:variants][:description].as(:variant_description),
+                                    Sequel[:graphics][:description].as(:graphic_description),
                                     Sequel.lit(match_string + " AS score"))
                                 .join(:graphics, id: :graphic_id)
                                 .where(Sequel.lit(match_string))
@@ -85,12 +85,14 @@ Tacpic.hash_branch "graphics" do |r|
     user_id = rodauth.logged_in?
 
     created_graphic = Graphic.create(
-        title: request[:catalogueTitle]
+        title: request[:graphicTitle],
+        description: request[:graphicDescription]
     )
 
     default_variant = created_graphic.add_variant(
         title: 'Basis', # TODO i18n
         public: false,
+        description: nil
         # medium: "swell",
         # system: "de-de-g2",
         # width: 210,

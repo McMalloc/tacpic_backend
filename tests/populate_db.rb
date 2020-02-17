@@ -14,10 +14,10 @@ def random(max)
   rand(max).to_i + 1
 end
 
-n_users = 500
+n_users = 50
 n_tags = 20
-n_graphics = 80
-n_taggings = 2500
+n_graphics = 10
+n_taggings = 100
 
 puts "creating users ..."
 # bypass auth
@@ -31,8 +31,9 @@ puts "creating users ..."
 end
 
 puts "creating tags ..."
+
 (1..n_tags-1).each do |i|
-  Tag.create(name: Faker::Lorem.unique.word, taxonomy: random(4))
+  Tag.create(name: Faker::Lorem.unique.word)
 end
 Tag.create(name: "din a4") # ensure certain tags for testing
 
@@ -41,15 +42,15 @@ puts "creating graphics ..."
   graphic = Graphic.create(
       # description: Faker::Lorem.sentence, #
       title: Faker::Quote.famous_last_words,
-
+      description: Faker::Lorem.paragraph
       )
 
   puts "creating variants and versions for graphic no " + graphic.id.to_s + " ..."
   (1..random(5)).each do |j|
     variant = graphic.add_variant(
         title: Faker::Lorem.paragraph + " -- " + j.to_s,
-        description: Faker::Lorem.sentence,
-        long_description: Faker::Lorem.paragraph
+        derived_from: 0,
+        description: Faker::Lorem.sentence
     )
 
     (1..random(10)).each do |k|

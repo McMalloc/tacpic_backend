@@ -21,7 +21,7 @@ class Tacpic < Roda
   plugin :request_headers
   # plugin :render, :escape => true
   plugin :hash_routes
-  # plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
+  plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
   plugin :common_logger, $stdout
 
   secret = SecureRandom.random_bytes(64)
@@ -30,7 +30,7 @@ class Tacpic < Roda
   plugin :sessions, :secret => secret, :key => 'rodauth-demo.session'
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
-    enable :login, :logout, :jwt, :create_account, :jwt_cors, :session_expiration
+    enable :login, :logout, :jwt, :create_account, :jwt_cors#, :session_expiration
     # :verify_account # requires an SMTP server on port 25 by default
 
     jwt_cors_allow_origin 'http://localhost:3000'
@@ -39,7 +39,7 @@ class Tacpic < Roda
     jwt_cors_allow_methods 'GET', 'POST'
 
     jwt_secret 'TEST_wRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
-    max_session_lifetime 86400*7 # seven days
+    # max_session_lifetime 86400
 
     after_login do
       response.write(@account.to_json)
@@ -64,7 +64,7 @@ class Tacpic < Roda
   end
 
   route do |r|
-    rodauth.check_session_expiration
+    # rodauth.check_session_expiration
     r.rodauth
     r.hash_branches
   end
@@ -84,7 +84,7 @@ end
 require_relative 'routes/graphics'
 require_relative 'routes/versions'
 require_relative 'routes/variants'
-# require_relative 'routes/tags'
+require_relative 'routes/tags'
 require_relative 'routes/users'
 #
 # require_relative 'routes/backend/users'

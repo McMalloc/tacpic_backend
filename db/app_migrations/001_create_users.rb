@@ -25,7 +25,11 @@ Sequel.migration do
   end
 
   down do
-    drop_table :users
-    drop_table :account_statuses
+    # if @db.table_exists?(:users)
+      drop_table :users
+    # end
+    # if @db.table_exists?(:account_statuses)
+      drop_table :account_statuses
+    # end
   end
 end

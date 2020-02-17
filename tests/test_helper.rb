@@ -21,7 +21,7 @@ register_data = {
     'password-confirm': 'testtest',
 }
 header 'Content-Type', 'application/json'
-post 'users', register_data.to_json, { 'content-type' => 'application/json' }
+post 'create-account', register_data.to_json, { 'content-type' => 'application/json' }
 
 data = {
     login: 'test@test.de',
