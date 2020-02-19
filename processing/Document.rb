@@ -1,8 +1,8 @@
 require 'victor'
-require 'uuid'
+# require 'uuid'
 include Victor
 
-uuid = UUID.new
+# uuid = UUID.new
 
 # TODO mehrere Seiten?
 module Document
