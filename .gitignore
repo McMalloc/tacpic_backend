@@ -6,3 +6,5 @@ env.rb
 doc
 logs
 .yardoc
+public/thumbnails
+files

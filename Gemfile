@@ -12,6 +12,7 @@ gem 'pg'
 gem 'roda'
 gem 'erubi'
 gem 'mail'
+gem 'victor'
 gem 'bcrypt'
 gem 'rodauth' # , git: 'https://github.com/jeremyevans/rodauth.git' # todo use release when merged
 

@@ -5,6 +5,10 @@ class CreateVariants < Sequel::Migration
       foreign_key :graphic_id, :graphics
 
       Integer :derived_from
+      Integer :width # mm
+      Integer :height # mm
+      String :medium
+      String :braille_system
       TrueClass :public, default: true
       String :title, null: false
       String :description, longtext: true

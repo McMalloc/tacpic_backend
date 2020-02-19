@@ -64,7 +64,7 @@ namespace 'test' do
 
   desc 'Purges test db and runs model tests'
   task :purge_and_models, [:mode] => ['db:purge', :models]
-  task :purge_and_routes, [:mode] => ['db:purge', :routes]
+  task :purge_and_routes, [:mode] => ['db:reset', :routes]
   task :all_routes, [:mode] => [:routes]
 end
 

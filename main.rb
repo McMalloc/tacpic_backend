@@ -21,6 +21,7 @@ class Tacpic < Roda
   plugin :request_headers
   # plugin :render, :escape => true
   plugin :hash_routes
+  plugin :public #, root: 'static'
   plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
   plugin :common_logger, $stdout
 
@@ -67,6 +68,10 @@ class Tacpic < Roda
     # rodauth.check_session_expiration
     r.rodauth
     r.hash_branches
+
+    r.on :static do
+      r.public
+    end
   end
 
 end

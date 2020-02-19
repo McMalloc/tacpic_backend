@@ -92,11 +92,11 @@ Tacpic.hash_branch "graphics" do |r|
     default_variant = created_graphic.add_variant(
         title: 'Basis', # TODO i18n
         public: false,
-        description: nil
-        # medium: "swell",
-        # system: "de-de-g2",
-        # width: 210,
-        # height: 297,
+        description: nil,
+        medium: request[:medium],
+        braille_system: request[:system],
+        width: request[:width],
+        height: request[:height],
         # verticalGridSpacing: 10,
         # horizontalGridSpacing: 10,
     )
@@ -104,6 +104,11 @@ Tacpic.hash_branch "graphics" do |r|
     first_version = default_variant.add_version(
         document: request[:pages].to_json,
         user_id: user_id)
+
+    Document.save_svg default_variant.id,
+                      request['renderedPreview'],
+                      request['width'],
+                      request['height']
 
     response.status = 201 # created
 

@@ -8,7 +8,6 @@ Tacpic.hash_branch "users" do |r|
         id: rodauth.logged_in?
     }
   end
-  # end
 
   # GET users/versions
   # Gets all versions that the currently logged in user created. The result can be used to deduce the corresponding graphics and variants.

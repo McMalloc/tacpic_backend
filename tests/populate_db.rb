@@ -50,6 +50,10 @@ puts "creating graphics ..."
     variant = graphic.add_variant(
         title: Faker::Lorem.paragraph + " -- " + j.to_s,
         derived_from: 0,
+        width: 210,
+        height: 297,
+        medium: 'swell',
+        braille_system: 'de-de-g2',
         description: Faker::Lorem.sentence
     )
 
@@ -71,3 +75,8 @@ puts "creating taggings..."
       variant_id: random_record(Variant).id
   )
 end
+
+User.create(
+    email: 'robert@tacpic.de',
+    display_name: 'robert'
+)

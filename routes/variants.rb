@@ -1,23 +1,47 @@
+require './processing/Document'
+
 Tacpic.hash_branch "variants" do |r|
 
   r.is do
+    # POST /variants
+    # login required, roles: all
+    # Will create a new variant for the graphic with the supplied graphic id.
     r.post do
       rodauth.require_authentication
       user_id = rodauth.logged_in?
-      Graphic[request['graphic_id']]
+      new_variant = Graphic[request['graphic_id']]
           .add_variant(
-              title: request['variant_title'],
+              title: request['variantTitle'],
               derived_from: request['variant_id'],
-              long_description: request['variant_long_description']
+              description: request['variantDescription'],
+              medium: request[:medium],
+              braille_system: request[:system],
+              width: request[:width],
+              height: request[:height],
           )
-          .add_version(
+
+      Document.save_svg new_variant.id,
+                        request['renderedPreview'],
+                        new_variant.width,
+                        new_variant.height
+
+      version = new_variant.add_version(
               document: request['pages'].to_json,
               user_id: user_id
-          ).values
+          )
+      response.status = 201
+      version.values
     end
   end
 
   r.on Integer do |requested_id|
+
+    r.get 'pdf' do
+      # rodauth.require_authentication
+      # Authentifizierung abfragen, dann Datei generieren und Link zurückschicken?
+      response['Content-Type'] = 'application/pdf'
+      Document.get_pdf(requested_id)
+    end
 
     r.get do
       requested_variant = Variant[requested_id].clone
@@ -45,10 +69,18 @@ Tacpic.hash_branch "variants" do |r|
     r.post do
         rodauth.require_authentication
         user_id = rodauth.logged_in?
-        Variant[requested_id].add_version(
+
+        Document.save_svg request['variant_id'],
+                          request['renderedPreview'],
+                          request['width'],
+                          request['height']
+
+        version = Variant[requested_id].add_version(
             document: request['pages'].to_json,
             user_id: user_id
-        ).values
+        )
+        response.status = 201
+        version.values
     end
 
   end
