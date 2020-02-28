@@ -6,6 +6,7 @@ gem 'rake'
 gem 'slim'
 gem 'jwt'
 gem 'sequel'
+gem 'sequel-pg-trgm'
 gem 'puma'
 gem 'mysql2' # todo deprecated
 gem 'pg'
@@ -23,6 +24,7 @@ group :test, :development do
   gem 'minitest-hooks'
   gem 'rack-test'
   gem 'faker'
+  gem 'uuid'
   gem 'yard'
   gem 'roda-route_list'
   # correct new 1.0 version wasn't marked as release, neither on Github nor on rubygems

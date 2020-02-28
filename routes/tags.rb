@@ -19,14 +19,31 @@ Tacpic.hash_branch 'tags' do |r|
   # @return name [String] Original name of the tag.
   # @return count [Integer] Quantity of taggings for the tag.
   r.get do
+    rodauth.require_authentication
+    user_id = rodauth.logged_in?
     limit = r.params['limit'].nil? ? 10 : r.params['limit'].to_i
     Tagging
         .left_join(:tags, id: :tag_id)
-        .group_and_count(:tag_id, :name)
+        .group_and_count(:tag_id, :name, :description, :taxonomy_id)
+        .limit(limit)
+        .where(Sequel.lit("taxonomy_id = 1 OR tags.user_id = " + user_id.to_s))
         .order(:count)
         .reverse
-        .limit([50, limit].min)
         .map(&:values)
+
+    # tags = Tag
+    #     .select(
+    #         :id,
+    #         :taxonomy_id,
+    #         :name,
+    #         :description
+    #     )
+    #     .where(id: popular_tags.map(&:tag_id))
+    #     # .map(&:values)
+    #
+    # popular_tags.map {|counted_tag|
+    #   tags[counted_tag.tag_id]
+    # }
   end
 
   r.post do

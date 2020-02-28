@@ -12,6 +12,8 @@ class Tacpic < Roda
   VERSION = '0.1'
 
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
+  $_db.extension :pg_trgm #https://github.com/mitchellhenke/sequel-pg-trgm
+  # $_db.extension :pg_array
   Store.init
 
   plugin :route_csrf
@@ -19,7 +21,6 @@ class Tacpic < Roda
   plugin :json, classes: [Array, Hash, Sequel::Model]
   plugin :json_parser
   plugin :request_headers
-  # plugin :render, :escape => true
   plugin :hash_routes
   plugin :public #, root: 'static'
   plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format

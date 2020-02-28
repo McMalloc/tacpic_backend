@@ -16,76 +16,76 @@ Tacpic.hash_branch "graphics" do |r|
     # TODO Suche für gewählte Tags oder Freitext (zur Zeit: Freitext auf Basis der nach Tags gefilterten Grafiken)
     # TODO boolean Suche mit erweiterter Suchsyntax
     # TODO: sortieren danach, ob eine Variante alle tags erfüllt
-
-    # if r.params['limit'].nil? or not Integer(r.params['limit'])
-    #   response.status = 400 # Bad Request
-    #   response['Content-Type'] = 'text/plain'
-    #   response.write "Limit needs to be specified by an integer, like GET graphics?limit=10"
-    #   r.halt
-    # end
-
-    # TODO: sortieren danach, ob eine Variante alle tags erfüllt
     # TODO: non public Varianten nicht durchsuchen
 
-    result = Graphic
-    variants = Variant
-    tag_filtered_ids = nil
+    rodauth.require_authentication
+    user_id = rodauth.logged_in?
 
-    unless r.params['tags'].nil?
+    subquery = ''
+    unless r.params['tags'].nil? || r.params['tags'].length == 0
       tag_ids = r.params['tags'].split(',').map(&:to_i)
-
-      # TODO hat so nur in mysql funktioniert
-      tag_filtered_ids = Tagging
-                             .where(tag_id: tag_ids) # .group(:variant_id)
-                             .select(:variant_id, :graphic_id) # .select(:variant_id, :graphic_id, Sequel.lit("COUNT(variant_id) as count")) # .having(count: tag_ids.length)
-                             .join(:variants, id: :variant_id)
-                             .map { |t| t[:graphic_id] }
-                             .uniq
-      variants = variants.where(graphic_id: tag_filtered_ids)
+      subquery = %Q{(SELECT v.*
+                    FROM variants v,
+                                  taggings tg,
+                                  tags t
+                    WHERE tg.tag_id = t.id
+                    AND (t.id IN (#{tag_ids.join(',')}))
+                    AND v.id = tg.variant_id
+                    GROUP BY v.id
+                    HAVING COUNT(v.id) = #{tag_ids.count}) as }
     end
 
-    # r.params['columns']
-    if not r.params['search'].nil?
-      match_string = "MATCH (variants.title, variants.description, graphics.title, graphics.description) AGAINST ('#{r.params['search']}')"
-
-      search_filtered_ids = variants
-                                .select(
-                                    Sequel[:graphics][:title].as(:graphic_title),
-                                    Sequel[:variants][:title].as(:variant_title),
-                                    Sequel[:variants][:id].as(:variant_id),
-                                    Sequel[:graphics][:id].as(:graphic_id),
-                                    Sequel[:variants][:description].as(:variant_description),
-                                    Sequel[:graphics][:description].as(:graphic_description),
-                                    Sequel.lit(match_string + " AS score"))
-                                .join(:graphics, id: :graphic_id)
-                                .where(Sequel.lit(match_string))
-                                .order(Sequel.desc(:score)) # best score first
-                                .map { |t| t[:graphic_id] }
-                                .uniq
-      result = result.where(id: search_filtered_ids)
-    else
-      result = result.order(Sequel.desc(:created_at)) # newest first
+    where_clause = "WHERE (graphics.user_id = #{user_id})"
+    unless r.params['search'].nil? || r.params['search'].length == 0
+      term = r.params['search']
+      where_clause = where_clause + %Q{
+        AND  (variants.title       ILIKE '%#{term}%' OR
+              variants.description ILIKE '%#{term}%' OR
+              graphics.title       ILIKE '%#{term}%' OR
+              graphics.description ILIKE '%#{term}%' OR
+              "tags"."name"        ILIKE '%#{term}%')
+      }
     end
 
-    # TODO Vorschaubild
-    # entweder mit SQL wie unten (aber dann welche Variante?) oder als ASSET unter fixer URL ablegen (z.B. assets/graphics/3/latest_preview) <- initialer Request kann schneller bearbeitet werden
-    result = result
-                 .select(:id, :title, :created_at, :variants_count)
-                 .offset(r.params['offset'] || 0)
-                 .limit(r.params['limit'] || 20)
-                 .join(Sequel.lit("(SELECT graphic_id, COUNT(graphic_id) AS variants_count FROM variants GROUP BY graphic_id) AS counts ON (counts.graphic_id = graphics.id)"))
+    limit_clause = 'LIMIT 20'
+    unless r.params['limit'].nil? || r.params['limit'].length == 0
+      limit_clause = "LIMIT #{r.params['limit'].to_i}"
+    end
 
-    # TODO last_updated hinzufügen
-    result.all.map(&:values)
+    $_db.fetch(
+        %Q{
+          SELECT "graphics"."title"         AS "graphic_title",
+                 "variants"."title"         AS "variant_title",
+                 "graphics"."id"            AS "graphic_id",
+                 "graphics"."user_id"       AS "original_author_id",
+                 "variants"."id"            AS "variant_id",
+                 "variants"."description"   AS "variant_description",
+                 "graphics"."description"   AS "graphic_description",
+                 "variants"."created_at"    AS "created_at",
+                  array_agg(taggings.tag_id) AS tags,
+                  array_agg("tags"."name")  AS tag_names
+          FROM "graphics"
+          INNER JOIN #{subquery} variants ON ("graphics"."id" = "variants"."graphic_id")
+          LEFT JOIN "taggings" ON ("taggings"."variant_id" = "variants"."id")
+          LEFT JOIN "tags" ON ("taggings"."tag_id" = "tags"."id")
+          #{where_clause}
+          GROUP BY "graphics"."title", "variants"."title", "graphics"."id", "variants"."id", "variants"."description",
+                   "graphics"."description", "variants"."created_at"
+          ORDER BY "variants"."created_at"
+          #{limit_clause}
+        }
+    ).all
   end
+
+  # POST /graphics
+  # create a new graphic
   r.post do
-    # POST /graphics
-    # create a new graphic
     rodauth.require_authentication
     user_id = rodauth.logged_in?
 
     created_graphic = Graphic.create(
         title: request[:graphicTitle],
+        user_id: user_id,
         description: request[:graphicDescription]
     )
 
@@ -96,11 +96,28 @@ Tacpic.hash_branch "graphics" do |r|
         medium: request[:medium],
         braille_system: request[:system],
         width: request[:width],
-        height: request[:height],
-        # verticalGridSpacing: 10,
-        # horizontalGridSpacing: 10,
+        height: request[:height]
     )
 
+    # TAGS
+    request[:tags].each { |tag|
+      if tag['tag_id'].nil?
+        created_tag = Tag.create(
+            name: tag['name'],
+            user_id: user_id,
+            taxonomy_id: 4
+        )
+
+        tag['tag_id'] = created_tag[:id]
+      end
+      Tagging.create(
+          user_id: user_id,
+          tag_id: tag['tag_id'],
+          variant_id: default_variant.id
+      )
+    }
+
+    # FIRST VERSION
     first_version = default_variant.add_version(
         document: request[:pages].to_json,
         user_id: user_id)

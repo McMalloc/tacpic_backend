@@ -21,6 +21,7 @@ module Store
     InvoiceItem
     Payment
     Tagging
+    Taxonomy
     UserLayout
     Annotation
     Comment
