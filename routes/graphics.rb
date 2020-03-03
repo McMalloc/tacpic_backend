@@ -13,10 +13,7 @@ Tacpic.hash_branch "graphics" do |r|
   # @argument search Array[String] search terms for OR search
   # @argument tags Array[Integer] relevant tags
   r.get do
-    # TODO Suche für gewählte Tags oder Freitext (zur Zeit: Freitext auf Basis der nach Tags gefilterten Grafiken)
     # TODO boolean Suche mit erweiterter Suchsyntax
-    # TODO: sortieren danach, ob eine Variante alle tags erfüllt
-    # TODO: non public Varianten nicht durchsuchen
 
     rodauth.require_authentication
     user_id = rodauth.logged_in?

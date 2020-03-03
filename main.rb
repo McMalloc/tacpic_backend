@@ -92,5 +92,6 @@ require_relative 'routes/versions'
 require_relative 'routes/variants'
 require_relative 'routes/tags'
 require_relative 'routes/users'
+require_relative 'routes/braille'
 #
 # require_relative 'routes/backend/users'

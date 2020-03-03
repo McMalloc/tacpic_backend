@@ -12,7 +12,7 @@ module Document
   end
 
   def self.save_svg(variant_id, content, width, height)
-    svg_file = SVG.new viewBox: "0 0 #{width} #{height}",
+    svg_file = SVG.new viewBox: "0 0 #{width}mm #{height}mm",
                        width: width.to_s + 'mm',
                        height: height.to_s + 'mm'
     svg_file << content
@@ -34,6 +34,7 @@ module Document
   end
 
   def self.create_thumbnails(variant_id, ratio)
+    # TODO ratio nicht mehr nötig?
     if ratio > 1
       width_sm = 200
       height_sm = (width_sm*ratio).to_i
@@ -48,7 +49,10 @@ module Document
 
     path = Dir.pwd + '/public/thumbnails/'
 
-    system "inkscape -z -e #{path}thumbnail-#{variant_id}-sm.png -w #{width_sm} -h #{height_sm} ./files/original-#{variant_id}.svg"
-    system "inkscape -z -e #{path}thumbnail-#{variant_id}-xl.png -w #{width_xl} -h #{height_xl} ./files/original-#{variant_id}.svg"
+    `node ./node_modules/svgexport/bin/index.js files/original-#{variant_id}.svg #{path}thumbnail-#{variant_id}-sm.png pad #{width_sm}#{height_sm}`
+    `node ./node_modules/svgexport/bin/index.js files/original-#{variant_id}.svg #{path}thumbnail-#{variant_id}-xl.png pad #{width_xl}#{height_xl}`
+
+    # system "inkscape -z -e #{path}thumbnail-#{variant_id}-sm.png -w #{width_sm} -h #{height_sm} ./files/original-#{variant_id}.svg"
+    # system "inkscape -z -e #{path}thumbnail-#{variant_id}-xl.png -w #{width_xl} -h #{height_xl} ./files/original-#{variant_id}.svg"
   end
 end

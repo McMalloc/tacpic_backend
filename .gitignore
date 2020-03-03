@@ -8,3 +8,5 @@ logs
 .yardoc
 public/thumbnails
 files
+node_modules
+package-lock.json
