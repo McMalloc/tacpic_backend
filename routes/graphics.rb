@@ -57,6 +57,9 @@ Tacpic.hash_branch "graphics" do |r|
                  "graphics"."user_id"       AS "original_author_id",
                  "variants"."id"            AS "variant_id",
                  "variants"."description"   AS "variant_description",
+                 "variants"."braille_system"AS "system",
+                 "variants"."width"         AS "width",
+                 "variants"."height"        AS "height",
                  "graphics"."description"   AS "graphic_description",
                  "variants"."created_at"    AS "created_at",
                   array_agg(taggings.tag_id) AS tags,
@@ -67,7 +70,7 @@ Tacpic.hash_branch "graphics" do |r|
           LEFT JOIN "tags" ON ("taggings"."tag_id" = "tags"."id")
           #{where_clause}
           GROUP BY "graphics"."title", "variants"."title", "graphics"."id", "variants"."id", "variants"."description",
-                   "graphics"."description", "variants"."created_at"
+                   "graphics"."description", "variants"."created_at", "variants"."braille_system", "variants"."width", "variants"."height"
           ORDER BY "variants"."created_at"
           #{limit_clause}
         }
