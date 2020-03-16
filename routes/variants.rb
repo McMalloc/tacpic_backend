@@ -121,7 +121,7 @@ Tacpic.hash_branch "variants" do |r|
           document: request['pages'].to_json,
           user_id: user_id
       )
-      response.status = 202
+      response.status = 201
       version.values
     end
 

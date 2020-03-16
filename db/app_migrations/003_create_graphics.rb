@@ -5,10 +5,10 @@ class CreateGraphics < Sequel::Migration
       foreign_key :user_id; :users
 
       String :title, size: 256, null: false
-      String :description, text: true
+      # String :description, text: true
       DateTime :created_at
 
-      full_text_index [:title, :description]
+      full_text_index [:title]
     end
   end
 

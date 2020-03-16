@@ -25,6 +25,11 @@ namespace 'db' do
     sh "ruby tests/populate_db.rb"
   end
 
+  desc 'Copy contents of the example database (tacpic-template) to the test database'
+  task :mirror do
+    sh "sequel -C postgres://tacpic-dev:tacpic@localhost/tacpic-template postgres://tacpic-dev:tacpic@localhost/tacpic-test"
+  end
+
   desc 'Setting up database tables for authentication provided by rodauth'
   task :migrate_auth do |t, args|
     Sequel::Migrator.run(_db, './db/auth_migrations', table: 'schema_info_password')
@@ -43,6 +48,9 @@ namespace 'db' do
 
   desc 'Performs factory reset: Zap, migrate, repopulate'
   task :reset => [:zap, :migrate, :populate]
+
+  desc 'zaps the database and copys example data'
+  task :reset_and_mirror => [:zap, :mirror]
 end
 
 namespace 'test' do
@@ -63,9 +71,9 @@ namespace 'test' do
   end
 
   desc 'Purges test db and runs model tests'
-  task :purge_and_models, [:mode] => ['db:purge', :models]
+  # task :purge_and_models, [:mode] => ['db:purge', :models]
   task :purge_and_routes, [:mode] => ['db:reset', :routes]
-  task :all_routes, [:mode] => [:routes]
+  # task :all_routes, [:mode] => [:routes]
 end
 
 namespace 'run' do

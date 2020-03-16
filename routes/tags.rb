@@ -25,8 +25,7 @@ Tacpic.hash_branch 'tags' do |r|
     Tagging
         .left_join(:tags, id: :tag_id)
         .group_and_count(:tag_id, :name, :description, :taxonomy_id)
-        .limit(limit)
-        .where(Sequel.lit("taxonomy_id = 1 OR tags.user_id = " + user_id.to_s))
+        .limit(limit) #.where(Sequel.lit("taxonomy_id = 1 OR tags.user_id = " + user_id.to_s))
         .order(:count)
         .reverse
         .map(&:values)
@@ -62,7 +61,7 @@ Tacpic.hash_branch 'tags' do |r|
         # taxonomy: request[:taxonomy_id] || 0, # 0 is default, a taxonomy for content-related tags
         user_id: user_id
     )
-    response.status = 202
+    response.status = 201
     tag.values
   end
 

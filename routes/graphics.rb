@@ -1,9 +1,49 @@
 Tacpic.hash_branch "graphics" do |r|
 
   r.get Integer do |requested_id|
+    variants = Graphic
+                   .select(
+                       Sequel[:graphics][:title].as(:graphic_title),
+                       Sequel[:variants][:title].as(:variant_title),
+                       Sequel[:graphics][:id].as(:graphic_id),
+                       Sequel[:variants][:id].as(:variant_id),
+                       :description,
+                       Sequel[:variants][:created_at].as(:variant_created_at),
+                       Sequel[:graphics][:created_at].as(:graphic_created_at),
+                       Sequel[:graphics][:user_id].as(:original_author_id),
+                       # Sequel[:variants][:user_id].as(:variant_author_id),
+                       :braille_system, :width, :height,
+                       Sequel.lit("array_agg(taggings.tag_id) AS tags")
+                   )
+                   .where(graphic_id: requested_id)
+                   .join(:variants, graphic_id: :id)
+                   .left_join(:taggings, variant_id: :id)
+                   .group_by(:graphic_title,
+                             :variant_title,
+                             :variant_created_at,
+                             :graphic_created_at,
+                             :description,
+                             :original_author_id,
+                             # :variant_author_id,
+                             :braille_system, :width, :height,
+                             Sequel[:graphics][:id],
+                             Sequel[:variants][:id])
+                   .all
+
     {
-        graphic: Graphic[requested_id].values,
-        variants: Graphic[requested_id].variants.map(&:values)
+        id: variants[0][:graphic_id],
+        title: variants[0][:graphic_title],
+        created_at: variants[0][:graphic_created_at],
+        original_author_id: variants[0][:original_author_id],
+        variants: variants.map {|variant| {
+            id: variant[:variant_id],
+            title: variant[:variant_title],
+            description: variant[:description],
+            system: variant[:braille_system],
+            width: variant[:width],
+            height: variant[:height],
+            tags: variant[:tags].scan(/[0-9]+/).map {|match| match.to_i}
+        }},
     }
   end
 
@@ -32,25 +72,65 @@ Tacpic.hash_branch "graphics" do |r|
                     HAVING COUNT(v.id) = #{tag_ids.count}) as }
     end
 
-    where_clause = "WHERE (graphics.user_id = #{user_id})"
+    where_clause = ""
+
+    # where_clause = "WHERE (graphics.user_id = #{user_id})"
     unless r.params['search'].nil? || r.params['search'].length == 0
       term = r.params['search']
       where_clause = where_clause + %Q{
-        AND  (variants.title       ILIKE '%#{term}%' OR
+        WHERE (variants.title       ILIKE '%#{term}%' OR
               variants.description ILIKE '%#{term}%' OR
               graphics.title       ILIKE '%#{term}%' OR
-              graphics.description ILIKE '%#{term}%' OR
               "tags"."name"        ILIKE '%#{term}%')
       }
     end
 
-    limit_clause = 'LIMIT 20'
+    # paper format
+    unless r.params['format'].nil? || r.params['format'].length == 0
+      format_mapping = {
+          'a4': [210, 297],
+          'a3': [297, 420]
+      }
+      formats = r.params['format'].split ','
+      where_clause = where_clause + "#{where_clause.length == 0 ? 'WHERE (' : 'AND ('}"
+
+      formats.each_with_index do |format, index|
+        format = format.to_sym
+        where_clause = where_clause + %Q{#{index == 0 ? '' : 'OR'}
+          (variants.width = #{format_mapping[format][0]} AND variants.height = #{format_mapping[format][1]}) OR
+          (variants.width = #{format_mapping[format][1]} AND variants.height = #{format_mapping[format][0]})
+        }
+      end
+      where_clause = where_clause + ') '
+    end
+
+    # braille system
+    # TODO make mapping independent from liblouis filenames
+    unless r.params['system'].nil? || r.params['system'].length == 0
+      systems = r.params['system'].split ','
+      where_clause = where_clause + "#{where_clause.length == 0 ? 'WHERE (' : 'AND ('}"
+
+      systems.each_with_index do |system, index|
+        where_clause = where_clause + %Q{#{index == 0 ? '' : 'OR'}
+          (variants.braille_system = '#{system}')
+        }
+      end
+
+      where_clause = where_clause + ') '
+    end
+
+    puts where_clause
+
+    # bezieht sich auf auf die join table, genaue anzahl nicht bestimmbar
+    limit_clause = 'LIMIT 50'
     unless r.params['limit'].nil? || r.params['limit'].length == 0
       limit_clause = "LIMIT #{r.params['limit'].to_i}"
     end
 
-    $_db.fetch(
-        %Q{
+    # TODO wird nicht mehr alles gebraucht, kann entschlackt werden
+    begin
+      $_db.fetch(
+          %Q{
           SELECT "graphics"."title"         AS "graphic_title",
                  "variants"."title"         AS "variant_title",
                  "graphics"."id"            AS "graphic_id",
@@ -60,7 +140,6 @@ Tacpic.hash_branch "graphics" do |r|
                  "variants"."braille_system"AS "system",
                  "variants"."width"         AS "width",
                  "variants"."height"        AS "height",
-                 "graphics"."description"   AS "graphic_description",
                  "variants"."created_at"    AS "created_at",
                   array_agg(taggings.tag_id) AS tags,
                   array_agg("tags"."name")  AS tag_names
@@ -70,11 +149,14 @@ Tacpic.hash_branch "graphics" do |r|
           LEFT JOIN "tags" ON ("taggings"."tag_id" = "tags"."id")
           #{where_clause}
           GROUP BY "graphics"."title", "variants"."title", "graphics"."id", "variants"."id", "variants"."description",
-                   "graphics"."description", "variants"."created_at", "variants"."braille_system", "variants"."width", "variants"."height"
+                   "variants"."created_at", "variants"."braille_system", "variants"."width", "variants"."height"
           ORDER BY "variants"."created_at"
           #{limit_clause}
-        }
-    ).all
+          }
+      ).all
+    rescue Sequel::Error
+      pp $!.message
+    end
   end
 
   # POST /graphics

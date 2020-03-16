@@ -3,6 +3,7 @@ require_relative '../models/init'
 require_relative '../env.rb'
 require "faker"
 require "uuid"
+require './processing/Document'
 
 $_db = Database.init ENV['TACPIC_DATABASE_URL']
 Store.init
@@ -15,10 +16,10 @@ def random(max)
   rand(max).to_i + 1
 end
 
-n_users = 10
-n_tags = 10
+n_users = 100
+n_tags = 15
 n_graphics = 100
-n_taggings = 800
+n_taggings = 500
 uuid = UUID.new
 
 puts "creating users ..."
@@ -48,28 +49,25 @@ end
   )
 end
 
-Tag.create(name: "din a4", taxonomy_id: 1) # ensure certain tags for testing
-
 puts "creating graphics ..."
 (1..n_graphics).each do |i|
   user = random_record(User)
   graphic = Graphic.create(
       # description: Faker::Lorem.sentence, #
       user_id: user.id,
-      title: Faker::Quote.famous_last_words,
-      description: Faker::Lorem.paragraph
+      title: Faker::Quote.famous_last_words
   )
 
   puts "creating variants and versions for graphic no " + graphic.id.to_s + " ..."
   (1..random(4)).each do |j|
     variant = graphic.add_variant(
-        title: Faker::Color.color_name + " " + Faker::Restaurant.name,
-        derived_from: 0,
-        width: 210,
-        height: 297,
+        title: j == 1 ? 'Basis' : Faker::Color.color_name + " " + Faker::Restaurant.name,
+        derived_from: j == 0 ? nil : 0,
+        width: j % 2 == 0 ? 210 : 297,
+        height: j % 2 == 0 ? 297 : 420,
         medium: 'swell',
-        braille_system: 'de-de-g2',
-        description: Faker::Lorem.sentence
+        braille_system: %w(de-de-g0.utb de-de-g1.ctb de-de-g2.ctb).sample,
+        description: Faker::Lorem.paragraph(sentence_count: [6,8,10,14,20].sample)
     )
 
     (1..random(5)).each do |k|
