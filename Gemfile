@@ -8,7 +8,6 @@ gem 'jwt'
 gem 'sequel'
 gem 'sequel-pg-trgm'
 gem 'puma'
-gem 'mysql2' # todo deprecated
 gem 'pg'
 gem 'roda'
 gem 'erubi'
