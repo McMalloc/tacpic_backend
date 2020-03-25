@@ -6,7 +6,7 @@ env.rb
 doc
 logs
 .yardoc
-public/thumbnails
+public/*
 files
 node_modules
 package-lock.json
