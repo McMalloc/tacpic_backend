@@ -23,8 +23,11 @@ class Tacpic < Roda
   plugin :request_headers
   plugin :hash_routes
   plugin :public #, root: 'static'
+  plugin :sinatra_helpers
+
+  # TODO logs Ordner anlegen, sonst startet der Server beim ersten Mal nicht
   plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
-  plugin :common_logger, $stdout
+  # plugin :common_logger, $stdout
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
@@ -32,13 +35,12 @@ class Tacpic < Roda
   plugin :sessions, :secret => secret, :key => 'rodauth-demo.session'
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
-    enable :login, :logout, :jwt, :create_account, :jwt_cors#, :session_expiration
+    enable :login, :logout, :jwt, :create_account#, :jwt_cors#, :session_expiration
     # :verify_account # requires an SMTP server on port 25 by default
 
-    jwt_cors_allow_origin 'http://localhost:3000'
+    # jwt_cors_allow_origin 'http://localhost:3000'
     accounts_table :users
-
-    jwt_cors_allow_methods 'GET', 'POST'
+    # jwt_cors_allow_methods 'GET', 'POST'
 
     jwt_secret 'TEST_wRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
     # max_session_lifetime 86400
@@ -66,14 +68,43 @@ class Tacpic < Roda
   end
 
   route do |r|
-    # rodauth.check_session_expiration
-    r.rodauth
-    r.hash_branches
 
-    r.on :static do
-      r.public
+    r.rodauth
+
+    r.root do
+      send_file "public/index.html"
     end
+
+    r.public
+    r.hash_routes
   end
+
+  # route do |r|
+  #   # rodauth.check_session_expiration
+  #   #
+  #   if r.env['REQUEST_METHOD'] == 'OPTIONS' && request.env['HTTP_ORIGIN'] == 'http://localhost:3000'
+  #     response['Access-Control-Allow-Origin'] = request.env['HTTP_ORIGIN']
+  #     response['Access-Control-Allow-Methods'] = 'POST'
+  #     response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept'
+  #     response['Access-Control-Max-Age'] = '86400'
+  #     response.status = 204
+  #     request.halt
+  #   end
+  #
+  #   r.rodauth
+  #
+  #   r.hash_routes
+  #
+  #   # r.on '/' do
+  #   #   r.get do
+  #   #     r.public
+  #   #   end
+  #   # end
+  #
+  #   # r.on :static do
+  #   #   r.public
+  #   # end
+  # end
 
 end
 
