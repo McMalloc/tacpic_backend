@@ -129,7 +129,7 @@ namespace 'stage' do
 
     puts "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
     if system "cp -r #{base}/tacpic/build/* #{base}/tacpic_backend/public"
-      print "Success!".black.green_bg
+      print "Success!".black.bg_green
     end
 
     puts "Starting application server".black.green_bg
