@@ -104,16 +104,23 @@ namespace 'stage' do
     puts "Staging backend:".black.bg_cyan
     Dir.chdir("#{base}/tacpic") do
       system "git pull"
-      system "npm install" # if package.json was modified
-      system "npm run build"
+      system "bundle install" # if package.json was modified
     end
 
     puts "Staging frontend:".black.bg_cyan
     Dir.chdir("#{base}/tacpic_backend") do
-      system "git pull"
-      system "bundle install" # if Gemfile was specified
-      system "npm install" # if Gemfile was specified
-      # change rvm version if something? specifies it
+      puts "Checking if pull and rebuild is neccessary ..."
+      system "git remote update"
+      rev_local = system "git rev-parse master"
+      rev_remote = system "git rev-parse origin/master"
+      if rev_local == rev_remote
+        puts "Nope! ".green.bold + "Skipping."
+      else
+        puts "Yes! ".blue.bold + "P."
+        system "git pull"
+        system "npm install" # if Gemfile was specified
+        system "npm run build" # if Gemfile was specified
+      end
     end
 
     unless Dir.exists?("#{base}/tacpic_backend/public")
