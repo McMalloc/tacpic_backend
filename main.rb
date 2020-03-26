@@ -40,12 +40,11 @@ class Tacpic < Roda
 
     enable :login, :logout, :jwt, :create_account#, :jwt_cors#, :session_expiration
     # :verify_account # requires an SMTP server on port 25 by default
-
     # jwt_cors_allow_origin 'http://localhost:3000'
     accounts_table :users
     # jwt_cors_allow_methods 'GET', 'POST'
 
-    jwt_secret ENV['TACPIC_SESSION_SECRET']
+    jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
     # max_session_lifetime 86400
 
     after_login do
