@@ -80,6 +80,7 @@ namespace 'run' do
   task :main do
     sh "rackup"
   end
+  
   task :rerun do
     sh 'rerun --background rackup'
   end

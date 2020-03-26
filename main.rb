@@ -25,9 +25,12 @@ class Tacpic < Roda
   plugin :public #, root: 'static'
   plugin :sinatra_helpers
 
-  # TODO logs Ordner anlegen, sonst startet der Server beim ersten Mal nicht
+  unless Dir.exists?("logs")
+    Dir.mkdir("logs")
+  end
+
   plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
-  # plugin :common_logger, $stdout
+  plugin :common_logger, $stdout
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
@@ -77,6 +80,11 @@ class Tacpic < Roda
 
     r.public
     r.hash_routes
+
+    # if no api or root call, send the react app to handle the url
+    r.is /.+/ do
+      send_file "public/index.html"
+    end
   end
 
   # route do |r|
@@ -117,6 +125,8 @@ class DataError < StandardError
     super
   end
 end
+
+run Tacpic.app
 
 require_relative 'routes/graphics'
 require_relative 'routes/versions'
