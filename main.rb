@@ -125,8 +125,6 @@ class DataError < StandardError
   end
 end
 
-run Tacpic.app
-
 require_relative 'routes/graphics'
 require_relative 'routes/versions'
 require_relative 'routes/variants'

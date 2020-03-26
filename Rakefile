@@ -127,14 +127,14 @@ namespace 'stage' do
       system "mkdir #{base}/tacpic_backend/public"
     end
 
-    puts "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
+    print "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
     if system "cp -r #{base}/tacpic/build/* #{base}/tacpic_backend/public"
-      print "Success!".black.bg_green
+      puts "Success!".black.bg_green
     end
 
     puts "Starting application server".black.bg_green
     Dir.chdir("#{base}/tacpic_backend") do
-      system "rake run:main RACK_ENV=production"
+      system "rackup"
     end
   end
 end
