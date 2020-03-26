@@ -132,7 +132,7 @@ namespace 'stage' do
       print "Success!".black.bg_green
     end
 
-    puts "Starting application server".black.green_bg
+    puts "Starting application server".black.bg_green
     Dir.chdir("#{base}/tacpic_backend") do
       system "rake run:main RACK_ENV=production"
     end
