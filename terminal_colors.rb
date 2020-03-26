@@ -1,5 +1,3 @@
-base = "/home/robert/Desktop/git-test"
-
 class String
   def black;          "\e[30m#{self}\e[0m" end
   def red;            "\e[31m#{self}\e[0m" end
@@ -24,35 +22,4 @@ class String
   def underline;      "\e[4m#{self}\e[24m" end
   def blink;          "\e[5m#{self}\e[25m" end
   def reverse_color;  "\e[7m#{self}\e[27m" end
-end
-
-pp ENV
-
-puts "Staging backend:".black.bg_cyan
-Dir.chdir("#{base}/tacpic") do
-  system "git pull"
-  system "npm install" # if package.json was modified
-  system "npm run build"
-end
-
-puts "Staging frontend:".black.bg_cyan
-Dir.chdir("#{base}/tacpic_backend") do
-  system "git pull"
-  system "bundle install" # if Gemfile was specified
-  system "npm install" # if Gemfile was specified
-  # change rvm version if something? specifies it
-end
-
-unless Dir.exists?("#{base}/tacpic_backend/public")
-  system "mkdir #{base}/tacpic_backend/public"
-end
-
-puts "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
-if system "cp -r #{base}/tacpic/build/* #{base}/tacpic_backend/public"
-  print "Success!".black.green_bg
-end
-
-puts "Starting application server".black.green_bg
-Dir.chdir("#{base}/tacpic_backend") do
-  system "rake run:main RACK_ENV=production"
 end

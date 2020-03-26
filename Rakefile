@@ -3,11 +3,11 @@ require 'yard'
 require 'sequel'
 require_relative 'db/config'
 require_relative 'env'
+require_relative 'terminal_colors'
 
 Sequel.extension :migration
 # currently, the user, url and database in general needs to be the same per machine/env
 namespace 'db' do
-  puts ENV['TACPIC_DATABASE_URL']
   _db = Database.init ENV['TACPIC_DATABASE_URL']
 
   desc "Run database app_migrations"
@@ -78,11 +78,57 @@ end
 
 namespace 'run' do
   task :main do
-    sh "rackup"
+    system "rackup"
   end
   
   task :rerun do
-    sh 'rerun --background rackup'
+    system 'rerun --background rackup'
+  end
+end
+
+namespace 'stage' do
+  task :main do
+    if ENV['RACK_ENV'] == 'development'
+      puts "\tℹ | Staging is not available on development environments.".blue.bold
+      exit
+    end
+
+    puts "\t▶ | Are you sure?".magenta.bold + " (type yes to continue)".magenta
+    answer = STDIN.gets.chomp
+    unless answer == "yes"
+      puts "Pff like OKAY, now exiting."
+      exit
+    end
+
+    base = ENV['APPLICATION_BASE']
+    puts "Staging backend:".black.bg_cyan
+    Dir.chdir("#{base}/tacpic") do
+      system "git pull"
+      system "npm install" # if package.json was modified
+      system "npm run build"
+    end
+
+    puts "Staging frontend:".black.bg_cyan
+    Dir.chdir("#{base}/tacpic_backend") do
+      system "git pull"
+      system "bundle install" # if Gemfile was specified
+      system "npm install" # if Gemfile was specified
+      # change rvm version if something? specifies it
+    end
+
+    unless Dir.exists?("#{base}/tacpic_backend/public")
+      system "mkdir #{base}/tacpic_backend/public"
+    end
+
+    puts "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
+    if system "cp -r #{base}/tacpic/build/* #{base}/tacpic_backend/public"
+      print "Success!".black.green_bg
+    end
+
+    puts "Starting application server".black.green_bg
+    Dir.chdir("#{base}/tacpic_backend") do
+      system "rake run:main RACK_ENV=production"
+    end
   end
 end
 
