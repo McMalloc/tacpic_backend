@@ -143,7 +143,7 @@ namespace 'stage' do
 
     puts "Starting application server".black.bg_green
     Dir.chdir("#{base}/tacpic_backend") do
-      system "rvmsudo rackup -p 80"
+      system "rvmsudo rackup -p 80 &"
     end
   end
 end
