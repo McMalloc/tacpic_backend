@@ -102,21 +102,30 @@ namespace 'stage' do
 
     base = ENV['APPLICATION_BASE']
     puts "Staging backend:".black.bg_cyan
-    Dir.chdir("#{base}/tacpic") do
-      system "git pull"
-      system "bundle install" # if package.json was modified
-    end
-
-    puts "Staging frontend:".black.bg_cyan
     Dir.chdir("#{base}/tacpic_backend") do
-      puts "Checking if pull and rebuild is neccessary ..."
+      puts "Compare backend masters"
       system "git remote update"
       rev_local = system "git rev-parse master"
       rev_remote = system "git rev-parse origin/master"
       if rev_local == rev_remote
-        puts "Nope! ".green.bold + "Skipping."
+        puts "No change, ".green.bold + "Skipping."
       else
-        puts "Yes! ".blue.bold + "P."
+        system "git pull"
+        system "bundle install" # if package.json was modified
+        system "npm install" # if package.json was modified
+      end
+    end
+
+    puts "Staging frontend:".black.bg_cyan
+    Dir.chdir("#{base}/tacpic") do
+      puts "Compare frontend masters"
+      system "git remote update"
+      rev_local = system "git rev-parse master"
+      rev_remote = system "git rev-parse origin/master"
+      if rev_local == rev_remote
+        puts "No change, ".green.bold + "Skipping."
+      else
+        puts "Change detected.".blue.bold
         system "git pull"
         system "npm install" # if Gemfile was specified
         system "npm run build" # if Gemfile was specified
@@ -127,7 +136,7 @@ namespace 'stage' do
       system "mkdir #{base}/tacpic_backend/public"
     end
 
-    print "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
+    puts "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
     if system "cp -r #{base}/tacpic/build/* #{base}/tacpic_backend/public"
       puts "Success!".black.bg_green
     end
