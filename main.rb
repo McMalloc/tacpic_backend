@@ -35,7 +35,7 @@ class Tacpic < Roda
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
   # secret = ENV.delete('RODAUTH_SESSION_SECRET') || SecureRandom.random_bytes(64)
-  plugin :sessions, :secret => secret, :key => 'rodauth-demo.session'
+  plugin :sessions, :secret => secret, :key => 'rodauth.session'
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
     enable :login, :logout, :jwt, :create_account#, :jwt_cors#, :session_expiration
@@ -45,7 +45,7 @@ class Tacpic < Roda
     accounts_table :users
     # jwt_cors_allow_methods 'GET', 'POST'
 
-    jwt_secret 'TEST_wRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+    jwt_secret ENV['TACPIC_SESSION_SECRET']
     # max_session_lifetime 86400
 
     after_login do
