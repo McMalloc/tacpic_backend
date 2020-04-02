@@ -9,6 +9,10 @@ Tacpic.hash_branch "users" do |r|
     }
   end
 
+  r.get Integer do
+
+  end
+
   # GET users/versions
   # Gets all versions that the currently logged in user created. The result can be used to deduce the corresponding graphics and variants.
   r.on 'versions' do

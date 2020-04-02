@@ -19,8 +19,8 @@ Tacpic.hash_branch 'tags' do |r|
   # @return name [String] Original name of the tag.
   # @return count [Integer] Quantity of taggings for the tag.
   r.get do
-    rodauth.require_authentication
-    user_id = rodauth.logged_in?
+    # rodauth.require_authentication
+    # user_id = rodauth.logged_in?
     limit = r.params['limit'].nil? ? 10 : r.params['limit'].to_i
     Tagging
         .left_join(:tags, id: :tag_id)

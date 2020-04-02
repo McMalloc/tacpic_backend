@@ -55,7 +55,7 @@ Tacpic.hash_branch "graphics" do |r|
   r.get do
     # TODO boolean Suche mit erweiterter Suchsyntax
 
-    response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
+    # response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
     rodauth.require_authentication
     user_id = rodauth.logged_in?
 

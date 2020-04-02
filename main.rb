@@ -47,18 +47,18 @@ class Tacpic < Roda
     jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
     # max_session_lifetime 86400
 
-    after_login do
-      response.write(@account.to_json)
-    end
+    # after_login do
+    #   response.write @account.to_json
+    # end
 
     before_create_account do
-      @account[:display_name] = request.params['display_name']
+      # @account[:display_name] = request.params['display_name']
       @account[:created_at] = Time.now.to_s
     end
 
-    after_create_account do
-      response.write(@account.to_json)
-    end
+    # after_create_account do
+    #   response.write(@account.to_json)
+    # end
   end
 
   plugin :error_handler do |e|

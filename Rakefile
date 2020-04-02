@@ -87,13 +87,15 @@ namespace 'run' do
 end
 
 namespace 'stage' do
+
+  desc 'Pulls new frontend and backend code, builds new react app (if neccessary), copies build and starts application, in background'
   task :main do
     if ENV['RACK_ENV'] == 'development'
       puts "\tℹ | Staging is not available on development environments.".blue.bold
       exit
     end
 
-    puts "\t▶ | Are you sure?".magenta.bold + " (type yes to continue)".magenta
+    puts "▶ | Are you sure?".magenta.bold + " (type yes to continue)".magenta
     answer = STDIN.gets.chomp
     unless answer == "yes"
       puts "Pff like OKAY, now exiting."
@@ -141,10 +143,10 @@ namespace 'stage' do
       puts "Success!".black.bg_green
     end
 
-    puts "Starting application server".black.bg_green
-    Dir.chdir("#{base}/tacpic_backend") do
-      system "rvmsudo rackup -p 80 &"
-    end
+    # puts "Starting application server".black.bg_green
+    # Dir.chdir("#{base}/tacpic_backend") do
+    #   system "rackup"
+    # end
   end
 end
 
