@@ -107,8 +107,8 @@ namespace 'stage' do
     Dir.chdir("#{base}/tacpic_backend") do
       puts "Compare backend masters"
       system "git remote update"
-      rev_local = system "git rev-parse master"
-      rev_remote = system "git rev-parse origin/master"
+      rev_local = `git rev-parse master`
+      rev_remote = `git rev-parse origin/master`
       if rev_local == rev_remote
         puts "No change, ".green.bold + "Skipping."
       else
@@ -122,8 +122,9 @@ namespace 'stage' do
     Dir.chdir("#{base}/tacpic") do
       puts "Compare frontend masters"
       system "git remote update"
-      rev_local = system "git rev-parse master"
-      rev_remote = system "git rev-parse origin/master"
+      rev_local = `git rev-parse master`
+      rev_remote = `git rev-parse origin/master`
+
       if rev_local == rev_remote
         puts "No change, ".green.bold + "Skipping."
       else
