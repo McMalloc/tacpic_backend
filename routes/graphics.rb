@@ -56,8 +56,8 @@ Tacpic.hash_branch "graphics" do |r|
     # TODO boolean Suche mit erweiterter Suchsyntax
 
     # response['Access-Control-Allow-Origin'] = 'http://localhost:3000'
-    rodauth.require_authentication
-    user_id = rodauth.logged_in?
+    # rodauth.require_authentication
+    # user_id = rodauth.logged_in?
 
     subquery = ''
     unless r.params['tags'].nil? || r.params['tags'].length == 0
