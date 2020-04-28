@@ -3,10 +3,14 @@ require_relative '../models/init'
 require_relative '../env.rb'
 require "faker"
 require "uuid"
+require 'erb'
 require './processing/Document'
 
 $_db = Database.init ENV['TACPIC_DATABASE_URL']
 Store.init
+
+template = File.open(Dir.pwd + "/tests/test_data/catalogue_template.txt")
+template_renderer = ERB.new template.read
 
 def random_record(model)
   model.order(Sequel.lit('RANDOM()')).first
@@ -67,74 +71,16 @@ puts "creating graphics ..."
         height: j % 2 == 0 ? 297 : 420,
         medium: 'swell',
         braille_system: %w(de-de-g0.utb de-de-g1.ctb de-de-g2.ctb).sample,
+        braille_layout: "'width':210,'height': 297,'marginLeft': 1,'marginTop': 1,'cellsPerRow': 33,'rowsPerPage': 27,'pageNumbers': 0",
         description: Faker::Lorem.paragraph(sentence_count: [6,8,10,14,20].sample)
     )
 
     (1..random(5)).each do |k|
+      @uuid = uuid
       user = random_record(User)
       variant.add_version(
           user_id: user.id,
-          document: %Q{[
-    {
-      "name": "Seite 1",
-      "text": false,
-      "objects": [
-        {
-          "uuid": "#{uuid.generate}",
-          "x": #{(1..180).to_a.sample},
-          "y": #{(1..250).to_a.sample},
-          "width": #{(1..50).to_a.sample},
-          "height": #{(1..90).to_a.sample},
-          "fill": "#{Faker::Color.hex_color}",
-          "pattern": {
-            "template": "#{["striped", "bigdots"].sample}",
-            "angle": 0,
-            "scaleX": 1,
-            "scaleY": 1,
-            "offset": true
-          },
-          "moniker": "Rechteck",
-          "angle": #{(0..90).to_a.sample},
-          "type": "rect"
-        },
-        {
-          "uuid": "#{uuid.generate}",
-          "x": #{(1..180).to_a.sample},
-          "y": #{(1..250).to_a.sample},
-          "width": #{(1..50).to_a.sample},
-          "height": #{(1..90).to_a.sample},
-          "fill": "#{Faker::Color.hex_color}",
-          "pattern": {
-            "template": "#{["striped", "bigdots"].sample}",
-            "angle": 0,
-            "scaleX": 1,
-            "scaleY": 1,
-            "offset": true
-          },
-          "moniker": "Rechteck",
-          "angle": 0,
-          "type": "rect"
-        },
-        {
-          "uuid": "3f1fb36e-0b61-4781-9ae3-2a2b95e7ef66",
-          "x": #{(1..180).to_a.sample},
-          "y": #{(1..250).to_a.sample},
-          "width": #{50},
-          "height": #{50},
-          "fill": "#{Faker::Color.hex_color}",
-          "pattern": {
-            "template": "#{["striped", "bigdots"].sample}",
-            "angle": 0,
-            "scaleX": 1,
-            "scaleY": 1
-          },
-          "moniker": "Ellipse",
-          "angle": 0,
-          "type": "ellipse"
-        }
-      ]
-    }
-  ]}
+          document: template_renderer.result(binding)
       )
     end
   end
