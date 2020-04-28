@@ -11,7 +11,7 @@ module Document
         .read
   end
 
-  def self.create_svg(variant_id, content, width, height)
+  def self.save_svg(variant_id, content, width, height)
     svg_file = SVG.new viewBox: "0 0 #{width}mm #{height}mm",
                        width: width.to_s + 'mm',
                        height: height.to_s + 'mm'
@@ -21,40 +21,16 @@ module Document
     self.create_thumbnails(variant_id,height.to_f/width)
   end
 
-  def self.create_pdf(variant_id)
-    path = Dir.pwd + '/files/'
-    system "wkhtmltopdf --disable-smart-shrinking #{path}original-#{variant_id}.svg #{path}original-#{variant_id}.pdf"
-  end
+  # def self.convert_pdf(variant_id)
+  #   path = Dir.pwd + '/files/'
+  #   system "wkhtmltopdf --disable-smart-shrinking #{path}test.svg #{path}test.pdf"
+  # end
 
   def self.get_pdf(variant_id)
-    File.open("files/original-#{variant_id}.pdf", 'r')
-        .read
-  end
+    system "wkhtmltopdf --disable-smart-shrinking files/original-#{variant_id}.svg files/original-#{variant_id}.pdf"
+    # system "rsvg-convert -f pdf -o files/original-#{variant_id}.pdf files/original-#{variant_id}.svg"
 
-  def self.create_brf(variant_id)
-    latest_version = Version.where(variant_id: variant_id).order_by(:created_at).last
-    content = JSON.parse(latest_version)
-                  .select{|page|page["text"]}
-                  .map{|page|page["braille"]}
-                  .join(" ")
-
-    layout_settings = JSON.parse(Variant[variant_id].values[:braille_layout])
-
-    path = Dir.pwd + '/files/'
-    File.open "#{path}#{variant_id}.brf", "w"do |f|
-      f.write "\eDBT9,"
-      f.write "TM#{layout_settings["marginTop"]},"
-      f.write "BI#{layout_settings["marginLeft"]},"
-      f.write "CH#{layout_settings["cellsPerRow"]},"
-      f.write "LP#{layout_settings["rowsPerPage"]},"
-      f.write "PN#{layout_settings["pageNumbers"]};"
-      f.write "#{content}"
-    end
-  end
-
-  def self.get_brf(variant_id)
-    File.open("files/#{variant_id}.brf", 'r')
-        .read
+    File.open("files/original-#{variant_id}.pdf", 'r').read
   end
 
   def self.create_thumbnails(variant_id, ratio)

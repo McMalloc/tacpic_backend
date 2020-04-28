@@ -73,18 +73,14 @@ Tacpic.hash_branch "variants" do |r|
       rodauth.require_authentication
       user_id = rodauth.logged_in?
 
-      Document.create_svg request['variant_id'],
+      Document.save_svg request['variant_id'],
                         request['renderedPreview'],
                         request['width'],
                         request['height']
 
-      Document.create_pdf request['variant_id']
-      Document.create_brf request['variant_id']
-
       taggings = Tagging.where(variant_id: requested_id)
       tags = taggings.all.map { |tagging| tagging[:tag_id] }
 
-      # create new tag if a new one is provided
       request[:tags].each { |tag|
         if tag['tag_id'].nil?
           created_tag = Tag.create(
@@ -105,7 +101,6 @@ Tacpic.hash_branch "variants" do |r|
         end
       }
 
-      # detect deleted taggings i.e. comparing provided tag_ids with the ones from the db
       ids_of_request = request[:tags].map { |tag| tag['tag_id'] }
       tags.each { |tag_id|
         unless ids_of_request.include? tag_id
@@ -119,7 +114,6 @@ Tacpic.hash_branch "variants" do |r|
           width: request[:width],
           height: request[:height],
           braille_system: request[:system],
-          braille_layout: request['braillePages'].to_json,
           medium: request[:medium]
       )
 
