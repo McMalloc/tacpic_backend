@@ -9,7 +9,6 @@ class CreateVariants < Sequel::Migration
       Integer :height # mm
       String :medium
       String :braille_system
-      String :braille_layout
       TrueClass :public, default: true
       String :title, null: false
       String :description, longtext: true
