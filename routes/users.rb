@@ -5,7 +5,8 @@ Tacpic.hash_branch "users" do |r|
   r.get 'validate' do
     {
         display_name: User[rodauth.logged_in?][:display_name],
-        id: rodauth.logged_in?
+        id: rodauth.logged_in?,
+        backend_version: $_backend_version
     }
   end
 

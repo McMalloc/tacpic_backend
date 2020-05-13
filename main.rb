@@ -9,7 +9,7 @@ require_relative 'env' # gets Config
 require_relative 'helper/functions'
 
 class Tacpic < Roda
-  VERSION = '0.1'
+  $_backend_version = '0.9'
 
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
   $_db.extension :pg_trgm #https://github.com/mitchellhenke/sequel-pg-trgm

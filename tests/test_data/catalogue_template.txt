@@ -1,0 +1,80 @@
+[
+<% for  @index in (1..(rand*5).floor + 1).to_a %>
+  {
+    "name": "Seite <%= @index + 1 %>",
+    <% if rand > 0.3 %>
+        "text": false,
+        "objects": [
+            <% for  @rect_index in (1..(rand*5).floor + 1).to_a %>
+            {
+            "uuid": "<%=Faker::Alphanumeric.alpha(number: 16)%>",
+            "x": <%=(1..180).to_a.sample%>,
+            "y": <%=(1..250).to_a.sample%>,
+            "width": <%=(1..50).to_a.sample%>,
+            "height": <%=(1..90).to_a.sample%>,
+            "fill": "<%=Faker::Color.hex_color%>",
+            "pattern": {
+                "template": "<%=["striped", "bigdots"].sample%>",
+                "angle": 0,
+                "scaleX": 1,
+                "scaleY": 1,
+                "offset": true
+            },
+            "moniker": "Rechteck <%=Faker::Alphanumeric.alpha(number: 5)%>",
+            "angle": <%=(0..90).to_a.sample%>,
+            "type": "rect"
+            },
+            <% end %>
+            <% for  @rect_index in (1..(rand*5).floor + 1).to_a %>
+            {
+            "uuid": "<%=Faker::Alphanumeric.alpha(number: 16)%>",
+            "x": <%=(1..180).to_a.sample%>,
+            "y": <%=(1..250).to_a.sample%>,
+            "width": <%=(1..50).to_a.sample%>,
+            "height": <%=(1..90).to_a.sample%>,
+            "fill": "<%=Faker::Color.hex_color%>",
+            "pattern": {
+                "template": "<%=["striped", "bigdots"].sample%>",
+                "angle": 0,
+                "scaleX": 1,
+                "scaleY": 1,
+                "offset": true
+            },
+            "moniker": "Ellipse <%=Faker::Alphanumeric.alpha(number: 5)%>",
+            "angle": <%=(0..90).to_a.sample%>,
+            "type": "ellipse"
+            },
+            <% end %>
+            {
+                "uuid": "<%=Faker::Alphanumeric.alpha(number: 16)%>",
+                "x": <%=(1..180).to_a.sample%>,
+                "y": <%=(1..250).to_a.sample%>,
+                            "width": <%=(1..50).to_a.sample%>,
+                            "height": <%=(1..90).to_a.sample%>,
+                "text": "<%=Faker::Lorem.sentence(word_count: (3..9).to_a.sample)%>",
+                "braille": "<%=Faker::Lorem.sentence(word_count: (2..7).to_a.sample)%>",
+                "moniker": "Beschriftung",
+                "displayDots": true,
+                "displayLetters": true,
+                "editMode": false,
+                "isKey": false,
+                "keyVal": "",
+                "fullCharPrefix": false,
+                "border": false,
+                "type": "label"
+            }
+        ]
+    <% else %>
+        "text": true,
+        "content": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>",
+        "braille": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>"
+    <% end %>
+  },
+<% end  %>
+{
+    "name": "Bildbeschreibung",
+    "text": true,
+    "content": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>",
+    "braille": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>"
+  }
+]
