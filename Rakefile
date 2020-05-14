@@ -1,6 +1,7 @@
 require 'rake/testtask'
 require 'yard'
 require 'sequel'
+require 'digest'
 require_relative 'db/config'
 require_relative 'env'
 require_relative 'terminal_colors'
@@ -112,10 +113,17 @@ namespace 'stage' do
       if rev_local == rev_remote
         puts "No change, ".green.bold + "Skipping."
       else
+        puts "Change in backend repository detected.".blue.bold
+        digest_gemfile_old = Digest::SHA256.digest File.read 'Gemfile'
+        digest_package_old = Digest::SHA256.digest File.read 'package.json'
         system "git pull"
         system "git describe --tags > public/BACKEND_VERSION.txt"
-        system "bundle install" # if package.json was modified
-        system "npm install" # if package.json was modified
+        if Digest::SHA256.digest File.read 'Gemfile' != digest_gemfile_old
+          system "bundle install"
+        end
+        if Digest::SHA256.digest File.read 'package.json' != digest_package_old
+          system "npm install" # if package.json was modified
+        end
       end
     end
 
@@ -129,11 +137,14 @@ namespace 'stage' do
       if rev_local == rev_remote
         puts "No change, ".green.bold + "Skipping."
       else
-        puts "Change detected.".blue.bold
+        puts "Change in frontend repository detected.".blue.bold
+        digest_package_old = Digest::SHA256.digest File.read 'package.json'
         system "git pull"
         system "git describe --tags > public/FRONTEND_VERSION.txt"
-        system "npm install" # if Gemfile was specified
-        system "npm run build" # if Gemfile was specified
+        if Digest::SHA256.digest File.read 'package.json' != digest_package_old
+          system "npm install"
+        end
+        system "npm run build"
       end
     end
 
