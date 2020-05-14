@@ -118,10 +118,14 @@ namespace 'stage' do
         digest_package_old = Digest::SHA256.digest File.read 'package.json'
         system "git pull"
         system "git describe --tags > public/BACKEND_VERSION.txt"
-        if Digest::SHA256.digest File.read 'Gemfile' != digest_gemfile_old
+        digest_gemfile_new = Digest::SHA256.digest File.read 'Gemfile'
+        if digest_gemfile_new != digest_gemfile_old
+          puts "Gemfile " + digest_gemfile_new.magenta + " differs from " + digest_gemfile_old.magenta + ", reinstalling bundle."
           system "bundle install"
         end
-        if Digest::SHA256.digest File.read 'package.json' != digest_package_old
+        digest_package_new = Digest::SHA256.digest File.read 'package.json'
+        if digest_package_new != digest_package_old
+          puts "Package.json " + digest_package_new.magenta + " differs from " + digest_package_old.magenta + ", reinstalling package."
           system "npm install" # if package.json was modified
         end
       end
@@ -141,8 +145,10 @@ namespace 'stage' do
         digest_package_old = Digest::SHA256.digest File.read 'package.json'
         system "git pull"
         system "git describe --tags > public/FRONTEND_VERSION.txt"
-        if Digest::SHA256.digest File.read 'package.json' != digest_package_old
-          system "npm install"
+        digest_package_new = Digest::SHA256.digest File.read 'package.json'
+        if digest_package_new != digest_package_old
+          puts "Package.json (frontend) " + digest_package_new.magenta + " differs from " + digest_package_old.magenta + ", reinstalling package."
+          system "npm install" # if package.json was modified
         end
         system "npm run build"
       end
