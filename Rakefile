@@ -113,6 +113,7 @@ namespace 'stage' do
         puts "No change, ".green.bold + "Skipping."
       else
         system "git pull"
+        system "git describe --tags > public/BACKEND_VERSION.txt"
         system "bundle install" # if package.json was modified
         system "npm install" # if package.json was modified
       end
@@ -130,6 +131,7 @@ namespace 'stage' do
       else
         puts "Change detected.".blue.bold
         system "git pull"
+        system "git describe --tags > public/FRONTEND_VERSION.txt"
         system "npm install" # if Gemfile was specified
         system "npm run build" # if Gemfile was specified
       end
