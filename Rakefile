@@ -120,12 +120,12 @@ namespace 'stage' do
         system "git describe --tags > public/BACKEND_VERSION.txt"
         digest_gemfile_new = Digest::SHA256.digest File.read 'Gemfile'
         if digest_gemfile_new != digest_gemfile_old
-          puts "Gemfile " + digest_gemfile_new.magenta + " differs from " + digest_gemfile_old.magenta + ", reinstalling bundle."
+          puts "Gemfile " + digest_gemfile_new + " differs from " + digest_gemfile_old + ", reinstalling bundle."
           system "bundle install"
         end
         digest_package_new = Digest::SHA256.digest File.read 'package.json'
         if digest_package_new != digest_package_old
-          puts "Package.json " + digest_package_new.magenta + " differs from " + digest_package_old.magenta + ", reinstalling package."
+          puts "Package.json " + digest_package_new + " differs from " + digest_package_old + ", reinstalling package."
           system "npm install" # if package.json was modified
         end
       end
