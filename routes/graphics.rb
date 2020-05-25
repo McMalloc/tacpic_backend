@@ -151,7 +151,7 @@ Tacpic.hash_branch "graphics" do |r|
           #{where_clause}
           GROUP BY "graphics"."title", "variants"."title", "graphics"."id", "variants"."id", "variants"."description",
                    "variants"."created_at", "variants"."braille_system", "variants"."width", "variants"."height"
-          ORDER BY "variants"."created_at"
+          ORDER BY "variants"."created_at" DESC
           #{limit_clause}
           }
       ).all
@@ -169,7 +169,7 @@ Tacpic.hash_branch "graphics" do |r|
     created_graphic = Graphic.create(
         title: request[:graphicTitle],
         user_id: user_id,
-        description: request[:graphicDescription]
+        # description: request[:graphicDescription]
     )
 
     default_variant = created_graphic.add_variant(
@@ -200,15 +200,19 @@ Tacpic.hash_branch "graphics" do |r|
       )
     }
 
-    # FIRST VERSION
-    first_version = default_variant.add_version(
-        document: request[:pages].to_json,
-        user_id: user_id)
-
     Document.save_svg default_variant.id,
                       request['renderedPreview'],
                       request['width'],
                       request['height']
+
+    # FIRST VERSION
+
+    first_version = default_variant.add_version(
+        document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
+        user_id: user_id)
+    # TODO gesamten request als Dokument speichern, große Felder rausnehmen,
+    # vllt braillePages-Feld dann in Datenbank ersetzen, da das Backend nichts
+    # damit anfangen muss
 
     response.status = 201 # created
 

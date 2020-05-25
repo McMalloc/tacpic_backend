@@ -2,11 +2,14 @@ require_relative '../db/config'
 require_relative '../models/init'
 require_relative '../env.rb'
 require "faker"
-require "uuid"
 require './processing/Document'
+require 'erb'
+require 'securerandom'
 
 $_db = Database.init ENV['TACPIC_DATABASE_URL']
 Store.init
+
+document_template = File.read './tests/test_data/catalogue_template.txt'
 
 def random_record(model)
   model.order(Sequel.lit('RANDOM()')).first
@@ -20,7 +23,6 @@ n_users = 100
 n_tags = 15
 n_graphics = 100
 n_taggings = 500
-uuid = UUID.new
 
 puts "creating users ..."
 # bypass auth
@@ -72,69 +74,11 @@ puts "creating graphics ..."
 
     (1..random(5)).each do |k|
       user = random_record(User)
+
+      renderer = ERB.new document_template
       variant.add_version(
           user_id: user.id,
-          document: %Q{[
-    {
-      "name": "Seite 1",
-      "text": false,
-      "objects": [
-        {
-          "uuid": "#{uuid.generate}",
-          "x": #{(1..180).to_a.sample},
-          "y": #{(1..250).to_a.sample},
-          "width": #{(1..50).to_a.sample},
-          "height": #{(1..90).to_a.sample},
-          "fill": "#{Faker::Color.hex_color}",
-          "pattern": {
-            "template": "#{["striped", "bigdots"].sample}",
-            "angle": 0,
-            "scaleX": 1,
-            "scaleY": 1,
-            "offset": true
-          },
-          "moniker": "Rechteck",
-          "angle": #{(0..90).to_a.sample},
-          "type": "rect"
-        },
-        {
-          "uuid": "#{uuid.generate}",
-          "x": #{(1..180).to_a.sample},
-          "y": #{(1..250).to_a.sample},
-          "width": #{(1..50).to_a.sample},
-          "height": #{(1..90).to_a.sample},
-          "fill": "#{Faker::Color.hex_color}",
-          "pattern": {
-            "template": "#{["striped", "bigdots"].sample}",
-            "angle": 0,
-            "scaleX": 1,
-            "scaleY": 1,
-            "offset": true
-          },
-          "moniker": "Rechteck",
-          "angle": 0,
-          "type": "rect"
-        },
-        {
-          "uuid": "3f1fb36e-0b61-4781-9ae3-2a2b95e7ef66",
-          "x": #{(1..180).to_a.sample},
-          "y": #{(1..250).to_a.sample},
-          "width": #{50},
-          "height": #{50},
-          "fill": "#{Faker::Color.hex_color}",
-          "pattern": {
-            "template": "#{["striped", "bigdots"].sample}",
-            "angle": 0,
-            "scaleX": 1,
-            "scaleY": 1
-          },
-          "moniker": "Ellipse",
-          "angle": 0,
-          "type": "ellipse"
-        }
-      ]
-    }
-  ]}
+          document: renderer.result
       )
     end
   end

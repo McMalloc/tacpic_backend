@@ -1,4 +1,5 @@
 require './processing/Document'
+require './helper/functions'
 
 Tacpic.hash_branch "variants" do |r|
 
@@ -25,8 +26,9 @@ Tacpic.hash_branch "variants" do |r|
                         new_variant.width,
                         new_variant.height
 
+      request.delete 'renderedPreview'
       version = new_variant.add_version(
-          document: request['pages'].to_json,
+          document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
           user_id: user_id
       )
       response.status = 201
@@ -118,7 +120,7 @@ Tacpic.hash_branch "variants" do |r|
       )
 
       version = Variant[requested_id].add_version(
-          document: request['pages'].to_json,
+          document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
           user_id: user_id
       )
       response.status = 201

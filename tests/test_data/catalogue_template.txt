@@ -1,20 +1,37 @@
-[
+{
+"keyedStrokes": [
+
+],
+"keyedTextures": [{
+    "pattern":"diagonal_lines",
+    "label":"Wasser"
+}],
+"braillePages": {
+                    "width": 210,
+                    "height": 297,
+                    "marginLeft": 1,
+                    "marginTop": 1,
+                    "cellsPerRow": 33,
+                    "rowsPerPage": 27,
+                    "pageNumbers": 0
+                },
+"pages":[
 <% for  @index in (1..(rand*5).floor + 1).to_a %>
   {
     "name": "Seite <%= @index + 1 %>",
     <% if rand > 0.3 %>
         "text": false,
         "objects": [
-            <% for  @rect_index in (1..(rand*5).floor + 1).to_a %>
+            <% for  @rect_index in (1..(rand*30).floor + 1).to_a %>
             {
-            "uuid": "<%=Faker::Alphanumeric.alpha(number: 16)%>",
-            "x": <%=(1..180).to_a.sample%>,
-            "y": <%=(1..250).to_a.sample%>,
-            "width": <%=(1..50).to_a.sample%>,
-            "height": <%=(1..90).to_a.sample%>,
+            "uuid": "<%=SecureRandom.uuid%>",
+            "x": <%=(1..700).to_a.sample%>,
+            "y": <%=(1..1300).to_a.sample%>,
+            "width": <%=(1..700).to_a.sample%>,
+            "height": <%=(1..700).to_a.sample%>,
             "fill": "<%=Faker::Color.hex_color%>",
             "pattern": {
-                "template": "<%=["striped", "bigdots"].sample%>",
+                "template": "<%=["diagonal_lines", "full", "vertical_lines", "horizontal_lines", "dashed_lines", "grid", "stair", "dotted"].sample%>",
                 "angle": 0,
                 "scaleX": 1,
                 "scaleY": 1,
@@ -27,14 +44,14 @@
             <% end %>
             <% for  @rect_index in (1..(rand*5).floor + 1).to_a %>
             {
-            "uuid": "<%=Faker::Alphanumeric.alpha(number: 16)%>",
-            "x": <%=(1..180).to_a.sample%>,
-            "y": <%=(1..250).to_a.sample%>,
-            "width": <%=(1..50).to_a.sample%>,
-            "height": <%=(1..90).to_a.sample%>,
+            "uuid": "<%=SecureRandom.uuid%>",
+            "x": <%=(1..700).to_a.sample%>,
+            "y": <%=(1..1300).to_a.sample%>,
+            "width": <%=(1..700).to_a.sample%>,
+            "height": <%=(1..500).to_a.sample%>,
             "fill": "<%=Faker::Color.hex_color%>",
             "pattern": {
-                "template": "<%=["striped", "bigdots"].sample%>",
+                "template": "<%=["diagonal_lines", "full", "vertical_lines", "horizontal_lines", "dashed_lines", "grid", "stair", "dotted"].sample%>",
                 "angle": 0,
                 "scaleX": 1,
                 "scaleY": 1,
@@ -46,9 +63,9 @@
             },
             <% end %>
             {
-                "uuid": "<%=Faker::Alphanumeric.alpha(number: 16)%>",
-                "x": <%=(1..180).to_a.sample%>,
-                "y": <%=(1..250).to_a.sample%>,
+                "uuid": "<%=SecureRandom.uuid%>",
+                "x": <%=(1..600).to_a.sample%>,
+                "y": <%=(1..1200).to_a.sample%>,
                             "width": <%=(1..50).to_a.sample%>,
                             "height": <%=(1..90).to_a.sample%>,
                 "text": "<%=Faker::Lorem.sentence(word_count: (3..9).to_a.sample)%>",
@@ -77,4 +94,4 @@
     "content": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>",
     "braille": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>"
   }
-]
+]}

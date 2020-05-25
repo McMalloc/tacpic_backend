@@ -126,7 +126,7 @@ class DataError < StandardError
 end
 
 require_relative 'routes/graphics'
-require_relative 'routes/versions'
+# require_relative 'routes/versions'
 require_relative 'routes/variants'
 require_relative 'routes/tags'
 require_relative 'routes/users'
