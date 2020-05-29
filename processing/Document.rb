@@ -1,58 +1,64 @@
 require 'victor'
-# require 'uuid'
 include Victor
+require 'erb'
 
-# uuid = UUID.new
 
 # TODO mehrere Seiten?
 module Document
-  def self.open_svg(variant_id)
-    File.open "files/original-#{variant_id}.svg", 'w'
-        .read
-  end
+  svg_template = File.read './processing/svg_template.svg.erb'
+  @svg_renderer = ERB.new svg_template
+  brf_template = File.read './processing/brf_template.brf.erb'
+  @brf_renderer = ERB.new brf_template
 
-  def self.save_svg(variant_id, content, width, height)
-    svg_file = SVG.new viewBox: "0 0 #{width}mm #{height}mm",
-                       width: width.to_s + 'mm',
-                       height: height.to_s + 'mm'
-    svg_file << content
-    svg_file.save "files/original-#{variant_id}.svg"
-    
-    self.create_thumbnails(variant_id,height.to_f/width)
-  end
-
-  # def self.convert_pdf(variant_id)
-  #   path = Dir.pwd + '/files/'
-  #   system "wkhtmltopdf --disable-smart-shrinking #{path}test.svg #{path}test.pdf"
-  # end
-
-  def self.get_pdf(variant_id)
-    system "wkhtmltopdf --disable-smart-shrinking files/original-#{variant_id}.svg files/original-#{variant_id}.pdf"
-    # system "rsvg-convert -f pdf -o files/original-#{variant_id}.pdf files/original-#{variant_id}.svg"
-
-    File.open("files/original-#{variant_id}.pdf", 'r').read
-  end
-
-  def self.create_thumbnails(variant_id, ratio)
-    # TODO ratio nicht mehr nötig?
-    if ratio > 1
-      width_sm = 200
-      height_sm = (width_sm*ratio).to_i
-      width_xl = 400
-      height_xl = (width_xl*ratio).to_i
-    else
-      height_sm = 200
-      width_sm = (height_sm*ratio).to_i
-      height_xl = 400
-      width_xl = (height_xl*ratio).to_i
+  def self.save_svg(file_name, content, width, height)
+    File.open "files/#{file_name}-VECTOR.svg", 'w' do |f|
+      f.write @svg_renderer.result_with_hash({content: content, width: width, height: height})
     end
+  end
 
-    path = Dir.pwd + '/public/thumbnails/'
+  def self.save_brf(file_name, braille_content, braille_layout)
+    File.open "files/#{file_name}-BRAILLE.brf", 'w' do |f|
+      f.write @brf_renderer.result_with_hash({
+                                                 cellsPerRow: braille_layout['cellsPerRow'],
+                                                 braille_content: braille_content,
+                                                 height: braille_layout['height'],
+                                                 marginLeft: braille_layout['marginLeft'],
+                                                 marginTop: braille_layout['marginTop'],
+                                                 pageNumbers: braille_layout['pageNumbers'],
+                                                 rowsPerPage: braille_layout['rowsPerPage'],
+                                                 width: braille_layout['width'],
+                                             })
+    end
+  end
 
-    `node ./node_modules/svgexport/bin/index.js files/original-#{variant_id}.svg #{path}thumbnail-#{variant_id}-sm.png pad #{width_sm}#{height_sm}`
-    `node ./node_modules/svgexport/bin/index.js files/original-#{variant_id}.svg #{path}thumbnail-#{variant_id}-xl.png pad #{width_xl}#{height_xl}`
+  def self.save_files(graphic_id, variant_id, pages, width, height, braille_layout)
+    file_name = "#{graphic_id}-#{variant_id.to_s}-"
+    pages.each_with_index do |page, index|
+      if page['text'] != true
+        indexed_filename = file_name + index.to_s
+        self.save_svg(indexed_filename, page['rendering'], width, height)
+        self.save_pdf(indexed_filename, width, height)
+        self.save_thumbnails(indexed_filename)
+      else
+        self.save_brf(file_name + index.to_s, page['braille'], braille_layout)
+      end
+    end
+    # TODO wenn einer Variante Seiten entfernt werden, werden die Dateien trotzdem noch gemergt. => map
+    print system "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{graphic_id}-#{variant_id}-merged-PRINT.pdf #{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{graphic_id}-#{variant_id}-*-PRINT.pdf"
+  end
 
-    # system "inkscape -z -e #{path}thumbnail-#{variant_id}-sm.png -w #{width_sm} -h #{height_sm} ./files/original-#{variant_id}.svg"
-    # system "inkscape -z -e #{path}thumbnail-#{variant_id}-xl.png -w #{width_xl} -h #{height_xl} ./files/original-#{variant_id}.svg"
+  def self.save_thumbnails(file_name)
+    source = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{file_name}-RASTER.png"
+    dest_prefix = "#{ENV['APPLICATION_BASE']}/tacpic_backend/public/thumbnails/#{file_name}"
+    system "cat #{source} | pngtopnm | pnmscale 0.2 | pnmtopng > #{dest_prefix}-sm.png"
+    system "cat #{source} | pngtopnm | pnmscale 0.6 | pnmtopng > #{dest_prefix}-xl.png"
+  end
+
+  def self.save_pdf(title, width, height)
+    system "node processing/convert_svg #{title} #{width} #{height} #{ENV['APPLICATION_BASE']}/tacpic_backend"
+  end
+
+  def self.get_pdf(graphic_id, variant_id)
+    File.open("#{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{graphic_id}-#{variant_id}-merged-PRINT.pdf", 'r').read
   end
 end

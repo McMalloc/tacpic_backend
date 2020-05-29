@@ -21,12 +21,12 @@ Tacpic.hash_branch "variants" do |r|
                             height: request[:height],
                         )
 
-      Document.save_svg new_variant.id,
-                        request['renderedPreview'],
-                        new_variant.width,
-                        new_variant.height
+      Document.save_files request['graphic_id'], new_variant.id,
+                          request['pages'],
+                          request['width'],
+                          request['height'],
+                          request['braillePages']
 
-      request.delete 'renderedPreview'
       version = new_variant.add_version(
           document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
           user_id: user_id
@@ -42,7 +42,7 @@ Tacpic.hash_branch "variants" do |r|
       # rodauth.require_authentication
       # Authentifizierung abfragen, dann Datei generieren und Link zurückschicken?
       response['Content-Type'] = 'application/pdf'
-      Document.get_pdf(requested_id)
+      Document.get_pdf(Variant[requested_id].graphic_id, requested_id)
     end
 
     r.get do
@@ -75,10 +75,12 @@ Tacpic.hash_branch "variants" do |r|
       rodauth.require_authentication
       user_id = rodauth.logged_in?
 
-      Document.save_svg request['variant_id'],
-                        request['renderedPreview'],
-                        request['width'],
-                        request['height']
+      Document.save_files request['graphic_id'], requested_id,
+                          request['pages'],
+                          request['width'],
+                          request['height'],
+                          request['braillePages']
+
 
       taggings = Tagging.where(variant_id: requested_id)
       tags = taggings.all.map { |tagging| tagging[:tag_id] }

@@ -1,5 +1,7 @@
 Tacpic.hash_branch "graphics" do |r|
 
+  # Gets single Graphic with requested ID
+  # @argument requested_id Integer
   r.get Integer do |requested_id|
     variants = Graphic
                    .select(
@@ -35,15 +37,17 @@ Tacpic.hash_branch "graphics" do |r|
         title: variants[0][:graphic_title],
         created_at: variants[0][:graphic_created_at],
         original_author_id: variants[0][:original_author_id],
-        variants: variants.map {|variant| {
+        variants: variants.map { |variant| {
             id: variant[:variant_id],
+            # TODO ineffizient, oder zumindest kann hiermit die query oben vereinfacht werden
+            document: JSON.parse(Version.where(variant_id: variants.last[:variant_id]).last[:document]),
             title: variant[:variant_title],
             description: variant[:description],
             system: variant[:braille_system],
             width: variant[:width],
             height: variant[:height],
-            tags: variant[:tags].scan(/[0-9]+/).map {|match| match.to_i}
-        }},
+            tags: variant[:tags].scan(/[0-9]+/).map { |match| match.to_i }
+        } },
     }
   end
 
@@ -120,8 +124,6 @@ Tacpic.hash_branch "graphics" do |r|
       where_clause = where_clause + ') '
     end
 
-    puts where_clause
-
     # bezieht sich auf auf die join table, genaue anzahl nicht bestimmbar
     limit_clause = 'LIMIT 50'
     unless r.params['limit'].nil? || r.params['limit'].length == 0
@@ -169,7 +171,7 @@ Tacpic.hash_branch "graphics" do |r|
     created_graphic = Graphic.create(
         title: request[:graphicTitle],
         user_id: user_id,
-        # description: request[:graphicDescription]
+    # description: request[:graphicDescription]
     )
 
     default_variant = created_graphic.add_variant(
@@ -200,19 +202,17 @@ Tacpic.hash_branch "graphics" do |r|
       )
     }
 
-    Document.save_svg default_variant.id,
-                      request['renderedPreview'],
-                      request['width'],
-                      request['height']
+    Document.save_files created_graphic.id, default_variant.id,
+                        request['pages'],
+                        request['width'],
+                        request['height'],
+                        request['braillePages']
 
     # FIRST VERSION
 
     first_version = default_variant.add_version(
         document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
         user_id: user_id)
-    # TODO gesamten request als Dokument speichern, große Felder rausnehmen,
-    # vllt braillePages-Feld dann in Datenbank ersetzen, da das Backend nichts
-    # damit anfangen muss
 
     response.status = 201 # created
 

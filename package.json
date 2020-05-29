@@ -3,6 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "svgexport": ""
+    "puppeteer": "^3.1.0"
   }
 }
