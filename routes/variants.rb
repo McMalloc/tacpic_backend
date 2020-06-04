@@ -45,6 +45,13 @@ Tacpic.hash_branch "variants" do |r|
       Document.get_pdf(Variant[requested_id].graphic_id, requested_id)
     end
 
+    r.get 'brf' do
+      # rodauth.require_authentication
+      # Authentifizierung abfragen, dann Datei generieren und Link zurückschicken?
+      response['Content-Type'] = 'text/plain'
+      Document.get_brf(Variant[requested_id].graphic_id, requested_id)
+    end
+
     r.get do
       requested_variant = Variant[requested_id].clone
       requested_variant[:parent_graphic] = requested_variant.graphic.values
