@@ -17,16 +17,26 @@ module Document
   end
 
   def self.save_brf(file_name, braille_content, braille_layout)
+    # TODO Validierer, damit keine fehlerhaften BRFs ausgegeben werden, die die Produktion stören
+    braille_content.nil? && return
     File.open "files/#{file_name}-BRAILLE.brf", 'w' do |f|
+      index = 0
       f.write @brf_renderer.result_with_hash({
                                                  cellsPerRow: braille_layout['cellsPerRow'],
-                                                 braille_content: braille_content,
                                                  height: braille_layout['height'],
                                                  marginLeft: braille_layout['marginLeft'],
                                                  marginTop: braille_layout['marginTop'],
                                                  pageNumbers: braille_layout['pageNumbers'],
                                                  rowsPerPage: braille_layout['rowsPerPage'],
                                                  width: braille_layout['width'],
+                                                 braille_content: braille_content.reduce("") { |memo, pagebreak|
+                                                   index += 1
+                                                   if index === braille_content.count
+                                                     suffix = "" else suffix = "\x0c" end
+                                                   memo + pagebreak.reduce("") { |pagememo, line|
+                                                     pagememo + line + "\x0a"
+                                                   } + suffix
+                                                 },
                                              })
     end
   end
@@ -40,7 +50,7 @@ module Document
         self.save_pdf(indexed_filename, width, height)
         self.save_thumbnails(indexed_filename)
       else
-        self.save_brf(file_name + index.to_s, page['braille'], braille_layout)
+        self.save_brf(file_name + index.to_s, page['formatted'], braille_layout)
       end
     end
     # TODO wenn einer Variante Seiten entfernt werden, werden die Dateien trotzdem noch gemergt. => map
