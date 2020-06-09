@@ -85,34 +85,6 @@ class Tacpic < Roda
       send_file "public/index.html"
     end
   end
-
-  # route do |r|
-  #   # rodauth.check_session_expiration
-  #   #
-  #   if r.env['REQUEST_METHOD'] == 'OPTIONS' && request.env['HTTP_ORIGIN'] == 'http://localhost:3000'
-  #     response['Access-Control-Allow-Origin'] = request.env['HTTP_ORIGIN']
-  #     response['Access-Control-Allow-Methods'] = 'POST'
-  #     response['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, Accept'
-  #     response['Access-Control-Max-Age'] = '86400'
-  #     response.status = 204
-  #     request.halt
-  #   end
-  #
-  #   r.rodauth
-  #
-  #   r.hash_routes
-  #
-  #   # r.on '/' do
-  #   #   r.get do
-  #   #     r.public
-  #   #   end
-  #   # end
-  #
-  #   # r.on :static do
-  #   #   r.public
-  #   # end
-  # end
-
 end
 
 # thrown when requesting parameters compromise the sanity of the response
@@ -125,8 +97,11 @@ class DataError < StandardError
   end
 end
 
+# modules
+require_relative 'services/internetmarke'
+
+# routes
 require_relative 'routes/graphics'
-# require_relative 'routes/versions'
 require_relative 'routes/variants'
 require_relative 'routes/tags'
 require_relative 'routes/users'

@@ -7,6 +7,7 @@ class CreateShipments < Sequel::Migration
 
       Integer :status, null: false, default: 1
       String :tracking_number
+      String :voucher_id
       String :service
       DateTime :created_at, null: false
     end

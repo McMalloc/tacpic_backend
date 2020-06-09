@@ -14,6 +14,7 @@ gem 'erubi'
 gem 'mail'
 gem 'victor'
 gem 'bcrypt'
+gem 'savon'
 gem 'rodauth' # , git: 'https://github.com/jeremyevans/rodauth.git' # todo use release when merged
 
 # Test requirements

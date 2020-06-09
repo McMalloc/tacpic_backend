@@ -26,12 +26,37 @@ n_taggings = 500
 
 puts "creating users ..."
 # bypass auth
-(1..n_users).each do
+(1..n_users).each do |index|
   $_db[:users].insert(
       role: 1,
       email: Faker::Internet.email,
       created_at: Time.now
   )
+
+  User[index].add_address(
+      city: Faker::Address.city,
+      zip: Faker::Address.zip[0..4],
+      street: Faker::Address.street_name,
+      house_number: random(40),
+      is_invoice_addr: false,
+      country: "DEU",
+      first_name: Faker::Name.first_name ,
+      last_name: Faker::Name.last_name ,
+      additional: Faker::Address.secondary_address
+  )
+
+  if random(10) > 8
+    User[index].add_address(
+        city: Faker::Address.city,
+        zip: Faker::Address.zip,
+        street: Faker::Address.street_name,
+        house_number: random(40),
+        is_invoice_addr: true,
+        country: "DEU",
+        company_name: Faker::Company.name + ' ' + Faker::Company.suffix,
+        additional: Faker::Address.secondary_address
+    )
+  end
 end
 
 puts "creating tags ..."
