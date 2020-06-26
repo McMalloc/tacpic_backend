@@ -1,0 +1,103 @@
+{
+  "title": "",
+  "graphicTitle": "SPECGRAPHIC",
+  "graphicDescription": "",
+  "variantTitle": "",
+  "variantDescription": "",
+  "transcribersNotes": "",
+  "tags": [],
+  "category": null,
+  "variant_id": null,
+  "graphic_id": null,
+  "version_id": null,
+  "lastVersionHash": null,
+  "backgroundURL": "",
+  "keyedStrokes": [],
+  "keyedTextures": [],
+  "medium": "swell",
+  "system": "de-de-g2.ctb",
+  "width": <%= graphic_format == 'a4' ? 210 : 297 %>,
+  "height": <%= graphic_format == 'a4' ? 297 : 420 %>,
+  "verticalGridSpacing": 10,
+  "horizontalGridSpacing": 10,
+  "showVerticalGrid": false,
+  "showHorizontalGrid": false,
+  "braillePages": {
+    "width": <%= braille_format == 'a4' ? 210 : 297 %>,
+    "height": <%= braille_format == 'a4' ? 297 : 420 %>,
+    "marginLeft": 1,
+    "marginTop": 1,
+    "cellsPerRow": 33,
+    "rowsPerPage": 27,
+    "pageNumbers": 0
+  },
+  "pages": [
+    <% graphic_no_of_pages.times do |index| %>
+    {
+      "name": "Seite <%= index + 1 %>",
+      "text": false,
+      "rendering": "<g id=\"page-0\"><rect data-role=\"CANVAS\" data-pageidx=\"0\" x=\"0\" y=\"0\" width=\"210mm\" height=\"297mm\" stroke=\"rgba(0,0,0,0.0)\" fill=\"white\"></rect><g><rect id=\"84e7fe45-1876-40c6-ba96-6a615038d154\" data-uuid=\"84e7fe45-1876-40c6-ba96-6a615038d154\" transform=\"translate(53, 64) rotate(0, 201.5, 370)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-84e7fe45-1876-40c6-ba96-6a615038d154)\" width=\"403\" height=\"740\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-84e7fe45-1876-40c6-ba96-6a615038d154&quot;); stroke: rgb(31, 120, 180); stroke-width: 20;\"></rect><rect id=\"stroke-84e7fe45-1876-40c6-ba96-6a615038d154\" transform=\"translate(53, 64) rotate(0, 201.5, 370)\" stroke-width=\"1.5\" stroke-dasharray=\"solid\" data-transformable=\"true\" data-selectable=\"true\" stroke=\"black\" width=\"403\" height=\"740\" style=\"fill: none;\"></rect><clipPath id=\"clip-84e7fe45-1876-40c6-ba96-6a615038d154\"><rect width=\"403\" height=\"740\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-84e7fe45-1876-40c6-ba96-6a615038d154\" patternTransform=\"translate(0, 0) rotate(0, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#1f78b4\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g></g>",
+      "objects": [
+        {
+          "uuid": "84e7fe45-1876-40c6-ba96-6a615038d154",
+          "x": 53,
+          "y": 64,
+          "width": 403,
+          "height": 740,
+          "fill": "#1f78b4",
+          "pattern": {
+            "template": "diagonal_lines",
+            "offset": true
+          },
+          "border": true,
+          "borderWidth": 1.5,
+          "borderStyle": "solid",
+          "moniker": "Rechteck",
+          "angle": 0,
+          "type": "rect"
+        }
+      ]
+    },
+    <% end %>
+    {
+      "name": "Beschreibung",
+      "text": true,
+      "content": "Archäologische Ausgrabungen im Industal (indischer Subkontinent) haben ergeben, dass dort Senf angebaut wurde. Diese Zivilisation existierte bis etwa 1800 v. Chr. Das erste überlieferte Rezept zur Senfzubereitung verfasste der Römer Columella im 1. Jahrhundert n. Chr. Im 8. Jahrhundert wird Senf in einer Schrift Karls des Großen erstmals in Mitteleuropa erwähnt und wurde – von arabischen Pflanzungen in Spanien aus verbreitet – an den europäischen Tafeln bald zu einem wichtigen Gewürz. So ernannte Papst Johannes XXII., der ausschließlich in Avignon und nicht in Rom residierte, einen seiner Neffen zum Grand moutardier du Pape – zum „Großen päpstlichen Senfbewahrer“.\n\nSenf und Meerrettich waren über Jahrhunderte die einzigen scharfen Gewürze, die europäischen Köchen zur Verfügung standen und entsprechend weit verbreitet waren. Später wurden sie durch Pfeffer (13. Jahrhundert) und Chili (15. Jahrhundert) ergänzt.\n\nIn der mittelalterlichen Heilkunde wurde vor allem der Schwarze Senf zur äußeren Anwendung benutzt, wobei seine stark durchblutungsfördernde, schmerzstillende und entzündungshemmende Wirkung im Vordergrund standen.\n\nIn Deutschland wird bereits seit 1726 der Düsseldorfer ABB-Senf hergestellt, damit ist ABB-Senf die älteste deutsche noch existierende Senfmarke. Diese wird heute vom Düsseldorfer Unternehmen Löwensenf industriell hergestellt. Eine traditionelle Herstellung lässt sich noch in Einrichtungen wie der Senfmühle Kleinhettstedt besichtigen.",
+      "braille": ")4`ologi5e |grabuc - *du}al =*di57 subkont*ct= ,hc 7&bc, ~ d?t scf +&b1t ue. 0e zivilis!n xi}0r( bs ea #ahjj 'v. 4r. d 7}e ,8l0f7( rezept zr scf,z;r3tu -fa~( r r9m7 'columeqa - #a. jh 'n. 4r. - #h. jh wd scf * 67 5t k)ls . g~c 7}ms * mt2ropa 7w`hnt u ue'- v )abi5c pfl+zuc * sp+ic 1s -br3(t'- + e 2rop`i5c tafyn b:d z 6{ w#t>c &w8rz. p 7n+n( pap} joh+n% >xxii., r |5~_ * avignon u n * rom r%id0r(, 6c 97 neffc zm gr+d mout)d0r du pape'- zm (g~c p`p}_c scf;wh7(.\n\nscf u meerrett# )c 8 jhe 0 6z>c 5)fc &w8rze, 0 2rop`i5c k94c zr -f8gu ,}c u ~,~cd wt -br3(t )c. sp`t7 uc s 4 pfeff7 =#ac. jh= u 4ili =#ae. jh= 7!gzt.\n\n* r mt:t7_c h3lk/de ue ? a{ r 5w)ze scf zr |'~7c +wcdu ;nzt, wo,b 9e })k ,4blutusf9rd7nde, 5m7z}iqcde u ~z8ndushexcde wku - ,?d7gd ,}c.\n\n* d5l+d wd ;r3ts s3t #agbf r d8~yd?f7 >abb-senf h7&,yt, dm } >abb-senf 0 `l(}e d5e n4 xi}0rcde scfm)ke. 0e wd h2( vm d8~yd?f7 ,/nhc l9wcscf *du}rieq h7&,yt. 6e traditjeqe h7,yu l c n4 * 6,#uc 2 r scfm8hle kl6hett}edt ;s#t>c.",
+      "formattedBraille": "",
+      "formatted": [
+        <% braille_no_of_pages.times do |index| %>
+        [
+          ")4`ologi5e |grabuc -",
+          "*du}al =*di57 subkont*ct=",
+          ",hc 7&bc, ~ d?t scf +&b1t",
+          "ue. 0e zivilis!n xi}0r(",
+          "bs ea #ahjj 'v. 4r. d 7}e",
+          ",8l0f7( rezept zr",
+          "scf,z;r3tu -fa~( r r9m7",
+          "'columeqa - #a. jh 'n.",
+          "4r. - #h. jh wd scf * 67",
+          "5t k)ls . g~c 7}ms *",
+          "mt2ropa 7w`hnt u ue'- v",
+          ")abi5c pfl+zuc * sp+ic 1s",
+          "-br3(t'- + e 2rop`i5c",
+          "tafyn b:d z 6{ w#t>c",
+          "&w8rz. p 7n+n( pap}",
+          "joh+n% >xxii., r |5~_ *",
+          "avignon u n * rom",
+          "r%id0r(, 6c 97 neffc zm",
+          "gr+d mout)d0r du pape'-",
+          "zm (g~c p`p}_c scf;wh7(.",
+          "scf u meerrett# )c 8 jhe",
+          "0 6z>c 5)fc &w8rze, 0",
+          "2rop`i5c k94c zr -f8gu",
+          ",}c u ~,~cd wt -br3(t )c.",
+          "sp`t7 uc s 4 pfeff7 =#ac.",
+          "jh= u 4ili =#ae. jh=",
+          "7!gzt."
+        ],
+        <% end %>
+      ]
+    }
+  ]
+}

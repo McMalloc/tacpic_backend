@@ -1,11 +1,11 @@
 class CreateProducts < Sequel::Migration
   def up
     create_table :products do
-      primary_key :id
+      String :identifier, size: 256, primary_key: true
+      # foreign_key :base_price_identifier, :base_prices, type: String
 
-      BigDecimal :base_price, null: false, size: [10, 4] # rounding with SQL: ROUND(number, 2)
-      String :identifier, size: 256, null: false
-      String :desc_identifier, size: 256, null: false
+      TrueClass :customisable, default: false
+      TrueClass :reduced_vat, default: false
       DateTime :created_at
     end
   end

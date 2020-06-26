@@ -1,3 +1,4 @@
 class Product < Sequel::Model
-  many_to_many :orders, join_table: :ordered_items
+  many_to_many :order_items
+  one_to_one :base_prices
 end

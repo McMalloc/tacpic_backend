@@ -2,14 +2,13 @@ require_relative '../db/config'
 require_relative '../models/init'
 require_relative '../env.rb'
 require "faker"
-require './processing/Document'
 require 'erb'
 require 'securerandom'
 
 $_db = Database.init ENV['TACPIC_DATABASE_URL']
 Store.init
 
-document_template = File.read './tests/test_data/catalogue_template.txt'
+document_template = File.read './tests/test_data/catalogue_template.json.erb'
 
 def random_record(model)
   model.order(Sequel.lit('RANDOM()')).first
@@ -19,18 +18,20 @@ def random(max)
   rand(max).to_i + 1
 end
 
-n_users = 100
-n_tags = 15
-n_graphics = 100
-n_taggings = 500
+n_users = 5
+n_tags = 8
+n_graphics = 5
+n_taggings = 15
 
 puts "creating users ..."
-# bypass auth
 (1..n_users).each do |index|
-  $_db[:users].insert(
-      role: 1,
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+
+  # bypass auth
+  User.create(
       email: Faker::Internet.email,
-      created_at: Time.now
+      display_name: (random(10) > 9 ? "xxX" + Faker::Games::DnD.klass + "Xxx" : "") + first_name + "_"+ (random(10) < 7 ? last_name : Faker::Ancient.hero) + "_" + random(100).to_s[0..31],
   )
 
   User[index].add_address(
@@ -40,8 +41,8 @@ puts "creating users ..."
       house_number: random(40),
       is_invoice_addr: false,
       country: "DEU",
-      first_name: Faker::Name.first_name ,
-      last_name: Faker::Name.last_name ,
+      first_name: first_name,
+      last_name: last_name,
       additional: Faker::Address.secondary_address
   )
 
@@ -86,18 +87,21 @@ puts "creating graphics ..."
   )
 
   puts "creating variants and versions for graphic no " + graphic.id.to_s + " ..."
-  (1..random(4)).each do |j|
+  (0..random(2)).each do |j|
     variant = graphic.add_variant(
         title: j == 1 ? 'Basis' : Faker::Color.color_name + " " + Faker::Restaurant.name,
         derived_from: j == 0 ? nil : 0,
-        width: j % 2 == 0 ? 210 : 297,
-        height: j % 2 == 0 ? 297 : 420,
+        graphic_format: rand > 0.7 ? "a3" : "a4",
+        graphic_landscape: rand > 0.7,
+        braille_format: "a4",
+        graphic_no_of_pages: random(9),
+        braille_no_of_pages: random(7),
         medium: 'swell',
         braille_system: %w(de-de-g0.utb de-de-g1.ctb de-de-g2.ctb).sample,
         description: Faker::Lorem.paragraph(sentence_count: [6,8,10,14,20].sample)
     )
 
-    (1..random(5)).each do |k|
+    (1..random(6)).each do |k|
       user = random_record(User)
 
       renderer = ERB.new document_template

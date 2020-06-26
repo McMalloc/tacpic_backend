@@ -1,4 +1,3 @@
-require './processing/Document'
 require './helper/functions'
 
 Tacpic.hash_branch "variants" do |r|
@@ -10,6 +9,11 @@ Tacpic.hash_branch "variants" do |r|
     r.post do
       rodauth.require_authentication
       user_id = rodauth.logged_in?
+
+      graphic_no_of_pages = request[:pages].select {|p| not p['text']}.count
+      graphic_format, graphic_landscape = Helper.determine_format request[:width], request[:height]
+      braille_no_of_pages = request[:pages].select {|p| p['text']}.count
+
       new_variant = Graphic[request['graphic_id']]
                         .add_variant(
                             title: request['variantTitle'],
@@ -17,15 +21,11 @@ Tacpic.hash_branch "variants" do |r|
                             description: request['variantDescription'],
                             medium: request[:medium],
                             braille_system: request[:system],
-                            width: request[:width],
-                            height: request[:height],
+                            graphic_no_of_pages: graphic_no_of_pages,
+                            braille_no_of_pages: braille_no_of_pages,
+                            graphic_format: graphic_format,
+                            graphic_landscape: graphic_landscape,
                         )
-
-      Document.save_files request['graphic_id'], new_variant.id,
-                          request['pages'],
-                          request['width'],
-                          request['height'],
-                          request['braillePages']
 
       version = new_variant.add_version(
           document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
@@ -42,14 +42,14 @@ Tacpic.hash_branch "variants" do |r|
       # rodauth.require_authentication
       # Authentifizierung abfragen, dann Datei generieren und Link zurückschicken?
       response['Content-Type'] = 'application/pdf'
-      Document.get_pdf(Variant[requested_id].graphic_id, requested_id)
+      Variant[requested_id].get_pdf
     end
 
     r.get 'brf' do
       # rodauth.require_authentication
       # Authentifizierung abfragen, dann Datei generieren und Link zurückschicken?
       response['Content-Type'] = 'text/plain'
-      Document.get_brf(Variant[requested_id].graphic_id, requested_id)
+      Variant[requested_id].get_brf
     end
 
     r.get do
@@ -81,14 +81,6 @@ Tacpic.hash_branch "variants" do |r|
     r.post do
       rodauth.require_authentication
       user_id = rodauth.logged_in?
-
-      Document.save_files request['graphic_id'], requested_id,
-                          request['pages'],
-                          request['width'],
-                          request['height'],
-                          request['braillePages']
-
-
       taggings = Tagging.where(variant_id: requested_id)
       tags = taggings.all.map { |tagging| tagging[:tag_id] }
 
@@ -119,11 +111,17 @@ Tacpic.hash_branch "variants" do |r|
         end
       }
 
+      graphic_no_of_pages = request[:pages].select {|p| not p['text']}.count
+      graphic_format, graphic_landscape = determine_format request[:width], request[:height]
+      braille_no_of_pages = request[:pages].select {|p| p['text']}.count
+
       Variant[requested_id].update(
           title: request[:variantTitle],
           description: request[:variantDescription],
-          width: request[:width],
-          height: request[:height],
+          graphic_no_of_pages: graphic_no_of_pages,
+          braille_no_of_pages: braille_no_of_pages,
+          graphic_format: graphic_format,
+          graphic_landscape: graphic_landscape,
           braille_system: request[:system],
           medium: request[:medium]
       )

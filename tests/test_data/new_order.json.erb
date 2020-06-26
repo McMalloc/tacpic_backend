@@ -1,0 +1,17 @@
+{
+  "address_id": 1,
+  "invoice_address_id": 2,
+  "comment": "<%= comment %>",
+  "items": [
+    <% nr_items.times do |index| %>
+    {
+      "product_id": "graphic",
+      "content_id": <%= version_id %>,
+      "quantity": <%= quantity[index] %>
+    }
+    <% unless nr_items == index + 1 %>
+    ,
+    <% end %>
+    <% end %>
+  ]
+}

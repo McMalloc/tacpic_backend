@@ -1,0 +1,7 @@
+identifier,reduced_vat,customisable
+graphic,true,true
+graphic_nobraille,true,true
+postage,false,true
+postage_reduced,true,true
+packaging,false,true
+packaging_reduced,true,true

@@ -23,4 +23,37 @@ module Helper
     end
     return stripped_request.to_json
   end
+
+# TODO wohin damit?
+  def self.determine_format(width, height)
+    if width == 210 and height == 297
+      return ["a4", false]
+    end
+    if width == 210 and height == 297
+      return ["a4", true]
+    end
+    if width == 297 and height == 420
+      return ["a3", false]
+    end
+    if width == 420 and height == 297
+      return ["a3", true]
+    end
+  end
+
+  def self.determine_dimensions(format, is_landscape)
+    if format == "a4"
+      if is_landscape
+        return [297, 210]
+      else
+        return [210, 297]
+      end
+    end
+    if format == "a3"
+      if is_landscape
+        return [297, 420]
+      else
+        return [420, 297]
+      end
+    end
+  end
 end

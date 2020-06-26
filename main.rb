@@ -1,6 +1,7 @@
 # encoding: UTF-8
 require 'roda'
 require 'logger'
+require 'csv'
 
 # require_relative './helper/auth'
 require_relative 'models/init' # gets Store
@@ -9,7 +10,7 @@ require_relative 'env' # gets Config
 require_relative 'helper/functions'
 
 class Tacpic < Roda
-  $_backend_version = '0.9'
+  $_backend_version = File.read "public/BACKEND_VERSION.txt"
 
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
   $_db.extension :pg_trgm #https://github.com/mitchellhenke/sequel-pg-trgm
@@ -38,6 +39,7 @@ class Tacpic < Roda
   plugin :sessions, :secret => secret, :key => 'rodauth.session'
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
+    login_required_error_status 401
     enable :login, :logout, :jwt, :create_account#, :jwt_cors#, :session_expiration
     # :verify_account # requires an SMTP server on port 25 by default
     # jwt_cors_allow_origin 'http://localhost:3000'
@@ -97,14 +99,17 @@ class DataError < StandardError
   end
 end
 
-# modules
-require_relative 'services/internetmarke'
+# business logic and rules
+require_relative 'services/internetmarke/internetmarke'
+require_relative 'services/commerce/Quote'
+require_relative 'services/commerce/GraphicPriceCalculator'
 
 # routes
 require_relative 'routes/graphics'
 require_relative 'routes/variants'
 require_relative 'routes/tags'
 require_relative 'routes/users'
+require_relative 'routes/orders'
 require_relative 'routes/braille'
 #
 # require_relative 'routes/backend/users'

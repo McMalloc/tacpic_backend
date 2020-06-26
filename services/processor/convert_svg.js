@@ -1,33 +1,12 @@
 const puppeteer = require('puppeteer');
 
 const title = process.argv[2];
-const width = parseInt(process.argv[3]);
-const height = parseInt(process.argv[4]);
-const basePath = process.argv[5].replace(/$\/+/, '');
-
-let format, landscape,
-    width_sm, height_sm, width_xl, height_xl;
+const format = process.argv[3];
+const landscape = process.argv[4] === 'true';
+const pageIndex = parseInt(process.argv[5]);
+const basePath = process.argv[6].replace(/$\/+/, '');
 
 (async() => {
-    switch (true) {
-        case (width === 297 && height === 420) :
-            format = "A3";
-            landscape = false;
-            break;
-        case (width === 420 && height === 297) :
-            format = "A3";
-            landscape = true;
-            break;
-        case (width === 297 && height === 210) :
-            format = "A4";
-            landscape = true;
-            break;
-        default:
-            format = "A4";
-            landscape = false;
-    }
-
-    const ratio = height / width;
 
     // if (landscape) {
     //     width_sm = 200;
@@ -46,10 +25,10 @@ let format, landscape,
         args: ["--disable-gpu"], // makes startup faster
     });
     const page = await browser.newPage();
-    await page.goto(`file:${basePath}/files/${title}-VECTOR.svg`);
+    await page.goto(`file:${basePath}/${title}-VECTOR-p${pageIndex}.svg`);
 
     await page.pdf({
-        path: `${basePath}/files/${title}-PRINT.pdf`,
+        path: `${basePath}/${title}-PRINT-p${pageIndex}.pdf`,
         format, landscape,
         margin: {
             top: "0",
@@ -66,7 +45,7 @@ let format, landscape,
     //     })
 
     await page.screenshot({
-        path: `${basePath}/files/${title}-RASTER.png`,
+        path: `${basePath}/${title}-RASTER-p${pageIndex}.png`,
         fullPage: true,
         deviceScaleFactor: 2
     })

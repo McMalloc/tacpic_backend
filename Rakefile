@@ -14,6 +14,8 @@ namespace 'db' do
   desc "Run database app_migrations"
   task :migrate do |t, args|
     Sequel::Migrator.run(_db, './db/app_migrations')
+    # seed fix data
+    sh "ruby db/seed.rb"
   end
 
   desc 'Zap the database by running all the down app_migrations'
@@ -31,18 +33,19 @@ namespace 'db' do
     sh "sequel -C postgres://tacpic-dev:tacpic@localhost/tacpic-template postgres://tacpic-dev:tacpic@localhost/tacpic-test"
   end
 
-  desc 'Setting up database tables for authentication provided by rodauth'
-  task :migrate_auth do |t, args|
-    Sequel::Migrator.run(_db, './db/auth_migrations', table: 'schema_info_password')
-  end
-
-  desc 'Zapping database tables for authentication provided by rodauth'
-  task :zap_auth do |t, args|
-    Sequel::Migrator.run(_db, './db/auth_migrations', target: 0, table: 'schema_info_password')
-  end
-
-  desc 'Reset authentication database'
-  task :reset_auth => [:zap_auth, :migrate_auth]
+  # TODO deprecated, now part of app migrations
+  # desc 'Setting up database tables for authentication provided by rodauth'
+  # task :migrate_auth do |t, args|
+  #   Sequel::Migrator.run(_db, './db/auth_migrations', table: 'schema_info_password')
+  # end
+  #
+  # desc 'Zapping database tables for authentication provided by rodauth'
+  # task :zap_auth do |t, args|
+  #   Sequel::Migrator.run(_db, './db/auth_migrations', target: 0, table: 'schema_info_password')
+  # end
+  #
+  # desc 'Reset authentication database'
+  # task :reset_auth => [:zap_auth, :migrate_auth]
 
   desc 'Zaps the database then run the app_migrations'
   task :purge => [:zap, :migrate]
@@ -73,7 +76,8 @@ namespace 'test' do
 
   desc 'Purges test db and runs model tests'
   # task :purge_and_models, [:mode] => ['db:purge', :models]
-  task :purge_and_routes, [:mode] => ['db:reset', :routes]
+  task :purge_and_routes, [:mode] => ['db:purge', :routes]
+  task :reset_and_routes, [:mode] => ['db:reset', :routes]
   # task :all_routes, [:mode] => [:routes]
 end
 
@@ -96,7 +100,7 @@ namespace 'stage' do
       exit
     end
 
-    puts "▶ | Are you sure?".magenta.bold + " (type yes to continue)".magenta
+    puts "▶ Are you sure?".magenta.bold + " (type yes to continue)".magenta
     answer = STDIN.gets.chomp
     unless answer == "yes"
       puts "Pff like OKAY, now exiting."

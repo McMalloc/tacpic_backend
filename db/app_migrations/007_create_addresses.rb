@@ -5,12 +5,13 @@ class CreateAddresses < Sequel::Migration
       foreign_key :user_id, :users
 
       # fields are corresponding to the specifications of DPAG's Internetmarke
-      TrueClass :is_invoice_addr, null: false
+      TrueClass :is_invoice_addr, null: false, default: false
       String :street, null: false
       Integer :house_number, null: false
       String :company_name
       String :first_name
       String :last_name
+
       String :additional
       String :city, null: false
       String :zip, null: false

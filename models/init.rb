@@ -9,6 +9,7 @@ module Store
     Variant
     Version
     Tag
+    BasePrice
     List
     Fav
     Download

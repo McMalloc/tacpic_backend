@@ -1,6 +1,37 @@
 Tacpic.hash_branch "users" do |r|
   # @request = JSON.parse r.body.read
 
+  r.on 'addresses' do
+    r.is do
+      r.get do
+        begin
+          rodauth.require_authentication
+          User[rodauth.logged_in?].addresses.map(&:values)
+        rescue Sequel::Error
+          response.status = 401
+          $!.to_json
+        end
+      end
+
+      r.post do
+        rodauth.require_authentication
+        begin
+          # if request[:last_name].nil? && request[:company_name].nil?
+          #   response.status = 400
+          #   raise "at least one name needs to be present"
+          # else
+          values = User[rodauth.logged_in?].add_address(JSON.parse(request.body.read)).values
+          response.status = 201
+          return values
+            # end
+        rescue Sequel::Error
+          response.status = 401
+          pp $!
+        end
+      end
+    end
+  end
+
   # r.on Integer do |user_id|
   r.get 'validate' do
     {
