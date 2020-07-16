@@ -1,5 +1,5 @@
 class Quote
-  attr_accessor :order_items, :postage_item, :packaging_item
+  attr_accessor :order_items, :postage_item, :packaging_item, :weight
   @@weights = {}
   CSV.parse(File.read('services/commerce/weights.csv'), headers: true).each do |row|
     @@weights[row[0].strip.to_sym] = row[1].to_i
@@ -31,17 +31,18 @@ class Quote
     @weight = 0
 
     @order_items.each_with_index do |item, index|
+      corresponding_variant = @variants.find {|variant|variant[:id] == item.content_id}
       if item.product_id == 'graphic'
-        price = GraphicPriceCalculator.new(@variants[index], @@products[item.product_id.to_sym][:reduced_vat])
+        price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
         item.net_price = price.net
         item.gross_price = price.gross
-        item.weight = @variants[index][:graphic_no_of_pages] * @@weights["swell_#{@variants[index][:graphic_format]}".to_sym]
-        +@variants[index][:braille_no_of_pages] * @@weights["emboss_#{@variants[index][:braille_format]}".to_sym]
+        item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
+        +corresponding_variant[:braille_no_of_pages] * @@weights["emboss_#{corresponding_variant[:braille_format]}".to_sym]
       elsif item.product_id == 'graphic_nobraille'
-        price = GraphicPriceCalculator.new(@variants[index], @@products[item.product_id.to_sym][:reduced_vat])
+        price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
         item.net_price = price.net_graphics_only
         item.gross_price = price.gross_graphics_only
-        item.weight = @variants[index][:graphic_no_of_pages] * @@weights["swell_#{@variants[index][:graphic_format]}".to_sym]
+        item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
       end
 
       @weight += item.weight
@@ -70,13 +71,13 @@ class Quote
   end
 
   def net
-    amount = @order_items.inject(0) { |sum, item| item.net_price + sum }
+    amount = @order_items.inject(0) { |sum, item| item.net_price * item.quantity + sum }
     amount += @postage_item.net_price
     amount += @packaging_item.net_price
   end
 
   def gross
-    amount = @order_items.inject(0) { |sum, item| item.gross_price + sum }
+    amount = @order_items.inject(0) { |sum, item| item.gross_price * item.quantity + sum }
     amount += @postage_item.gross_price
     amount += @packaging_item.gross_price
   end
@@ -84,7 +85,6 @@ class Quote
   def packaging_item
     OrderItem.new(
         product_id: "packaging",
-        content_id: "envelope",
         quantity: 1,
         net_price: @@prices[:packaging],
         gross_price: @@prices[:packaging] * 1.07, # todo, s. unten
@@ -107,8 +107,8 @@ class Quote
       postage_product_id = :buewa1000
     end
 
-    postage.net_price = @@postages[postage_product_id][:price]
-    postage.gross_price = postage.net_price * 1.07
+    postage.gross_price = @@postages[postage_product_id][:price]
+    postage.net_price = postage.gross_price - (postage.gross_price * 0.07)
     postage.content_id = @@postages[postage_product_id][:pplId]
     return postage
   end

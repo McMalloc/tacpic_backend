@@ -6,8 +6,8 @@ class CreatePayments < Sequel::Migration
       foreign_key :user_id, :users # no key or required, since some payments cannot be matched
       foreign_key :invoice_id, :invoices
       Integer :amount
-      # String :currency, size: 3
-      String :service # what infos does the PSP transmit?
+      String :currency, size: 3, default: 'EUR'
+      String :method # what infos does the PSP transmit?
       DateTime :created_at
     end
   end

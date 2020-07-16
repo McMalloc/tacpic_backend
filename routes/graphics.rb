@@ -48,13 +48,14 @@ Tacpic.hash_branch "graphics" do |r|
               quote: price.gross.ceil,
               quote_graphics_only: price.gross_graphics_only.ceil,
               # TODO ineffizient, oder zumindest kann hiermit die query oben vereinfacht werden
-              document: JSON.parse(Version.where(variant_id: variants.last[:variant_id]).last[:document]),
+              document: JSON.parse(Version.where(variant_id: variant[:variant_id]).last[:document]),
               braille_format: variant[:braille_format],
               file_name: variant[:file_name],
               braille_no_of_pages: variant[:braille_no_of_pages],
               graphic_format: variant[:graphic_format],
               graphic_no_of_pages: variant[:graphic_no_of_pages],
               title: variant[:variant_title],
+              created_at: variant[:variant_created_at],
               description: variant[:description],
               system: variant[:braille_system],
               tags: variant[:tags].scan(/[0-9]+/).map { |match| match.to_i }

@@ -101,7 +101,7 @@ puts "creating graphics ..."
         description: Faker::Lorem.paragraph(sentence_count: [6,8,10,14,20].sample)
     )
 
-    (1..random(6)).each do |k|
+    (1..random(3)).each do |k|
       user = random_record(User)
 
       renderer = ERB.new document_template

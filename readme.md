@@ -81,9 +81,11 @@ mv env.rb.template env.rb
 ```
 Und Login-URLs eintragen: postgres://tacpic:password@localhost/tacpic-production
 
-Dateiverzeichnis anlegen:
+Dateiverzeichnisse anlegen:
 ```
 mkdir tacpic_backend/files
+mkdir tacpic_backend/files/vouchers
+mkdir tacpic_backend/files/invoices
 ```
 ## Datenbank einrichten
 

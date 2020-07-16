@@ -1,0 +1,79 @@
+{
+  "title": "",
+  "graphicTitle": "Tetsgrafik 2",
+  "graphicDescription": "",
+  "variantTitle": "",
+  "variantDescription": "",
+  "transcribersNotes": "",
+  "tags": [],
+  "category": null,
+  "variant_id": null,
+  "graphic_id": null,
+  "version_id": null,
+  "lastVersionHash": null,
+  "backgroundURL": "",
+  "keyedStrokes": [],
+  "keyedTextures": [],
+  "medium": "swell",
+  "system": "de-de-g0.utb",
+  "width": 210,
+  "height": 297,
+  "verticalGridSpacing": 10,
+  "horizontalGridSpacing": 10,
+  "showVerticalGrid": false,
+  "showHorizontalGrid": false,
+  "braillePages": {
+    "width": 210,
+    "height": 297,
+    "marginLeft": 1,
+    "marginTop": 1,
+    "cellsPerRow": 33,
+    "rowsPerPage": 27,
+    "pageNumbers": 0
+  },
+  "pages": [
+    {
+      "name": "Seite 1",
+      "text": false,
+      "rendering": "<g id=\"page-0\"><rect data-role=\"CANVAS\" data-pageidx=\"0\" x=\"0\" y=\"0\" width=\"210mm\" height=\"297mm\" stroke=\"rgba(0,0,0,0.0)\" fill=\"white\"></rect><g><ellipse id=\"ac87f9fb-5cf5-40f3-93c6-566398e41bcc\" data-uuid=\"ac87f9fb-5cf5-40f3-93c6-566398e41bcc\" transform=\"translate(211, 258) rotate(0, 0, 0)\" clip-path=\"url(#clip-ac87f9fb-5cf5-40f3-93c6-566398e41bcc)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"-279\" ry=\"81\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-ac87f9fb-5cf5-40f3-93c6-566398e41bcc&quot;); stroke: rgb(31, 120, 180); stroke-width: 20;\"></ellipse><ellipse id=\"stroke-ac87f9fb-5cf5-40f3-93c6-566398e41bcc\" transform=\"translate(211, 258) rotate(0, 0, 0)\" stroke-width=\"1.5\" stroke-dasharray=\"solid\" data-transformable=\"true\" data-selectable=\"true\" stroke=\"black\" rx=\"-279\" ry=\"81\" style=\"fill: none;\"></ellipse><clipPath id=\"clip-ac87f9fb-5cf5-40f3-93c6-566398e41bcc\"><ellipse rx=\"-279\" ry=\"81\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-ac87f9fb-5cf5-40f3-93c6-566398e41bcc\" patternTransform=\"translate(0, 0) rotate(0, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#1f78b4\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g><g><ellipse id=\"55092812-98a9-4362-b690-efc3d8f31626\" data-uuid=\"55092812-98a9-4362-b690-efc3d8f31626\" transform=\"translate(292, 352) rotate(0, 0, 0)\" clip-path=\"url(#clip-55092812-98a9-4362-b690-efc3d8f31626)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"152\" ry=\"126\" style=\"cursor: pointer; fill: url(&quot;#pattern-vertical_lines-55092812-98a9-4362-b690-efc3d8f31626&quot;); stroke: rgb(227, 26, 28); stroke-width: 20;\"></ellipse><ellipse id=\"stroke-55092812-98a9-4362-b690-efc3d8f31626\" transform=\"translate(292, 352) rotate(0, 0, 0)\" stroke-width=\"1.5\" stroke-dasharray=\"solid\" data-transformable=\"true\" data-selectable=\"true\" stroke=\"black\" rx=\"152\" ry=\"126\" style=\"fill: none;\"></ellipse><clipPath id=\"clip-55092812-98a9-4362-b690-efc3d8f31626\"><ellipse rx=\"152\" ry=\"126\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-vertical_lines-55092812-98a9-4362-b690-efc3d8f31626\" patternTransform=\"translate(0, 0) rotate(0, 0, 0)\" width=\"5mm\" height=\"0.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#e31a1c\"></rect><line x1=\"1.25mm\" y1=\"-1mm\" x2=\"1.25mm\" y2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g></g>",
+      "objects": [
+        {
+          "uuid": "ac87f9fb-5cf5-40f3-93c6-566398e41bcc",
+          "x": 211,
+          "y": 258,
+          "width": -279,
+          "height": 81,
+          "fill": "#1f78b4",
+          "pattern": {
+            "template": "diagonal_lines",
+            "offset": true
+          },
+          "border": true,
+          "borderWidth": 1.5,
+          "borderStyle": "solid",
+          "moniker": "Ellipse",
+          "angle": 0,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "55092812-98a9-4362-b690-efc3d8f31626",
+          "x": 292,
+          "y": 352,
+          "width": 152,
+          "height": 126,
+          "fill": "#e31a1c",
+          "pattern": {
+            "template": "vertical_lines",
+            "offset": true
+          },
+          "border": true,
+          "borderWidth": 1.5,
+          "borderStyle": "solid",
+          "moniker": "Ellipse",
+          "angle": 0,
+          "type": "ellipse"
+        }
+      ]
+    }
+  ]
+}

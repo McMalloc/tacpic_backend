@@ -24,6 +24,24 @@ module Helper
     return stripped_request.to_json
   end
 
+  def self.format_currency(value)
+    #todo i18n
+    main, decimals = (value/100.0).round(2).to_s.split('.')
+    "#{main},#{decimals}#{decimals.length == 1 ? '0' : ''}€"
+  end
+
+  # https://stackoverflow.com/questions/49004335/ruby-find-date-with-your-day-except-weekend
+  def self.add_working_days(date, num)
+    mod_date = date.to_date
+    num.times.inject(mod_date) do |mod_date|
+      case mod_date.wday
+      when 5 then mod_date += 3
+      when 6 then mod_date += 2
+      else mod_date += 1
+      end
+    end
+  end
+
 # TODO wohin damit?
   def self.determine_format(width, height)
     if width == 210 and height == 297

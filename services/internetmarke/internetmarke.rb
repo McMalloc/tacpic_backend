@@ -32,6 +32,7 @@ def transform_address(address)
 end
 
 module Internetmarke
+
   class Client
     include Singleton
     TIMEFORMAT = "%d%m%Y-%H%M%S"
@@ -91,8 +92,10 @@ module Internetmarke
   end
 
   class Voucher
+    @@valid_pplsIds = CSV.parse(File.read('services/commerce/postage.csv'), headers: true).map{|row|{pplId: row[0].to_i, price: row[2].to_i}}
     attr_accessor :shop_order_id
     attr_accessor :file_url
+    attr_accessor :file_name
     attr_accessor :sender_address
     attr_accessor :receiver_address
     attr_accessor :shipment_id
@@ -105,7 +108,7 @@ module Internetmarke
             city: "Magdeburg",
             country: "DEU",
         })
-      if product == 1 || product == 11 || product == 21 || product == 31
+      if @@valid_pplsIds.map{|row|row[:pplId]}.include? product
         @product = product
       else
         @product = nil # not a valid product
@@ -119,9 +122,9 @@ module Internetmarke
 
     def save_voucher
       puts "Get from #{@file_link}"
-      file_name = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/voucher_#{@shipment_id}_#{@voucher_id}"
-      system "wget '#{@file_link}' -O #{file_name}.zip"
-      system "unzip #{file_name}.zip -d #{file_name}"
+      @file_name = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/voucher_#{@shipment_id}_#{@voucher_id}"
+      system "wget '#{@file_link}' -O #{@file_name}.zip"
+      system "unzip #{@file_name}.zip -d #{@file_name}"
     end
 
     # @return [String]
@@ -135,18 +138,7 @@ module Internetmarke
       sender = transform_address(@sender_address)
       receiver = transform_address(@receiver_address)
       product = @product
-      total = case product
-              when 1
-                80
-              when 11
-                95
-              when 21
-                155
-              when 31
-                270
-              else
-                -1 # invalid, will cancel operation
-              end
+      total = @@valid_pplsIds.find{|row|row[:pplId] == product}[:price]
       begin
         response = Client.instance.client.call :checkout_shopping_cart_png do
           soap_header Client.instance.create_header

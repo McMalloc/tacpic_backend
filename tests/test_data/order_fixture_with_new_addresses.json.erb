@@ -1,0 +1,53 @@
+{
+  "shippingAddress": {
+    "is_invoice_addr": false,
+    "street": "Mulholland Drive",
+    "house_number": "12",
+    "company_name": "",
+    "first_name": "Betty",
+    "last_name": "Elms",
+    "additional": "",
+    "city": "Los Angeles",
+    "zip": "39104",
+    "state": "SAN",
+    "id": null,
+    "country": "DEU"
+  },
+  "invoiceAddress": {
+    "is_invoice_addr": true,
+    "street": "Lindenstraße",
+    "house_number": "1",
+    "company_name": "tacpic UG (hb)",
+    "first_name": "",
+    "last_name": "",
+    "additional": "Hinterhof",
+    "city": "München",
+    "zip": "49104",
+    "state": "BAY",
+    "id": null,
+    "country": "DEU"
+  },
+  "paymentMethod": "invoice",
+  "basket": [
+      {
+        "contentId": <%= variant1_id %>,
+        "productId": "graphic_nobraille",
+        "quantity": 1
+      },
+      {
+        "contentId": <%= variant1_id %>,
+        "productId": "graphic",
+        "quantity": 2
+      },
+      {
+        "contentId": <%= variant2_id %>,
+        "productId": "graphic",
+        "quantity": 5
+      },
+      {
+        "contentId": <%= variant3_id %>,
+        "productId": "graphic",
+        "quantity": 2
+      }
+    ]
+}

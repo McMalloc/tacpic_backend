@@ -4,4 +4,16 @@ class OrderItem < Sequel::Model
   one_to_many :invoice_items
   many_to_one :shipment, join_table: :shipped_items
   many_to_many :products
+
+  def before_save
+    if self.product_id == 'graphic' || self.product_id == 'graphic_nobraille'
+      variant = Variant[self.content_id]
+      self.description = "#{variant.graphic.title} (#{variant.title})\n#{variant.graphic_no_of_pages} Schwellpapierseiten"
+    elsif self.product_id == 'postage' || self.product_id == 'postage_reduced'
+      self.description = "Versand"
+    elsif self.product_id == 'packaging'
+      self.description = "Verpackung"
+    end
+
+  end
 end

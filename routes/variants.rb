@@ -21,6 +21,7 @@ Tacpic.hash_branch "variants" do |r|
                             description: request['variantDescription'],
                             medium: request[:medium],
                             braille_system: request[:system],
+                            braille_format: 'a4',
                             graphic_no_of_pages: graphic_no_of_pages,
                             braille_no_of_pages: braille_no_of_pages,
                             graphic_format: graphic_format,

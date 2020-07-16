@@ -1,0 +1,1129 @@
+{
+  "title": "",
+  "graphicTitle": "No comment.",
+  "variantTitle": "olive Fast Grill",
+  "variantDescription": "Quia ipsum qui. Voluptatem perferendis et. Deleniti id cumque. Atque similique fuga. Quaerat laborum aperiam. Quae dolorem aliquam. Et qui architecto. Qui accusamus in. Ut numquam laudantium. Quod consequatur quia. Consequatur autem similique. Inventore aliquam incidunt. Et sapiente ut. Qui corrupti omnis. Tempore tenetur voluptate. Est architecto non. Molestias architecto sint. Repudiandae et tempore. Et aut in. Et ratione illum.",
+  "transcribersNotes": "",
+  "tags": [],
+  "category": null,
+  "variant_id": 8,
+  "graphic_id": 3,
+  "version_id": 26,
+  "lastVersionHash": "01f302de2ef79017791f13230431ae9e",
+  "backgroundURL": "",
+  "keyedStrokes": [],
+  "keyedTextures": [
+    {
+      "pattern": "diagonal_lines",
+      "label": "Wasser"
+    }
+  ],
+  "medium": "swell",
+  "system": "de-de-g0.utb",
+  "width": 210,
+  "height": 297,
+  "verticalGridSpacing": 10,
+  "horizontalGridSpacing": 10,
+  "showVerticalGrid": false,
+  "showHorizontalGrid": false,
+  "braillePages": {
+    "width": 210,
+    "height": 297,
+    "marginLeft": 1,
+    "marginTop": 1,
+    "cellsPerRow": 33,
+    "rowsPerPage": 27,
+    "pageNumbers": 0
+  },
+  "pages": [
+    {
+      "name": "Seite 2",
+      "text": false,
+      "rendering": "<g id=\"page-0\"><rect data-role=\"CANVAS\" data-pageidx=\"0\" x=\"0\" y=\"0\" width=\"210mm\" height=\"297mm\" stroke=\"rgba(0,0,0,0.0)\" fill=\"white\"></rect><g><rect id=\"ae4540d9-c465-4ffe-be70-ebd7e9265e7e\" data-uuid=\"ae4540d9-c465-4ffe-be70-ebd7e9265e7e\" transform=\"translate(153, 1109) rotate(66, 148, 95.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-ae4540d9-c465-4ffe-be70-ebd7e9265e7e)\" width=\"296\" height=\"191\" style=\"cursor: pointer; fill: url(&quot;#pattern-horizontal_lines-ae4540d9-c465-4ffe-be70-ebd7e9265e7e&quot;); stroke: rgb(138, 111, 34); stroke-width: 0;\"></rect><clipPath id=\"clip-ae4540d9-c465-4ffe-be70-ebd7e9265e7e\"><rect width=\"296\" height=\"191\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-horizontal_lines-ae4540d9-c465-4ffe-be70-ebd7e9265e7e\" patternTransform=\"translate(0, 0) rotate(-66, 0, 0)\" width=\"0.5mm\" height=\"5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#8a6f22\"></rect><line y1=\"1.25mm\" x1=\"-1mm\" y2=\"1.25mm\" x2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"efd68f7d-306f-4854-be99-2fe8b4ba9671\" data-uuid=\"efd68f7d-306f-4854-be99-2fe8b4ba9671\" transform=\"translate(141, 880) rotate(12, 62, 126)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-efd68f7d-306f-4854-be99-2fe8b4ba9671)\" width=\"124\" height=\"252\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-efd68f7d-306f-4854-be99-2fe8b4ba9671&quot;); stroke: rgb(246, 31, 225); stroke-width: 0;\"></rect><clipPath id=\"clip-efd68f7d-306f-4854-be99-2fe8b4ba9671\"><rect width=\"124\" height=\"252\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-efd68f7d-306f-4854-be99-2fe8b4ba9671\" patternTransform=\"translate(0, 0) rotate(-12, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#f61fe1\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"5d0016fa-c034-4a59-8735-06512b6820b3\" data-uuid=\"5d0016fa-c034-4a59-8735-06512b6820b3\" transform=\"translate(164, 826) rotate(48, 133.5, 294)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-5d0016fa-c034-4a59-8735-06512b6820b3)\" width=\"267\" height=\"588\" style=\"cursor: pointer; fill: url(&quot;#pattern-horizontal_lines-5d0016fa-c034-4a59-8735-06512b6820b3&quot;); stroke: rgb(235, 49, 172); stroke-width: 0;\"></rect><clipPath id=\"clip-5d0016fa-c034-4a59-8735-06512b6820b3\"><rect width=\"267\" height=\"588\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-horizontal_lines-5d0016fa-c034-4a59-8735-06512b6820b3\" patternTransform=\"translate(0, 0) rotate(-48, 0, 0)\" width=\"0.5mm\" height=\"5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#eb31ac\"></rect><line y1=\"1.25mm\" x1=\"-1mm\" y2=\"1.25mm\" x2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"ea6eaf22-e025-4dbf-9897-b298dffcb8c4\" data-uuid=\"ea6eaf22-e025-4dbf-9897-b298dffcb8c4\" transform=\"translate(112, 23) rotate(24, 288.5, 179)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-ea6eaf22-e025-4dbf-9897-b298dffcb8c4)\" width=\"577\" height=\"358\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-ea6eaf22-e025-4dbf-9897-b298dffcb8c4&quot;); stroke: rgb(115, 142, 10); stroke-width: 0;\"></rect><clipPath id=\"clip-ea6eaf22-e025-4dbf-9897-b298dffcb8c4\"><rect width=\"577\" height=\"358\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-ea6eaf22-e025-4dbf-9897-b298dffcb8c4\" patternTransform=\"translate(0, 0) rotate(-24, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#738e0a\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"d38d8368-09ba-4e67-b5d8-d74474ddce6a\" data-uuid=\"d38d8368-09ba-4e67-b5d8-d74474ddce6a\" transform=\"translate(107, 210) rotate(44, 325, 143)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-d38d8368-09ba-4e67-b5d8-d74474ddce6a)\" width=\"650\" height=\"286\" style=\"cursor: pointer; fill: url(&quot;#pattern-full-d38d8368-09ba-4e67-b5d8-d74474ddce6a&quot;); stroke: rgb(208, 252, 76); stroke-width: 0;\"></rect><clipPath id=\"clip-d38d8368-09ba-4e67-b5d8-d74474ddce6a\"><rect width=\"650\" height=\"286\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-full-d38d8368-09ba-4e67-b5d8-d74474ddce6a\" patternTransform=\"translate(0, 0) rotate(-44, 0, 0)\" width=\"2.5mm\" height=\"2.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#d0fc4c\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"0.6mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"46715ad9-d2fc-46b4-a436-e97ccacb2bb0\" data-uuid=\"46715ad9-d2fc-46b4-a436-e97ccacb2bb0\" transform=\"translate(684, 969) rotate(14, 138, 137.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-46715ad9-d2fc-46b4-a436-e97ccacb2bb0)\" width=\"276\" height=\"275\" style=\"cursor: pointer; fill: url(&quot;#pattern-dotted-46715ad9-d2fc-46b4-a436-e97ccacb2bb0&quot;); stroke: rgb(236, 202, 155); stroke-width: 0;\"></rect><clipPath id=\"clip-46715ad9-d2fc-46b4-a436-e97ccacb2bb0\"><rect width=\"276\" height=\"275\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dotted-46715ad9-d2fc-46b4-a436-e97ccacb2bb0\" patternTransform=\"translate(0, 0) rotate(-14, 0, 0)\" width=\"10mm\" height=\"10mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#ecca9b\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle><circle cx=\"6.25mm\" cy=\"6.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"46f7dc1b-f782-4f05-a3e2-16752c2b040c\" data-uuid=\"46f7dc1b-f782-4f05-a3e2-16752c2b040c\" transform=\"translate(380, 1221) rotate(8, 296, 255)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-46f7dc1b-f782-4f05-a3e2-16752c2b040c)\" width=\"592\" height=\"510\" style=\"cursor: pointer; fill: url(&quot;#pattern-vertical_lines-46f7dc1b-f782-4f05-a3e2-16752c2b040c&quot;); stroke: rgb(251, 77, 17); stroke-width: 0;\"></rect><clipPath id=\"clip-46f7dc1b-f782-4f05-a3e2-16752c2b040c\"><rect width=\"592\" height=\"510\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-vertical_lines-46f7dc1b-f782-4f05-a3e2-16752c2b040c\" patternTransform=\"translate(0, 0) rotate(-8, 0, 0)\" width=\"5mm\" height=\"0.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#fb4d11\"></rect><line x1=\"1.25mm\" y1=\"-1mm\" x2=\"1.25mm\" y2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"44698249-9492-43d6-86ec-6b03f667498e\" data-uuid=\"44698249-9492-43d6-86ec-6b03f667498e\" transform=\"translate(503, 751) rotate(1, 4, 281.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-44698249-9492-43d6-86ec-6b03f667498e)\" width=\"8\" height=\"563\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-44698249-9492-43d6-86ec-6b03f667498e&quot;); stroke: rgb(13, 111, 103); stroke-width: 0;\"></rect><clipPath id=\"clip-44698249-9492-43d6-86ec-6b03f667498e\"><rect width=\"8\" height=\"563\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-44698249-9492-43d6-86ec-6b03f667498e\" patternTransform=\"translate(0, 0) rotate(-1, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#0d6f67\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"682da400-795f-423f-9b7b-5a5db3a57393\" data-uuid=\"682da400-795f-423f-9b7b-5a5db3a57393\" transform=\"translate(648, 270) rotate(59, 84, 16.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-682da400-795f-423f-9b7b-5a5db3a57393)\" width=\"168\" height=\"33\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-682da400-795f-423f-9b7b-5a5db3a57393&quot;); stroke: rgb(197, 13, 220); stroke-width: 0;\"></rect><clipPath id=\"clip-682da400-795f-423f-9b7b-5a5db3a57393\"><rect width=\"168\" height=\"33\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-682da400-795f-423f-9b7b-5a5db3a57393\" patternTransform=\"translate(0, 0) rotate(-59, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#c50ddc\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"33a7d8a9-b4e7-48ee-b635-d2884aae7fbc\" data-uuid=\"33a7d8a9-b4e7-48ee-b635-d2884aae7fbc\" transform=\"translate(621, 1135) rotate(50, 31, 312.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-33a7d8a9-b4e7-48ee-b635-d2884aae7fbc)\" width=\"62\" height=\"625\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-33a7d8a9-b4e7-48ee-b635-d2884aae7fbc&quot;); stroke: rgb(153, 50, 184); stroke-width: 0;\"></rect><clipPath id=\"clip-33a7d8a9-b4e7-48ee-b635-d2884aae7fbc\"><rect width=\"62\" height=\"625\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-33a7d8a9-b4e7-48ee-b635-d2884aae7fbc\" patternTransform=\"translate(0, 0) rotate(-50, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#9932b8\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><rect id=\"96dc32d1-87b5-4ee1-9a69-2ba706cbadac\" data-uuid=\"96dc32d1-87b5-4ee1-9a69-2ba706cbadac\" transform=\"translate(466, 964) rotate(8, 301, 291.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-96dc32d1-87b5-4ee1-9a69-2ba706cbadac)\" width=\"602\" height=\"583\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-96dc32d1-87b5-4ee1-9a69-2ba706cbadac&quot;); stroke: rgb(213, 202, 179); stroke-width: 0;\"></rect><clipPath id=\"clip-96dc32d1-87b5-4ee1-9a69-2ba706cbadac\"><rect width=\"602\" height=\"583\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-96dc32d1-87b5-4ee1-9a69-2ba706cbadac\" patternTransform=\"translate(0, 0) rotate(-8, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#d5cab3\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><rect id=\"35d5b1c8-7833-420a-8b08-8e5788a756e5\" data-uuid=\"35d5b1c8-7833-420a-8b08-8e5788a756e5\" transform=\"translate(393, 35) rotate(68, 331.5, 64.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-35d5b1c8-7833-420a-8b08-8e5788a756e5)\" width=\"663\" height=\"129\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-35d5b1c8-7833-420a-8b08-8e5788a756e5&quot;); stroke: rgb(65, 244, 223); stroke-width: 0;\"></rect><clipPath id=\"clip-35d5b1c8-7833-420a-8b08-8e5788a756e5\"><rect width=\"663\" height=\"129\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-35d5b1c8-7833-420a-8b08-8e5788a756e5\" patternTransform=\"translate(0, 0) rotate(-68, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#41f4df\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"6372d1cf-8ee7-4bd4-aed1-d945498f40a9\" data-uuid=\"6372d1cf-8ee7-4bd4-aed1-d945498f40a9\" transform=\"translate(682, 358) rotate(39, 11, 331)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-6372d1cf-8ee7-4bd4-aed1-d945498f40a9)\" width=\"22\" height=\"662\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-6372d1cf-8ee7-4bd4-aed1-d945498f40a9&quot;); stroke: rgb(188, 105, 0); stroke-width: 0;\"></rect><clipPath id=\"clip-6372d1cf-8ee7-4bd4-aed1-d945498f40a9\"><rect width=\"22\" height=\"662\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-6372d1cf-8ee7-4bd4-aed1-d945498f40a9\" patternTransform=\"translate(0, 0) rotate(-39, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#bc6900\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g><g><rect id=\"7a87bc06-2bea-41ab-b580-27560baced1d\" data-uuid=\"7a87bc06-2bea-41ab-b580-27560baced1d\" transform=\"translate(495, 795) rotate(47, 170, 84.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-7a87bc06-2bea-41ab-b580-27560baced1d)\" width=\"340\" height=\"169\" style=\"cursor: pointer; fill: url(&quot;#pattern-full-7a87bc06-2bea-41ab-b580-27560baced1d&quot;); stroke: rgb(193, 113, 90); stroke-width: 0;\"></rect><clipPath id=\"clip-7a87bc06-2bea-41ab-b580-27560baced1d\"><rect width=\"340\" height=\"169\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-full-7a87bc06-2bea-41ab-b580-27560baced1d\" patternTransform=\"translate(0, 0) rotate(-47, 0, 0)\" width=\"2.5mm\" height=\"2.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#c1715a\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"0.6mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"96e4912d-26d2-4950-a982-31003cb05878\" data-uuid=\"96e4912d-26d2-4950-a982-31003cb05878\" transform=\"translate(165, 667) rotate(43, 296, 28)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-96e4912d-26d2-4950-a982-31003cb05878)\" width=\"592\" height=\"56\" style=\"cursor: pointer; fill: url(&quot;#pattern-horizontal_lines-96e4912d-26d2-4950-a982-31003cb05878&quot;); stroke: rgb(26, 150, 191); stroke-width: 0;\"></rect><clipPath id=\"clip-96e4912d-26d2-4950-a982-31003cb05878\"><rect width=\"592\" height=\"56\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-horizontal_lines-96e4912d-26d2-4950-a982-31003cb05878\" patternTransform=\"translate(0, 0) rotate(-43, 0, 0)\" width=\"0.5mm\" height=\"5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#1a96bf\"></rect><line y1=\"1.25mm\" x1=\"-1mm\" y2=\"1.25mm\" x2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"4b4ceed1-8127-443f-a407-0f1dd5251ef9\" data-uuid=\"4b4ceed1-8127-443f-a407-0f1dd5251ef9\" transform=\"translate(372, 951) rotate(56, 16.5, 318)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-4b4ceed1-8127-443f-a407-0f1dd5251ef9)\" width=\"33\" height=\"636\" style=\"cursor: pointer; fill: url(&quot;#pattern-dotted-4b4ceed1-8127-443f-a407-0f1dd5251ef9&quot;); stroke: rgb(204, 233, 246); stroke-width: 0;\"></rect><clipPath id=\"clip-4b4ceed1-8127-443f-a407-0f1dd5251ef9\"><rect width=\"33\" height=\"636\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dotted-4b4ceed1-8127-443f-a407-0f1dd5251ef9\" patternTransform=\"translate(0, 0) rotate(-56, 0, 0)\" width=\"10mm\" height=\"10mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#cce9f6\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle><circle cx=\"6.25mm\" cy=\"6.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"e254a647-491f-4c73-982f-5dbbcbf696a0\" data-uuid=\"e254a647-491f-4c73-982f-5dbbcbf696a0\" transform=\"translate(157, 437) rotate(9, 213, 31)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-e254a647-491f-4c73-982f-5dbbcbf696a0)\" width=\"426\" height=\"62\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-e254a647-491f-4c73-982f-5dbbcbf696a0&quot;); stroke: rgb(83, 89, 117); stroke-width: 0;\"></rect><clipPath id=\"clip-e254a647-491f-4c73-982f-5dbbcbf696a0\"><rect width=\"426\" height=\"62\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-e254a647-491f-4c73-982f-5dbbcbf696a0\" patternTransform=\"translate(0, 0) rotate(-9, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#535975\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><rect id=\"d146c968-0945-4863-b7fa-940b109799ea\" data-uuid=\"d146c968-0945-4863-b7fa-940b109799ea\" transform=\"translate(66, 1021) rotate(75, 305.5, 11.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-d146c968-0945-4863-b7fa-940b109799ea)\" width=\"611\" height=\"23\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-d146c968-0945-4863-b7fa-940b109799ea&quot;); stroke: rgb(92, 106, 94); stroke-width: 0;\"></rect><clipPath id=\"clip-d146c968-0945-4863-b7fa-940b109799ea\"><rect width=\"611\" height=\"23\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-d146c968-0945-4863-b7fa-940b109799ea\" patternTransform=\"translate(0, 0) rotate(-75, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#5c6a5e\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"792667e6-ecdc-4c87-99f1-83d980cef681\" data-uuid=\"792667e6-ecdc-4c87-99f1-83d980cef681\" transform=\"translate(317, 276) rotate(51, 332.5, 82.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-792667e6-ecdc-4c87-99f1-83d980cef681)\" width=\"665\" height=\"165\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-792667e6-ecdc-4c87-99f1-83d980cef681&quot;); stroke: rgb(149, 137, 8); stroke-width: 0;\"></rect><clipPath id=\"clip-792667e6-ecdc-4c87-99f1-83d980cef681\"><rect width=\"665\" height=\"165\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-792667e6-ecdc-4c87-99f1-83d980cef681\" patternTransform=\"translate(0, 0) rotate(-51, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#958908\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g><g><rect id=\"793c5f53-a06d-4ddb-9570-db8d44390d72\" data-uuid=\"793c5f53-a06d-4ddb-9570-db8d44390d72\" transform=\"translate(147, 115) rotate(49, 137, 299.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-793c5f53-a06d-4ddb-9570-db8d44390d72)\" width=\"274\" height=\"599\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-793c5f53-a06d-4ddb-9570-db8d44390d72&quot;); stroke: rgb(88, 221, 60); stroke-width: 0;\"></rect><clipPath id=\"clip-793c5f53-a06d-4ddb-9570-db8d44390d72\"><rect width=\"274\" height=\"599\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-793c5f53-a06d-4ddb-9570-db8d44390d72\" patternTransform=\"translate(0, 0) rotate(-49, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#58dd3c\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"4a1207ac-4400-483b-a910-4850ed494c93\" data-uuid=\"4a1207ac-4400-483b-a910-4850ed494c93\" transform=\"translate(529, 455) rotate(88, 160.5, 331)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-4a1207ac-4400-483b-a910-4850ed494c93)\" width=\"321\" height=\"662\" style=\"cursor: pointer; fill: url(&quot;#pattern-horizontal_lines-4a1207ac-4400-483b-a910-4850ed494c93&quot;); stroke: rgb(79, 231, 220); stroke-width: 0;\"></rect><clipPath id=\"clip-4a1207ac-4400-483b-a910-4850ed494c93\"><rect width=\"321\" height=\"662\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-horizontal_lines-4a1207ac-4400-483b-a910-4850ed494c93\" patternTransform=\"translate(0, 0) rotate(-88, 0, 0)\" width=\"0.5mm\" height=\"5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#4fe7dc\"></rect><line y1=\"1.25mm\" x1=\"-1mm\" y2=\"1.25mm\" x2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"7768bcc9-8324-4beb-b72b-e0e62a12c664\" data-uuid=\"7768bcc9-8324-4beb-b72b-e0e62a12c664\" transform=\"translate(176, 78) rotate(54, 125.5, 207)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-7768bcc9-8324-4beb-b72b-e0e62a12c664)\" width=\"251\" height=\"414\" style=\"cursor: pointer; fill: url(&quot;#pattern-full-7768bcc9-8324-4beb-b72b-e0e62a12c664&quot;); stroke: rgb(234, 110, 217); stroke-width: 0;\"></rect><clipPath id=\"clip-7768bcc9-8324-4beb-b72b-e0e62a12c664\"><rect width=\"251\" height=\"414\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-full-7768bcc9-8324-4beb-b72b-e0e62a12c664\" patternTransform=\"translate(0, 0) rotate(-54, 0, 0)\" width=\"2.5mm\" height=\"2.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#ea6ed9\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"0.6mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"bb1d3310-6c9d-428f-b1a1-a089661f54a1\" data-uuid=\"bb1d3310-6c9d-428f-b1a1-a089661f54a1\" transform=\"translate(658, 340) rotate(73, 300.5, 19)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-bb1d3310-6c9d-428f-b1a1-a089661f54a1)\" width=\"601\" height=\"38\" style=\"cursor: pointer; fill: url(&quot;#pattern-full-bb1d3310-6c9d-428f-b1a1-a089661f54a1&quot;); stroke: rgb(183, 4, 62); stroke-width: 0;\"></rect><clipPath id=\"clip-bb1d3310-6c9d-428f-b1a1-a089661f54a1\"><rect width=\"601\" height=\"38\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-full-bb1d3310-6c9d-428f-b1a1-a089661f54a1\" patternTransform=\"translate(0, 0) rotate(-73, 0, 0)\" width=\"2.5mm\" height=\"2.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#b7043e\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"0.6mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"7e950cb3-d8ab-40c5-8404-f077a9671d68\" data-uuid=\"7e950cb3-d8ab-40c5-8404-f077a9671d68\" transform=\"translate(407, 1295) rotate(25, 135.5, 27)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-7e950cb3-d8ab-40c5-8404-f077a9671d68)\" width=\"271\" height=\"54\" style=\"cursor: pointer; fill: url(&quot;#pattern-horizontal_lines-7e950cb3-d8ab-40c5-8404-f077a9671d68&quot;); stroke: rgb(191, 16, 20); stroke-width: 0;\"></rect><clipPath id=\"clip-7e950cb3-d8ab-40c5-8404-f077a9671d68\"><rect width=\"271\" height=\"54\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-horizontal_lines-7e950cb3-d8ab-40c5-8404-f077a9671d68\" patternTransform=\"translate(0, 0) rotate(-25, 0, 0)\" width=\"0.5mm\" height=\"5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#bf1014\"></rect><line y1=\"1.25mm\" x1=\"-1mm\" y2=\"1.25mm\" x2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"5ce2357b-45b2-49f9-9e91-259509c39191\" data-uuid=\"5ce2357b-45b2-49f9-9e91-259509c39191\" transform=\"translate(672, 754) rotate(88, 260, 150.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-5ce2357b-45b2-49f9-9e91-259509c39191)\" width=\"520\" height=\"301\" style=\"cursor: pointer; fill: url(&quot;#pattern-full-5ce2357b-45b2-49f9-9e91-259509c39191&quot;); stroke: rgb(158, 225, 189); stroke-width: 0;\"></rect><clipPath id=\"clip-5ce2357b-45b2-49f9-9e91-259509c39191\"><rect width=\"520\" height=\"301\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-full-5ce2357b-45b2-49f9-9e91-259509c39191\" patternTransform=\"translate(0, 0) rotate(-88, 0, 0)\" width=\"2.5mm\" height=\"2.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#9ee1bd\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"0.6mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"ad775a61-9b7e-44c2-a165-bb891b1ffa04\" data-uuid=\"ad775a61-9b7e-44c2-a165-bb891b1ffa04\" transform=\"translate(230, 214) rotate(82, 112, 230.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-ad775a61-9b7e-44c2-a165-bb891b1ffa04)\" width=\"224\" height=\"461\" style=\"cursor: pointer; fill: url(&quot;#pattern-full-ad775a61-9b7e-44c2-a165-bb891b1ffa04&quot;); stroke: rgb(27, 140, 42); stroke-width: 0;\"></rect><clipPath id=\"clip-ad775a61-9b7e-44c2-a165-bb891b1ffa04\"><rect width=\"224\" height=\"461\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-full-ad775a61-9b7e-44c2-a165-bb891b1ffa04\" patternTransform=\"translate(0, 0) rotate(-82, 0, 0)\" width=\"2.5mm\" height=\"2.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#1b8c2a\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"0.6mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><ellipse id=\"057a01b0-a52d-4b4c-9b8e-d62976aeab8c\" data-uuid=\"057a01b0-a52d-4b4c-9b8e-d62976aeab8c\" transform=\"translate(37, 890) rotate(5, 0, 0)\" clip-path=\"url(#clip-057a01b0-a52d-4b4c-9b8e-d62976aeab8c)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"681\" ry=\"357\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-057a01b0-a52d-4b4c-9b8e-d62976aeab8c&quot;); stroke: rgb(59, 239, 120); stroke-width: 0;\"></ellipse><clipPath id=\"clip-057a01b0-a52d-4b4c-9b8e-d62976aeab8c\"><ellipse rx=\"681\" ry=\"357\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-057a01b0-a52d-4b4c-9b8e-d62976aeab8c\" patternTransform=\"translate(0, 0) rotate(-5, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#3bef78\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><ellipse id=\"f408e791-d061-4bbd-9cae-9ff665b63bb6\" data-uuid=\"f408e791-d061-4bbd-9cae-9ff665b63bb6\" transform=\"translate(571, 854) rotate(2, 0, 0)\" clip-path=\"url(#clip-f408e791-d061-4bbd-9cae-9ff665b63bb6)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"650\" ry=\"209\" style=\"cursor: pointer; fill: url(&quot;#pattern-dashed_lines-f408e791-d061-4bbd-9cae-9ff665b63bb6&quot;); stroke: rgb(188, 200, 203); stroke-width: 0;\"></ellipse><clipPath id=\"clip-f408e791-d061-4bbd-9cae-9ff665b63bb6\"><ellipse rx=\"650\" ry=\"209\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dashed_lines-f408e791-d061-4bbd-9cae-9ff665b63bb6\" patternTransform=\"translate(0, 0) rotate(-2, 0, 0)\" width=\"7.62mm\" height=\"7.62mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#bcc8cb\"></rect><line x1=\"1.25mm\" y1=\"1.1mm\" x2=\"1.25mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"6.28mm\" y1=\"1.1mm\" x2=\"6.28mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><ellipse id=\"f9375125-f7bb-4c14-9086-2791ca476d02\" data-uuid=\"f9375125-f7bb-4c14-9086-2791ca476d02\" transform=\"translate(48, 1259) rotate(6, 0, 0)\" clip-path=\"url(#clip-f9375125-f7bb-4c14-9086-2791ca476d02)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"422\" ry=\"436\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-f9375125-f7bb-4c14-9086-2791ca476d02&quot;); stroke: rgb(9, 155, 95); stroke-width: 0;\"></ellipse><clipPath id=\"clip-f9375125-f7bb-4c14-9086-2791ca476d02\"><ellipse rx=\"422\" ry=\"436\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-f9375125-f7bb-4c14-9086-2791ca476d02\" patternTransform=\"translate(0, 0) rotate(-6, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#099b5f\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g><g data-transformable=\"true\" id=\"4b60d6f4-1722-4192-8670-73d3f9f9837e\" data-group=\"1\" data-selectable=\"true\" data-editable=\"1\" data-in_edit_mode=\"false\" transform=\"translate(432, 1002) rotate(0, 0, 0)\"><foreignObject width=\"7\" height=\"58\" style=\"overflow: visible;\"><div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"sc-AxiKw jdpWor label-container\" style=\"position: relative;\"><div class=\"sc-AxjAm fwvwbI label-braille\" xmlns=\"http://www.w3.org/1999/xhtml\" id=\"braille_4b60d6f4-1722-4192-8670-73d3f9f9837e\">Accusantium incidunt delectus ut aut.</div><textarea xmlns=\"http://www.w3.org/1999/xhtml\" disabled=\"\" class=\"sc-AxirZ jkNMaq label-black\" tabindex=\"1\" id=\"editable_4b60d6f4-1722-4192-8670-73d3f9f9837e\" style=\"height: 58px;\">Molestiae quos quia labore qui beatae voluptatum.</textarea></div></foreignObject></g></g>",
+      "objects": [
+        {
+          "uuid": "ae4540d9-c465-4ffe-be70-ebd7e9265e7e",
+          "x": 153,
+          "y": 1109,
+          "width": 296,
+          "height": 191,
+          "fill": "#8a6f22",
+          "pattern": {
+            "template": "horizontal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck sywqt",
+          "angle": 66,
+          "type": "rect"
+        },
+        {
+          "uuid": "efd68f7d-306f-4854-be99-2fe8b4ba9671",
+          "x": 141,
+          "y": 880,
+          "width": 124,
+          "height": 252,
+          "fill": "#f61fe1",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck qdtfb",
+          "angle": 12,
+          "type": "rect"
+        },
+        {
+          "uuid": "5d0016fa-c034-4a59-8735-06512b6820b3",
+          "x": 164,
+          "y": 826,
+          "width": 267,
+          "height": 588,
+          "fill": "#eb31ac",
+          "pattern": {
+            "template": "horizontal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck dzhrt",
+          "angle": 48,
+          "type": "rect"
+        },
+        {
+          "uuid": "ea6eaf22-e025-4dbf-9897-b298dffcb8c4",
+          "x": 112,
+          "y": 23,
+          "width": 577,
+          "height": 358,
+          "fill": "#738e0a",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck zldgv",
+          "angle": 24,
+          "type": "rect"
+        },
+        {
+          "uuid": "d38d8368-09ba-4e67-b5d8-d74474ddce6a",
+          "x": 107,
+          "y": 210,
+          "width": 650,
+          "height": 286,
+          "fill": "#d0fc4c",
+          "pattern": {
+            "template": "full",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck umvbf",
+          "angle": 44,
+          "type": "rect"
+        },
+        {
+          "uuid": "46715ad9-d2fc-46b4-a436-e97ccacb2bb0",
+          "x": 684,
+          "y": 969,
+          "width": 276,
+          "height": 275,
+          "fill": "#ecca9b",
+          "pattern": {
+            "template": "dotted",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck yoiso",
+          "angle": 14,
+          "type": "rect"
+        },
+        {
+          "uuid": "46f7dc1b-f782-4f05-a3e2-16752c2b040c",
+          "x": 380,
+          "y": 1221,
+          "width": 592,
+          "height": 510,
+          "fill": "#fb4d11",
+          "pattern": {
+            "template": "vertical_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck sorgu",
+          "angle": 8,
+          "type": "rect"
+        },
+        {
+          "uuid": "44698249-9492-43d6-86ec-6b03f667498e",
+          "x": 503,
+          "y": 751,
+          "width": 8,
+          "height": 563,
+          "fill": "#0d6f67",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck vcxvi",
+          "angle": 1,
+          "type": "rect"
+        },
+        {
+          "uuid": "682da400-795f-423f-9b7b-5a5db3a57393",
+          "x": 648,
+          "y": 270,
+          "width": 168,
+          "height": 33,
+          "fill": "#c50ddc",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck zuklu",
+          "angle": 59,
+          "type": "rect"
+        },
+        {
+          "uuid": "33a7d8a9-b4e7-48ee-b635-d2884aae7fbc",
+          "x": 621,
+          "y": 1135,
+          "width": 62,
+          "height": 625,
+          "fill": "#9932b8",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck tjfzh",
+          "angle": 50,
+          "type": "rect"
+        },
+        {
+          "uuid": "96dc32d1-87b5-4ee1-9a69-2ba706cbadac",
+          "x": 466,
+          "y": 964,
+          "width": 602,
+          "height": 583,
+          "fill": "#d5cab3",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck bpdyy",
+          "angle": 8,
+          "type": "rect"
+        },
+        {
+          "uuid": "35d5b1c8-7833-420a-8b08-8e5788a756e5",
+          "x": 393,
+          "y": 35,
+          "width": 663,
+          "height": 129,
+          "fill": "#41f4df",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck nwbce",
+          "angle": 68,
+          "type": "rect"
+        },
+        {
+          "uuid": "6372d1cf-8ee7-4bd4-aed1-d945498f40a9",
+          "x": 682,
+          "y": 358,
+          "width": 22,
+          "height": 662,
+          "fill": "#bc6900",
+          "pattern": {
+            "template": "diagonal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck yzook",
+          "angle": 39,
+          "type": "rect"
+        },
+        {
+          "uuid": "7a87bc06-2bea-41ab-b580-27560baced1d",
+          "x": 495,
+          "y": 795,
+          "width": 340,
+          "height": 169,
+          "fill": "#c1715a",
+          "pattern": {
+            "template": "full",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck vrhzk",
+          "angle": 47,
+          "type": "rect"
+        },
+        {
+          "uuid": "96e4912d-26d2-4950-a982-31003cb05878",
+          "x": 165,
+          "y": 667,
+          "width": 592,
+          "height": 56,
+          "fill": "#1a96bf",
+          "pattern": {
+            "template": "horizontal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck qanth",
+          "angle": 43,
+          "type": "rect"
+        },
+        {
+          "uuid": "4b4ceed1-8127-443f-a407-0f1dd5251ef9",
+          "x": 372,
+          "y": 951,
+          "width": 33,
+          "height": 636,
+          "fill": "#cce9f6",
+          "pattern": {
+            "template": "dotted",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck vqmqx",
+          "angle": 56,
+          "type": "rect"
+        },
+        {
+          "uuid": "e254a647-491f-4c73-982f-5dbbcbf696a0",
+          "x": 157,
+          "y": 437,
+          "width": 426,
+          "height": 62,
+          "fill": "#535975",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck qxggq",
+          "angle": 9,
+          "type": "rect"
+        },
+        {
+          "uuid": "d146c968-0945-4863-b7fa-940b109799ea",
+          "x": 66,
+          "y": 1021,
+          "width": 611,
+          "height": 23,
+          "fill": "#5c6a5e",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck xkmst",
+          "angle": 75,
+          "type": "rect"
+        },
+        {
+          "uuid": "792667e6-ecdc-4c87-99f1-83d980cef681",
+          "x": 317,
+          "y": 276,
+          "width": 665,
+          "height": 165,
+          "fill": "#958908",
+          "pattern": {
+            "template": "diagonal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck vnbnk",
+          "angle": 51,
+          "type": "rect"
+        },
+        {
+          "uuid": "793c5f53-a06d-4ddb-9570-db8d44390d72",
+          "x": 147,
+          "y": 115,
+          "width": 274,
+          "height": 599,
+          "fill": "#58dd3c",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck othzt",
+          "angle": 49,
+          "type": "rect"
+        },
+        {
+          "uuid": "4a1207ac-4400-483b-a910-4850ed494c93",
+          "x": 529,
+          "y": 455,
+          "width": 321,
+          "height": 662,
+          "fill": "#4fe7dc",
+          "pattern": {
+            "template": "horizontal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck dcawh",
+          "angle": 88,
+          "type": "rect"
+        },
+        {
+          "uuid": "7768bcc9-8324-4beb-b72b-e0e62a12c664",
+          "x": 176,
+          "y": 78,
+          "width": 251,
+          "height": 414,
+          "fill": "#ea6ed9",
+          "pattern": {
+            "template": "full",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck thmgv",
+          "angle": 54,
+          "type": "rect"
+        },
+        {
+          "uuid": "bb1d3310-6c9d-428f-b1a1-a089661f54a1",
+          "x": 658,
+          "y": 340,
+          "width": 601,
+          "height": 38,
+          "fill": "#b7043e",
+          "pattern": {
+            "template": "full",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck uniwt",
+          "angle": 73,
+          "type": "rect"
+        },
+        {
+          "uuid": "7e950cb3-d8ab-40c5-8404-f077a9671d68",
+          "x": 407,
+          "y": 1295,
+          "width": 271,
+          "height": 54,
+          "fill": "#bf1014",
+          "pattern": {
+            "template": "horizontal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck dcjnf",
+          "angle": 25,
+          "type": "rect"
+        },
+        {
+          "uuid": "5ce2357b-45b2-49f9-9e91-259509c39191",
+          "x": 672,
+          "y": 754,
+          "width": 520,
+          "height": 301,
+          "fill": "#9ee1bd",
+          "pattern": {
+            "template": "full",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck eglqx",
+          "angle": 88,
+          "type": "rect"
+        },
+        {
+          "uuid": "ad775a61-9b7e-44c2-a165-bb891b1ffa04",
+          "x": 230,
+          "y": 214,
+          "width": 224,
+          "height": 461,
+          "fill": "#1b8c2a",
+          "pattern": {
+            "template": "full",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck hhkif",
+          "angle": 82,
+          "type": "rect"
+        },
+        {
+          "uuid": "057a01b0-a52d-4b4c-9b8e-d62976aeab8c",
+          "x": 37,
+          "y": 890,
+          "width": 681,
+          "height": 357,
+          "fill": "#3bef78",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse pmjsp",
+          "angle": 5,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "f408e791-d061-4bbd-9cae-9ff665b63bb6",
+          "x": 571,
+          "y": 854,
+          "width": 650,
+          "height": 209,
+          "fill": "#bcc8cb",
+          "pattern": {
+            "template": "dashed_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse ytawv",
+          "angle": 2,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "f9375125-f7bb-4c14-9086-2791ca476d02",
+          "x": 48,
+          "y": 1259,
+          "width": 422,
+          "height": 436,
+          "fill": "#099b5f",
+          "pattern": {
+            "template": "diagonal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse eydhv",
+          "angle": 6,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "4b60d6f4-1722-4192-8670-73d3f9f9837e",
+          "x": 432,
+          "y": 1002,
+          "width": 7,
+          "height": 58,
+          "text": "Molestiae quos quia labore qui beatae voluptatum.",
+          "braille": "Accusantium incidunt delectus ut aut.",
+          "moniker": "Beschriftung",
+          "displayDots": true,
+          "displayLetters": true,
+          "editMode": false,
+          "isKey": false,
+          "keyVal": "",
+          "fullCharPrefix": false,
+          "border": false,
+          "type": "label"
+        }
+      ]
+    },
+    {
+      "name": "Seite 3",
+      "text": false,
+      "rendering": "<g id=\"page-1\"><rect data-role=\"CANVAS\" data-pageidx=\"1\" x=\"0\" y=\"0\" width=\"210mm\" height=\"297mm\" stroke=\"rgba(0,0,0,0.0)\" fill=\"white\"></rect><g><rect id=\"62773fc1-c29f-4d47-880f-9507606fccba\" data-uuid=\"62773fc1-c29f-4d47-880f-9507606fccba\" transform=\"translate(138, 96) rotate(30, 293.5, 66.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-62773fc1-c29f-4d47-880f-9507606fccba)\" width=\"587\" height=\"133\" style=\"cursor: pointer; fill: url(&quot;#pattern-vertical_lines-62773fc1-c29f-4d47-880f-9507606fccba&quot;); stroke: rgb(167, 192, 99); stroke-width: 0;\"></rect><clipPath id=\"clip-62773fc1-c29f-4d47-880f-9507606fccba\"><rect width=\"587\" height=\"133\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-vertical_lines-62773fc1-c29f-4d47-880f-9507606fccba\" patternTransform=\"translate(0, 0) rotate(-30, 0, 0)\" width=\"5mm\" height=\"0.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#a7c063\"></rect><line x1=\"1.25mm\" y1=\"-1mm\" x2=\"1.25mm\" y2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"2d759f04-18ad-4b60-b919-0b6fd0323875\" data-uuid=\"2d759f04-18ad-4b60-b919-0b6fd0323875\" transform=\"translate(258, 374) rotate(80, 9.5, 328)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-2d759f04-18ad-4b60-b919-0b6fd0323875)\" width=\"19\" height=\"656\" style=\"cursor: pointer; fill: url(&quot;#pattern-dotted-2d759f04-18ad-4b60-b919-0b6fd0323875&quot;); stroke: rgb(52, 95, 99); stroke-width: 0;\"></rect><clipPath id=\"clip-2d759f04-18ad-4b60-b919-0b6fd0323875\"><rect width=\"19\" height=\"656\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dotted-2d759f04-18ad-4b60-b919-0b6fd0323875\" patternTransform=\"translate(0, 0) rotate(-80, 0, 0)\" width=\"10mm\" height=\"10mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#345f63\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle><circle cx=\"6.25mm\" cy=\"6.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"c2aff817-a8ab-4a36-83c5-b4630f19b31a\" data-uuid=\"c2aff817-a8ab-4a36-83c5-b4630f19b31a\" transform=\"translate(453, 490) rotate(58, 63, 81.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-c2aff817-a8ab-4a36-83c5-b4630f19b31a)\" width=\"126\" height=\"163\" style=\"cursor: pointer; fill: url(&quot;#pattern-horizontal_lines-c2aff817-a8ab-4a36-83c5-b4630f19b31a&quot;); stroke: rgb(199, 215, 70); stroke-width: 0;\"></rect><clipPath id=\"clip-c2aff817-a8ab-4a36-83c5-b4630f19b31a\"><rect width=\"126\" height=\"163\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-horizontal_lines-c2aff817-a8ab-4a36-83c5-b4630f19b31a\" patternTransform=\"translate(0, 0) rotate(-58, 0, 0)\" width=\"0.5mm\" height=\"5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#c7d746\"></rect><line y1=\"1.25mm\" x1=\"-1mm\" y2=\"1.25mm\" x2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"2aff4c47-67ef-4296-9e90-78cd21a22cac\" data-uuid=\"2aff4c47-67ef-4296-9e90-78cd21a22cac\" transform=\"translate(505, 854) rotate(9, 342, 309.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-2aff4c47-67ef-4296-9e90-78cd21a22cac)\" width=\"684\" height=\"619\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-2aff4c47-67ef-4296-9e90-78cd21a22cac&quot;); stroke: rgb(202, 123, 221); stroke-width: 0;\"></rect><clipPath id=\"clip-2aff4c47-67ef-4296-9e90-78cd21a22cac\"><rect width=\"684\" height=\"619\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-2aff4c47-67ef-4296-9e90-78cd21a22cac\" patternTransform=\"translate(0, 0) rotate(-9, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#ca7bdd\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"59429eef-6264-45d2-a72f-bffaf331c0bf\" data-uuid=\"59429eef-6264-45d2-a72f-bffaf331c0bf\" transform=\"translate(342, 367) rotate(28, 31.5, 1.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-59429eef-6264-45d2-a72f-bffaf331c0bf)\" width=\"63\" height=\"3\" style=\"cursor: pointer; fill: url(&quot;#pattern-dotted-59429eef-6264-45d2-a72f-bffaf331c0bf&quot;); stroke: rgb(14, 84, 182); stroke-width: 0;\"></rect><clipPath id=\"clip-59429eef-6264-45d2-a72f-bffaf331c0bf\"><rect width=\"63\" height=\"3\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dotted-59429eef-6264-45d2-a72f-bffaf331c0bf\" patternTransform=\"translate(0, 0) rotate(-28, 0, 0)\" width=\"10mm\" height=\"10mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#0e54b6\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle><circle cx=\"6.25mm\" cy=\"6.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"8d225c56-f865-4641-a3b5-372d0dee2829\" data-uuid=\"8d225c56-f865-4641-a3b5-372d0dee2829\" transform=\"translate(15, 1246) rotate(59, 314, 342)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-8d225c56-f865-4641-a3b5-372d0dee2829)\" width=\"628\" height=\"684\" style=\"cursor: pointer; fill: url(&quot;#pattern-dashed_lines-8d225c56-f865-4641-a3b5-372d0dee2829&quot;); stroke: rgb(234, 248, 91); stroke-width: 0;\"></rect><clipPath id=\"clip-8d225c56-f865-4641-a3b5-372d0dee2829\"><rect width=\"628\" height=\"684\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dashed_lines-8d225c56-f865-4641-a3b5-372d0dee2829\" patternTransform=\"translate(0, 0) rotate(-59, 0, 0)\" width=\"7.62mm\" height=\"7.62mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#eaf85b\"></rect><line x1=\"1.25mm\" y1=\"1.1mm\" x2=\"1.25mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"6.28mm\" y1=\"1.1mm\" x2=\"6.28mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"a0fb5e71-0001-4c38-88c3-5cfdbc36508b\" data-uuid=\"a0fb5e71-0001-4c38-88c3-5cfdbc36508b\" transform=\"translate(475, 86) rotate(79, 296, 155)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-a0fb5e71-0001-4c38-88c3-5cfdbc36508b)\" width=\"592\" height=\"310\" style=\"cursor: pointer; fill: url(&quot;#pattern-dotted-a0fb5e71-0001-4c38-88c3-5cfdbc36508b&quot;); stroke: rgb(57, 14, 134); stroke-width: 0;\"></rect><clipPath id=\"clip-a0fb5e71-0001-4c38-88c3-5cfdbc36508b\"><rect width=\"592\" height=\"310\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dotted-a0fb5e71-0001-4c38-88c3-5cfdbc36508b\" patternTransform=\"translate(0, 0) rotate(-79, 0, 0)\" width=\"10mm\" height=\"10mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#390e86\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle><circle cx=\"6.25mm\" cy=\"6.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"ef960d80-0be2-4c71-9a27-e6d9217314fe\" data-uuid=\"ef960d80-0be2-4c71-9a27-e6d9217314fe\" transform=\"translate(76, 735) rotate(18, 87, 126.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-ef960d80-0be2-4c71-9a27-e6d9217314fe)\" width=\"174\" height=\"253\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-ef960d80-0be2-4c71-9a27-e6d9217314fe&quot;); stroke: rgb(180, 14, 182); stroke-width: 0;\"></rect><clipPath id=\"clip-ef960d80-0be2-4c71-9a27-e6d9217314fe\"><rect width=\"174\" height=\"253\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-ef960d80-0be2-4c71-9a27-e6d9217314fe\" patternTransform=\"translate(0, 0) rotate(-18, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#b40eb6\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><rect id=\"99186425-250a-4635-83a3-edcec9943f2c\" data-uuid=\"99186425-250a-4635-83a3-edcec9943f2c\" transform=\"translate(153, 11) rotate(7, 61, 324)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-99186425-250a-4635-83a3-edcec9943f2c)\" width=\"122\" height=\"648\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-99186425-250a-4635-83a3-edcec9943f2c&quot;); stroke: rgb(101, 83, 190); stroke-width: 0;\"></rect><clipPath id=\"clip-99186425-250a-4635-83a3-edcec9943f2c\"><rect width=\"122\" height=\"648\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-99186425-250a-4635-83a3-edcec9943f2c\" patternTransform=\"translate(0, 0) rotate(-7, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#6553be\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"46faef2e-7a93-45e0-b266-f005959a5ce0\" data-uuid=\"46faef2e-7a93-45e0-b266-f005959a5ce0\" transform=\"translate(94, 46) rotate(65, 252, 197)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-46faef2e-7a93-45e0-b266-f005959a5ce0)\" width=\"504\" height=\"394\" style=\"cursor: pointer; fill: url(&quot;#pattern-vertical_lines-46faef2e-7a93-45e0-b266-f005959a5ce0&quot;); stroke: rgb(121, 163, 166); stroke-width: 0;\"></rect><clipPath id=\"clip-46faef2e-7a93-45e0-b266-f005959a5ce0\"><rect width=\"504\" height=\"394\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-vertical_lines-46faef2e-7a93-45e0-b266-f005959a5ce0\" patternTransform=\"translate(0, 0) rotate(-65, 0, 0)\" width=\"5mm\" height=\"0.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#79a3a6\"></rect><line x1=\"1.25mm\" y1=\"-1mm\" x2=\"1.25mm\" y2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"9bc90e12-60d2-4ea9-8997-c792f4c2a2b6\" data-uuid=\"9bc90e12-60d2-4ea9-8997-c792f4c2a2b6\" transform=\"translate(184, 325) rotate(89, 76.5, 156)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-9bc90e12-60d2-4ea9-8997-c792f4c2a2b6)\" width=\"153\" height=\"312\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-9bc90e12-60d2-4ea9-8997-c792f4c2a2b6&quot;); stroke: rgb(81, 243, 136); stroke-width: 0;\"></rect><clipPath id=\"clip-9bc90e12-60d2-4ea9-8997-c792f4c2a2b6\"><rect width=\"153\" height=\"312\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-9bc90e12-60d2-4ea9-8997-c792f4c2a2b6\" patternTransform=\"translate(0, 0) rotate(-89, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#51f388\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g><g><rect id=\"18a70b86-5a49-4a5b-8b2d-2c2b56dde2b6\" data-uuid=\"18a70b86-5a49-4a5b-8b2d-2c2b56dde2b6\" transform=\"translate(535, 1299) rotate(88, 139.5, 198)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-18a70b86-5a49-4a5b-8b2d-2c2b56dde2b6)\" width=\"279\" height=\"396\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-18a70b86-5a49-4a5b-8b2d-2c2b56dde2b6&quot;); stroke: rgb(39, 222, 223); stroke-width: 0;\"></rect><clipPath id=\"clip-18a70b86-5a49-4a5b-8b2d-2c2b56dde2b6\"><rect width=\"279\" height=\"396\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-18a70b86-5a49-4a5b-8b2d-2c2b56dde2b6\" patternTransform=\"translate(0, 0) rotate(-88, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#27dedf\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g><g><rect id=\"e56586e6-7240-4cee-aa5d-07023e745c4b\" data-uuid=\"e56586e6-7240-4cee-aa5d-07023e745c4b\" transform=\"translate(198, 469) rotate(55, 196.5, 131)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-e56586e6-7240-4cee-aa5d-07023e745c4b)\" width=\"393\" height=\"262\" style=\"cursor: pointer; fill: url(&quot;#pattern-dashed_lines-e56586e6-7240-4cee-aa5d-07023e745c4b&quot;); stroke: rgb(142, 147, 119); stroke-width: 0;\"></rect><clipPath id=\"clip-e56586e6-7240-4cee-aa5d-07023e745c4b\"><rect width=\"393\" height=\"262\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dashed_lines-e56586e6-7240-4cee-aa5d-07023e745c4b\" patternTransform=\"translate(0, 0) rotate(-55, 0, 0)\" width=\"7.62mm\" height=\"7.62mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#8e9377\"></rect><line x1=\"1.25mm\" y1=\"1.1mm\" x2=\"1.25mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"6.28mm\" y1=\"1.1mm\" x2=\"6.28mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"20186e56-6328-4b1a-9235-7e63aa5952e2\" data-uuid=\"20186e56-6328-4b1a-9235-7e63aa5952e2\" transform=\"translate(374, 1280) rotate(83, 67, 71)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-20186e56-6328-4b1a-9235-7e63aa5952e2)\" width=\"134\" height=\"142\" style=\"cursor: pointer; fill: url(&quot;#pattern-full-20186e56-6328-4b1a-9235-7e63aa5952e2&quot;); stroke: rgb(68, 158, 179); stroke-width: 0;\"></rect><clipPath id=\"clip-20186e56-6328-4b1a-9235-7e63aa5952e2\"><rect width=\"134\" height=\"142\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-full-20186e56-6328-4b1a-9235-7e63aa5952e2\" patternTransform=\"translate(0, 0) rotate(-83, 0, 0)\" width=\"2.5mm\" height=\"2.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#449eb3\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"0.6mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><rect id=\"909394ca-5b9a-484b-af88-b2d04a58ea1b\" data-uuid=\"909394ca-5b9a-484b-af88-b2d04a58ea1b\" transform=\"translate(623, 1217) rotate(61, 156, 223)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-909394ca-5b9a-484b-af88-b2d04a58ea1b)\" width=\"312\" height=\"446\" style=\"cursor: pointer; fill: url(&quot;#pattern-vertical_lines-909394ca-5b9a-484b-af88-b2d04a58ea1b&quot;); stroke: rgb(118, 232, 45); stroke-width: 0;\"></rect><clipPath id=\"clip-909394ca-5b9a-484b-af88-b2d04a58ea1b\"><rect width=\"312\" height=\"446\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-vertical_lines-909394ca-5b9a-484b-af88-b2d04a58ea1b\" patternTransform=\"translate(0, 0) rotate(-61, 0, 0)\" width=\"5mm\" height=\"0.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#76e82d\"></rect><line x1=\"1.25mm\" y1=\"-1mm\" x2=\"1.25mm\" y2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"bf561c3d-ec13-4a79-981c-aa772f9bd451\" data-uuid=\"bf561c3d-ec13-4a79-981c-aa772f9bd451\" transform=\"translate(240, 743) rotate(13, 73.5, 98)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-bf561c3d-ec13-4a79-981c-aa772f9bd451)\" width=\"147\" height=\"196\" style=\"cursor: pointer; fill: url(&quot;#pattern-vertical_lines-bf561c3d-ec13-4a79-981c-aa772f9bd451&quot;); stroke: rgb(235, 89, 59); stroke-width: 0;\"></rect><clipPath id=\"clip-bf561c3d-ec13-4a79-981c-aa772f9bd451\"><rect width=\"147\" height=\"196\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-vertical_lines-bf561c3d-ec13-4a79-981c-aa772f9bd451\" patternTransform=\"translate(0, 0) rotate(-13, 0, 0)\" width=\"5mm\" height=\"0.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#eb593b\"></rect><line x1=\"1.25mm\" y1=\"-1mm\" x2=\"1.25mm\" y2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"fb69ea4c-1ba2-4045-bd21-23611006be95\" data-uuid=\"fb69ea4c-1ba2-4045-bd21-23611006be95\" transform=\"translate(570, 657) rotate(42, 61, 317.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-fb69ea4c-1ba2-4045-bd21-23611006be95)\" width=\"122\" height=\"635\" style=\"cursor: pointer; fill: url(&quot;#pattern-vertical_lines-fb69ea4c-1ba2-4045-bd21-23611006be95&quot;); stroke: rgb(237, 78, 224); stroke-width: 0;\"></rect><clipPath id=\"clip-fb69ea4c-1ba2-4045-bd21-23611006be95\"><rect width=\"122\" height=\"635\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-vertical_lines-fb69ea4c-1ba2-4045-bd21-23611006be95\" patternTransform=\"translate(0, 0) rotate(-42, 0, 0)\" width=\"5mm\" height=\"0.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#ed4ee0\"></rect><line x1=\"1.25mm\" y1=\"-1mm\" x2=\"1.25mm\" y2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"9c378506-d72a-459c-8435-5cc098577eab\" data-uuid=\"9c378506-d72a-459c-8435-5cc098577eab\" transform=\"translate(433, 287) rotate(19, 11, 284.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-9c378506-d72a-459c-8435-5cc098577eab)\" width=\"22\" height=\"569\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-9c378506-d72a-459c-8435-5cc098577eab&quot;); stroke: rgb(57, 200, 49); stroke-width: 0;\"></rect><clipPath id=\"clip-9c378506-d72a-459c-8435-5cc098577eab\"><rect width=\"22\" height=\"569\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-9c378506-d72a-459c-8435-5cc098577eab\" patternTransform=\"translate(0, 0) rotate(-19, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#39c831\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g><g><rect id=\"7621eca9-9711-4711-b620-b2bedafa2bb5\" data-uuid=\"7621eca9-9711-4711-b620-b2bedafa2bb5\" transform=\"translate(9, 982) rotate(57, 173.5, 208)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-7621eca9-9711-4711-b620-b2bedafa2bb5)\" width=\"347\" height=\"416\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-7621eca9-9711-4711-b620-b2bedafa2bb5&quot;); stroke: rgb(123, 37, 64); stroke-width: 0;\"></rect><clipPath id=\"clip-7621eca9-9711-4711-b620-b2bedafa2bb5\"><rect width=\"347\" height=\"416\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-7621eca9-9711-4711-b620-b2bedafa2bb5\" patternTransform=\"translate(0, 0) rotate(-57, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#7b2540\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><rect id=\"cac2f55e-ae29-4e19-812a-7f40e623e49d\" data-uuid=\"cac2f55e-ae29-4e19-812a-7f40e623e49d\" transform=\"translate(236, 299) rotate(35, 158.5, 280)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-cac2f55e-ae29-4e19-812a-7f40e623e49d)\" width=\"317\" height=\"560\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-cac2f55e-ae29-4e19-812a-7f40e623e49d&quot;); stroke: rgb(104, 89, 105); stroke-width: 0;\"></rect><clipPath id=\"clip-cac2f55e-ae29-4e19-812a-7f40e623e49d\"><rect width=\"317\" height=\"560\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-cac2f55e-ae29-4e19-812a-7f40e623e49d\" patternTransform=\"translate(0, 0) rotate(-35, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#685969\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><rect id=\"f0108bc1-5e19-4896-b84f-94401c84df2e\" data-uuid=\"f0108bc1-5e19-4896-b84f-94401c84df2e\" transform=\"translate(382, 328) rotate(83, 197.5, 224)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-f0108bc1-5e19-4896-b84f-94401c84df2e)\" width=\"395\" height=\"448\" style=\"cursor: pointer; fill: url(&quot;#pattern-dashed_lines-f0108bc1-5e19-4896-b84f-94401c84df2e&quot;); stroke: rgb(185, 99, 33); stroke-width: 0;\"></rect><clipPath id=\"clip-f0108bc1-5e19-4896-b84f-94401c84df2e\"><rect width=\"395\" height=\"448\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dashed_lines-f0108bc1-5e19-4896-b84f-94401c84df2e\" patternTransform=\"translate(0, 0) rotate(-83, 0, 0)\" width=\"7.62mm\" height=\"7.62mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#b96321\"></rect><line x1=\"1.25mm\" y1=\"1.1mm\" x2=\"1.25mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"6.28mm\" y1=\"1.1mm\" x2=\"6.28mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><rect id=\"53916b70-6c30-49c4-9f78-ed26832124a5\" data-uuid=\"53916b70-6c30-49c4-9f78-ed26832124a5\" transform=\"translate(402, 759) rotate(8, 104, 172.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-53916b70-6c30-49c4-9f78-ed26832124a5)\" width=\"208\" height=\"345\" style=\"cursor: pointer; fill: url(&quot;#pattern-horizontal_lines-53916b70-6c30-49c4-9f78-ed26832124a5&quot;); stroke: rgb(156, 114, 19); stroke-width: 0;\"></rect><clipPath id=\"clip-53916b70-6c30-49c4-9f78-ed26832124a5\"><rect width=\"208\" height=\"345\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-horizontal_lines-53916b70-6c30-49c4-9f78-ed26832124a5\" patternTransform=\"translate(0, 0) rotate(-8, 0, 0)\" width=\"0.5mm\" height=\"5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#9c7213\"></rect><line y1=\"1.25mm\" x1=\"-1mm\" y2=\"1.25mm\" x2=\"1.5mm\" stroke=\"black\" stroke-width=\"1.3mm\"></line></pattern></g><g><rect id=\"08c8d72b-a6d6-434e-a0fa-b8c84cf0086b\" data-uuid=\"08c8d72b-a6d6-434e-a0fa-b8c84cf0086b\" transform=\"translate(640, 1192) rotate(43, 321.5, 73.5)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-08c8d72b-a6d6-434e-a0fa-b8c84cf0086b)\" width=\"643\" height=\"147\" style=\"cursor: pointer; fill: url(&quot;#pattern-dotted-08c8d72b-a6d6-434e-a0fa-b8c84cf0086b&quot;); stroke: rgb(145, 255, 147); stroke-width: 0;\"></rect><clipPath id=\"clip-08c8d72b-a6d6-434e-a0fa-b8c84cf0086b\"><rect width=\"643\" height=\"147\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dotted-08c8d72b-a6d6-434e-a0fa-b8c84cf0086b\" patternTransform=\"translate(0, 0) rotate(-43, 0, 0)\" width=\"10mm\" height=\"10mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#91ff93\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle><circle cx=\"6.25mm\" cy=\"6.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><ellipse id=\"663883b5-7672-4359-b2b4-8491689f18fc\" data-uuid=\"663883b5-7672-4359-b2b4-8491689f18fc\" transform=\"translate(52, 424) rotate(29, 0, 0)\" clip-path=\"url(#clip-663883b5-7672-4359-b2b4-8491689f18fc)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"212\" ry=\"429\" style=\"cursor: pointer; fill: url(&quot;#pattern-grid-663883b5-7672-4359-b2b4-8491689f18fc&quot;); stroke: rgb(168, 7, 182); stroke-width: 0;\"></ellipse><clipPath id=\"clip-663883b5-7672-4359-b2b4-8491689f18fc\"><ellipse rx=\"212\" ry=\"429\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-grid-663883b5-7672-4359-b2b4-8491689f18fc\" patternTransform=\"translate(0, 0) rotate(-29, 0, 0)\" width=\"7.5mm\" height=\"7.5mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#a807b6\"></rect><line x1=\"3.75mm\" y1=\"-1mm\" x2=\"3.75mm\" y2=\"8.5mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"-1mm\" y1=\"3.75mm\" x2=\"8.5mm\" y2=\"3.75mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><ellipse id=\"61deaa5a-4e67-4e3d-b40a-630709efb18a\" data-uuid=\"61deaa5a-4e67-4e3d-b40a-630709efb18a\" transform=\"translate(260, 109) rotate(85, 0, 0)\" clip-path=\"url(#clip-61deaa5a-4e67-4e3d-b40a-630709efb18a)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"248\" ry=\"293\" style=\"cursor: pointer; fill: url(&quot;#pattern-dotted-61deaa5a-4e67-4e3d-b40a-630709efb18a&quot;); stroke: rgb(104, 51, 51); stroke-width: 0;\"></ellipse><clipPath id=\"clip-61deaa5a-4e67-4e3d-b40a-630709efb18a\"><ellipse rx=\"248\" ry=\"293\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dotted-61deaa5a-4e67-4e3d-b40a-630709efb18a\" patternTransform=\"translate(0, 0) rotate(-85, 0, 0)\" width=\"10mm\" height=\"10mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#683333\"></rect><circle cx=\"1.25mm\" cy=\"1.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle><circle cx=\"6.25mm\" cy=\"6.25mm\" r=\"1mm\" fill=\"black\" stroke=\"none\"></circle></pattern></g><g><ellipse id=\"a37e9c04-3918-4485-bb0d-4dd9f4cc45e2\" data-uuid=\"a37e9c04-3918-4485-bb0d-4dd9f4cc45e2\" transform=\"translate(425, 823) rotate(73, 0, 0)\" clip-path=\"url(#clip-a37e9c04-3918-4485-bb0d-4dd9f4cc45e2)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"74\" ry=\"114\" style=\"cursor: pointer; fill: url(&quot;#pattern-dashed_lines-a37e9c04-3918-4485-bb0d-4dd9f4cc45e2&quot;); stroke: rgb(212, 85, 79); stroke-width: 0;\"></ellipse><clipPath id=\"clip-a37e9c04-3918-4485-bb0d-4dd9f4cc45e2\"><ellipse rx=\"74\" ry=\"114\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dashed_lines-a37e9c04-3918-4485-bb0d-4dd9f4cc45e2\" patternTransform=\"translate(0, 0) rotate(-73, 0, 0)\" width=\"7.62mm\" height=\"7.62mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#d4554f\"></rect><line x1=\"1.25mm\" y1=\"1.1mm\" x2=\"1.25mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"6.28mm\" y1=\"1.1mm\" x2=\"6.28mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g><ellipse id=\"e91fb00f-f22b-47fa-9e79-27362fd215b1\" data-uuid=\"e91fb00f-f22b-47fa-9e79-27362fd215b1\" transform=\"translate(95, 194) rotate(85, 0, 0)\" clip-path=\"url(#clip-e91fb00f-f22b-47fa-9e79-27362fd215b1)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"669\" ry=\"234\" style=\"cursor: pointer; fill: url(&quot;#pattern-stair-e91fb00f-f22b-47fa-9e79-27362fd215b1&quot;); stroke: rgb(230, 33, 252); stroke-width: 0;\"></ellipse><clipPath id=\"clip-e91fb00f-f22b-47fa-9e79-27362fd215b1\"><ellipse rx=\"669\" ry=\"234\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-stair-e91fb00f-f22b-47fa-9e79-27362fd215b1\" patternTransform=\"translate(0, 0) rotate(-85, 0, 0)\" width=\"15mm\" height=\"15mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#e621fc\"></rect><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"15mm\" height=\"15mm\" viewBox=\"0 0 15 15\"><polyline points=\"-1,3.75 3.75,3.75 3.75,-1\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline><polyline points=\"3.75,15.8 3.75,11.25 11.25,11.25 11.25,3.75 15.8,3.75\" stroke=\"black\" stroke-width=\"1.8\" fill=\"none\"></polyline></svg></pattern></g><g><ellipse id=\"a234d736-9a4c-49c8-ad90-bd6ac1a31a5d\" data-uuid=\"a234d736-9a4c-49c8-ad90-bd6ac1a31a5d\" transform=\"translate(638, 1146) rotate(61, 0, 0)\" clip-path=\"url(#clip-a234d736-9a4c-49c8-ad90-bd6ac1a31a5d)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"11\" ry=\"38\" style=\"cursor: pointer; fill: url(&quot;#pattern-dashed_lines-a234d736-9a4c-49c8-ad90-bd6ac1a31a5d&quot;); stroke: rgb(106, 133, 116); stroke-width: 0;\"></ellipse><clipPath id=\"clip-a234d736-9a4c-49c8-ad90-bd6ac1a31a5d\"><ellipse rx=\"11\" ry=\"38\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-dashed_lines-a234d736-9a4c-49c8-ad90-bd6ac1a31a5d\" patternTransform=\"translate(0, 0) rotate(-61, 0, 0)\" width=\"7.62mm\" height=\"7.62mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#6a8574\"></rect><line x1=\"1.25mm\" y1=\"1.1mm\" x2=\"1.25mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line><line x1=\"6.28mm\" y1=\"1.1mm\" x2=\"6.28mm\" y2=\"6mm\" stroke=\"black\" stroke-width=\"1mm\"></line></pattern></g><g data-transformable=\"true\" id=\"76932f84-5ffc-489e-9850-e5c6e4ceecd7\" data-group=\"1\" data-selectable=\"true\" data-editable=\"1\" data-in_edit_mode=\"false\" transform=\"translate(336, 579) rotate(0, 0, 0)\"><foreignObject width=\"21\" height=\"18\" style=\"overflow: visible;\"><div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"sc-AxiKw jdpWor label-container\" style=\"position: relative;\"><div class=\"sc-AxjAm fwvwbI label-braille\" xmlns=\"http://www.w3.org/1999/xhtml\" id=\"braille_76932f84-5ffc-489e-9850-e5c6e4ceecd7\">Sunt soluta incidunt et.</div><textarea xmlns=\"http://www.w3.org/1999/xhtml\" disabled=\"\" class=\"sc-AxirZ jkNMaq label-black\" tabindex=\"1\" id=\"editable_76932f84-5ffc-489e-9850-e5c6e4ceecd7\" style=\"height: 18px;\">Quo error dolores omnis quasi laborum qui voluptatem odio.</textarea></div></foreignObject></g></g>",
+      "objects": [
+        {
+          "uuid": "62773fc1-c29f-4d47-880f-9507606fccba",
+          "x": 138,
+          "y": 96,
+          "width": 587,
+          "height": 133,
+          "fill": "#a7c063",
+          "pattern": {
+            "template": "vertical_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck pluvb",
+          "angle": 30,
+          "type": "rect"
+        },
+        {
+          "uuid": "2d759f04-18ad-4b60-b919-0b6fd0323875",
+          "x": 258,
+          "y": 374,
+          "width": 19,
+          "height": 656,
+          "fill": "#345f63",
+          "pattern": {
+            "template": "dotted",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck sudnt",
+          "angle": 80,
+          "type": "rect"
+        },
+        {
+          "uuid": "c2aff817-a8ab-4a36-83c5-b4630f19b31a",
+          "x": 453,
+          "y": 490,
+          "width": 126,
+          "height": 163,
+          "fill": "#c7d746",
+          "pattern": {
+            "template": "horizontal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck mwzbi",
+          "angle": 58,
+          "type": "rect"
+        },
+        {
+          "uuid": "2aff4c47-67ef-4296-9e90-78cd21a22cac",
+          "x": 505,
+          "y": 854,
+          "width": 684,
+          "height": 619,
+          "fill": "#ca7bdd",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck wjzmx",
+          "angle": 9,
+          "type": "rect"
+        },
+        {
+          "uuid": "59429eef-6264-45d2-a72f-bffaf331c0bf",
+          "x": 342,
+          "y": 367,
+          "width": 63,
+          "height": 3,
+          "fill": "#0e54b6",
+          "pattern": {
+            "template": "dotted",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck skxej",
+          "angle": 28,
+          "type": "rect"
+        },
+        {
+          "uuid": "8d225c56-f865-4641-a3b5-372d0dee2829",
+          "x": 15,
+          "y": 1246,
+          "width": 628,
+          "height": 684,
+          "fill": "#eaf85b",
+          "pattern": {
+            "template": "dashed_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck cpdiu",
+          "angle": 59,
+          "type": "rect"
+        },
+        {
+          "uuid": "a0fb5e71-0001-4c38-88c3-5cfdbc36508b",
+          "x": 475,
+          "y": 86,
+          "width": 592,
+          "height": 310,
+          "fill": "#390e86",
+          "pattern": {
+            "template": "dotted",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck qffcm",
+          "angle": 79,
+          "type": "rect"
+        },
+        {
+          "uuid": "ef960d80-0be2-4c71-9a27-e6d9217314fe",
+          "x": 76,
+          "y": 735,
+          "width": 174,
+          "height": 253,
+          "fill": "#b40eb6",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck bzvkh",
+          "angle": 18,
+          "type": "rect"
+        },
+        {
+          "uuid": "99186425-250a-4635-83a3-edcec9943f2c",
+          "x": 153,
+          "y": 11,
+          "width": 122,
+          "height": 648,
+          "fill": "#6553be",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck erwhp",
+          "angle": 7,
+          "type": "rect"
+        },
+        {
+          "uuid": "46faef2e-7a93-45e0-b266-f005959a5ce0",
+          "x": 94,
+          "y": 46,
+          "width": 504,
+          "height": 394,
+          "fill": "#79a3a6",
+          "pattern": {
+            "template": "vertical_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck dwltg",
+          "angle": 65,
+          "type": "rect"
+        },
+        {
+          "uuid": "9bc90e12-60d2-4ea9-8997-c792f4c2a2b6",
+          "x": 184,
+          "y": 325,
+          "width": 153,
+          "height": 312,
+          "fill": "#51f388",
+          "pattern": {
+            "template": "diagonal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck dhlel",
+          "angle": 89,
+          "type": "rect"
+        },
+        {
+          "uuid": "18a70b86-5a49-4a5b-8b2d-2c2b56dde2b6",
+          "x": 535,
+          "y": 1299,
+          "width": 279,
+          "height": 396,
+          "fill": "#27dedf",
+          "pattern": {
+            "template": "diagonal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck cyvyo",
+          "angle": 88,
+          "type": "rect"
+        },
+        {
+          "uuid": "e56586e6-7240-4cee-aa5d-07023e745c4b",
+          "x": 198,
+          "y": 469,
+          "width": 393,
+          "height": 262,
+          "fill": "#8e9377",
+          "pattern": {
+            "template": "dashed_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck iqqgw",
+          "angle": 55,
+          "type": "rect"
+        },
+        {
+          "uuid": "20186e56-6328-4b1a-9235-7e63aa5952e2",
+          "x": 374,
+          "y": 1280,
+          "width": 134,
+          "height": 142,
+          "fill": "#449eb3",
+          "pattern": {
+            "template": "full",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck lfdsv",
+          "angle": 83,
+          "type": "rect"
+        },
+        {
+          "uuid": "909394ca-5b9a-484b-af88-b2d04a58ea1b",
+          "x": 623,
+          "y": 1217,
+          "width": 312,
+          "height": 446,
+          "fill": "#76e82d",
+          "pattern": {
+            "template": "vertical_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck myqma",
+          "angle": 61,
+          "type": "rect"
+        },
+        {
+          "uuid": "bf561c3d-ec13-4a79-981c-aa772f9bd451",
+          "x": 240,
+          "y": 743,
+          "width": 147,
+          "height": 196,
+          "fill": "#eb593b",
+          "pattern": {
+            "template": "vertical_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck jbxtp",
+          "angle": 13,
+          "type": "rect"
+        },
+        {
+          "uuid": "fb69ea4c-1ba2-4045-bd21-23611006be95",
+          "x": 570,
+          "y": 657,
+          "width": 122,
+          "height": 635,
+          "fill": "#ed4ee0",
+          "pattern": {
+            "template": "vertical_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck cuwnp",
+          "angle": 42,
+          "type": "rect"
+        },
+        {
+          "uuid": "9c378506-d72a-459c-8435-5cc098577eab",
+          "x": 433,
+          "y": 287,
+          "width": 22,
+          "height": 569,
+          "fill": "#39c831",
+          "pattern": {
+            "template": "diagonal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck amjyb",
+          "angle": 19,
+          "type": "rect"
+        },
+        {
+          "uuid": "7621eca9-9711-4711-b620-b2bedafa2bb5",
+          "x": 9,
+          "y": 982,
+          "width": 347,
+          "height": 416,
+          "fill": "#7b2540",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck pmtxl",
+          "angle": 57,
+          "type": "rect"
+        },
+        {
+          "uuid": "cac2f55e-ae29-4e19-812a-7f40e623e49d",
+          "x": 236,
+          "y": 299,
+          "width": 317,
+          "height": 560,
+          "fill": "#685969",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck ibpfe",
+          "angle": 35,
+          "type": "rect"
+        },
+        {
+          "uuid": "f0108bc1-5e19-4896-b84f-94401c84df2e",
+          "x": 382,
+          "y": 328,
+          "width": 395,
+          "height": 448,
+          "fill": "#b96321",
+          "pattern": {
+            "template": "dashed_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck exqnx",
+          "angle": 83,
+          "type": "rect"
+        },
+        {
+          "uuid": "53916b70-6c30-49c4-9f78-ed26832124a5",
+          "x": 402,
+          "y": 759,
+          "width": 208,
+          "height": 345,
+          "fill": "#9c7213",
+          "pattern": {
+            "template": "horizontal_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck oicvz",
+          "angle": 8,
+          "type": "rect"
+        },
+        {
+          "uuid": "08c8d72b-a6d6-434e-a0fa-b8c84cf0086b",
+          "x": 640,
+          "y": 1192,
+          "width": 643,
+          "height": 147,
+          "fill": "#91ff93",
+          "pattern": {
+            "template": "dotted",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck flgci",
+          "angle": 43,
+          "type": "rect"
+        },
+        {
+          "uuid": "663883b5-7672-4359-b2b4-8491689f18fc",
+          "x": 52,
+          "y": 424,
+          "width": 212,
+          "height": 429,
+          "fill": "#a807b6",
+          "pattern": {
+            "template": "grid",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse senvo",
+          "angle": 29,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "61deaa5a-4e67-4e3d-b40a-630709efb18a",
+          "x": 260,
+          "y": 109,
+          "width": 248,
+          "height": 293,
+          "fill": "#683333",
+          "pattern": {
+            "template": "dotted",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse axziv",
+          "angle": 85,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "a37e9c04-3918-4485-bb0d-4dd9f4cc45e2",
+          "x": 425,
+          "y": 823,
+          "width": 74,
+          "height": 114,
+          "fill": "#d4554f",
+          "pattern": {
+            "template": "dashed_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse vlzox",
+          "angle": 73,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "e91fb00f-f22b-47fa-9e79-27362fd215b1",
+          "x": 95,
+          "y": 194,
+          "width": 669,
+          "height": 234,
+          "fill": "#e621fc",
+          "pattern": {
+            "template": "stair",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse cdjjl",
+          "angle": 85,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "a234d736-9a4c-49c8-ad90-bd6ac1a31a5d",
+          "x": 638,
+          "y": 1146,
+          "width": 11,
+          "height": 38,
+          "fill": "#6a8574",
+          "pattern": {
+            "template": "dashed_lines",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Ellipse qsnkl",
+          "angle": 61,
+          "type": "ellipse"
+        },
+        {
+          "uuid": "76932f84-5ffc-489e-9850-e5c6e4ceecd7",
+          "x": 336,
+          "y": 579,
+          "width": 21,
+          "height": 18,
+          "text": "Quo error dolores omnis quasi laborum qui voluptatem odio.",
+          "braille": "Sunt soluta incidunt et.",
+          "moniker": "Beschriftung",
+          "displayDots": true,
+          "displayLetters": true,
+          "editMode": false,
+          "isKey": false,
+          "keyVal": "",
+          "fullCharPrefix": false,
+          "border": false,
+          "type": "label"
+        }
+      ]
+    },
+    {
+      "name": "Bildbeschreibung",
+      "text": true,
+      "content": "Impedit aut maiores.",
+      "braille": "impedit aut maiores. ",
+      "formatted": [
+        [
+          "impedit aut maiores."
+        ]
+      ]
+    }
+  ],
+  "isNew": false,
+  "state": "success"
+}

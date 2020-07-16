@@ -1,8 +1,9 @@
 product,    base_price
 graphic,    0
-swell_a4,   87
-swell_a3,   102
-emboss_a4,  61
+swell_a4,   317
+swell_a3,   595
+emboss_a4,  109
 shipping_a4,155
 shipping_a3,190
+shipping_max,220
 packaging,150

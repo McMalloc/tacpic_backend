@@ -1,0 +1,40 @@
+{
+  "shippingAddress": {
+    "is_invoice_addr": false,
+    "street": "",
+    "house_number": "",
+    "company_name": "",
+    "first_name": "",
+    "last_name": "",
+    "additional": "",
+    "city": "",
+    "zip": "",
+    "state": "",
+    "id": <%= shipping_address_id %>,
+    "country": "DEU"
+  },
+  "invoiceAddress": null,
+  "paymentMethod": "invoice",
+  "basket": [
+    {
+      "contentId": <%= variant1_id %>,
+      "productId": "graphic_nobraille",
+      "quantity": 1
+    },
+    {
+      "contentId": <%= variant1_id %>,
+      "productId": "graphic",
+      "quantity": 2
+    },
+    {
+      "contentId": <%= variant2_id %>,
+      "productId": "graphic",
+      "quantity": 5
+    },
+    {
+      "contentId": <%= variant3_id %>,
+      "productId": "graphic",
+      "quantity": 2
+    }
+    ]
+}

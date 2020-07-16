@@ -9,7 +9,6 @@ class Variant < Sequel::Model
   end
 
   def get_brf
-    File.open("#{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{self.file_name}-BRILLE.brf").read
+    File.open("#{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{self.file_name}-BRAILLE.brf").read
   end
-
 end

@@ -13,6 +13,15 @@ describe "Addresses" do
     header 'Content-Type', 'application/json'
   end
 
+  it "should delete addresses" do
+    post "users/addresses/delete/#{$fixture_disposable_address_id}", {}
+    assert_equal 204, last_response.status
+    post "users/addresses/delete/#{$fixture_disposable_address_id}", {}
+    assert_equal 404, last_response.status
+    post "users/addresses/delete/#{$fixture_foreign_address_id}", {}
+    assert_equal 403, last_response.status
+  end
+
   it "should add new addresses" do
     addresses_count_before = $db[:addresses].where(user_id: $test_user_id).count
     data_shipping = {

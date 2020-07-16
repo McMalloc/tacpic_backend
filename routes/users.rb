@@ -2,6 +2,27 @@ Tacpic.hash_branch "users" do |r|
   # @request = JSON.parse r.body.read
 
   r.on 'addresses' do
+    r.post 'delete', Integer do |id|
+      rodauth.require_authentication
+      begin
+        address = Address[id]
+        if address.nil?
+          response.status = 404
+          "Error: Ressource address does not exist"
+        elsif address.user_id == rodauth.logged_in?
+          address.destroy
+          response.status = 204
+          nil
+        else
+          response.status = 403
+          "Error: User ID of address to delete does not match authenticated user ID."
+        end
+      rescue StandardError
+        response.status = 500
+        $!.to_json
+      end
+    end
+
     r.is do
       r.get do
         begin
@@ -36,6 +57,7 @@ Tacpic.hash_branch "users" do |r|
   r.get 'validate' do
     {
         display_name: User[rodauth.logged_in?][:display_name],
+        email: User[rodauth.logged_in?][:email],
         id: rodauth.logged_in?
     }
   end

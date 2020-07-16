@@ -1,0 +1,59 @@
+{
+  "keyedStrokes": [
+  ],
+  "keyedTextures": [
+    {
+      "pattern": "diagonal_lines",
+      "label": "Wasser"
+    }
+  ],
+  "braillePages": {
+    "width": 210,
+    "height": 297,
+    "marginLeft": 1,
+    "marginTop": 1,
+    "cellsPerRow": 33,
+    "rowsPerPage": 27,
+    "pageNumbers": 0
+  },
+  "pages": [
+    <% nr_of_graphic_pages.times do |index| %>
+    {
+      "name": "Seite <%= index + 1 %>",
+      "text": false,
+      "rendering": "<g id=\"page-0\"><rect data-role=\"CANVAS\" data-pageidx=\"0\" x=\"0\" y=\"0\" width=\"210mm\" height=\"297mm\" stroke=\"rgba(0,0,0,0.0)\" fill=\"white\"></rect><g><rect id=\"7c23f6c4-8d2f-4e03-ac94-2d87c7b3dbe5\" data-uuid=\"7c23f6c4-8d2f-4e03-ac94-2d87c7b3dbe5\" transform=\"translate(60, 39) rotate(0, 123.5, 112)\" data-transformable=\"true\" data-selectable=\"true\" clip-path=\"url(#clip-7c23f6c4-8d2f-4e03-ac94-2d87c7b3dbe5)\" width=\"247\" height=\"224\" style=\"cursor: pointer; fill: url(&quot;#pattern-diagonal_lines-7c23f6c4-8d2f-4e03-ac94-2d87c7b3dbe5&quot;); stroke: rgb(31, 120, 180); stroke-width: 20;\"></rect><rect id=\"stroke-7c23f6c4-8d2f-4e03-ac94-2d87c7b3dbe5\" transform=\"translate(60, 39) rotate(0, 123.5, 112)\" stroke-width=\"1.5\" stroke-dasharray=\"solid\" data-transformable=\"true\" data-selectable=\"true\" stroke=\"black\" width=\"247\" height=\"224\" style=\"fill: none;\"></rect><clipPath id=\"clip-7c23f6c4-8d2f-4e03-ac94-2d87c7b3dbe5\"><rect width=\"247\" height=\"224\"></rect></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-7c23f6c4-8d2f-4e03-ac94-2d87c7b3dbe5\" patternTransform=\"translate(0, 0) rotate(0, 0, 0)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" fill=\"#1f78b4\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g></g>",
+      "objects": [
+        <% for  @rect_index in (1..(rand*30).floor + 1).to_a %>
+        {
+          "uuid": "<%=SecureRandom.uuid%>",
+          "x":<%=(1..700).to_a.sample%>,
+          "y":<%=(1..1300).to_a.sample%>,
+          "width":<%=(1..700).to_a.sample%>,
+          "height":<%=(1..700).to_a.sample%>,
+          "fill": "<%=Faker::Color.hex_color%>",
+          "pattern": {
+            "template": "<%=["diagonal_lines", "full", "vertical_lines", "horizontal_lines", "dashed_lines", "grid", "stair", "dotted"].sample%>",
+            "angle": 0,
+            "scaleX": 1,
+            "scaleY": 1,
+            "offset": true
+          },
+          "moniker": "Rechteck <%=Faker::Alphanumeric.alpha(number: 5)%>",
+          "angle":<%=(0..90).to_a.sample%>,
+          "type": "rect"
+        }]
+      <% else %>
+      "text": true,
+      "content": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>",
+      "braille": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>"
+      <% end %>
+    },
+    <% end  %>
+    {
+      "name": "Bildbeschreibung",
+      "text": true,
+      "content": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>",
+      "braille": "<%=Faker::Lorem.paragraph(sentence_count: (1..3).to_a.sample)%>"
+    }
+  ]
+}
