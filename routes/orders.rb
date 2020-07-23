@@ -2,6 +2,18 @@ require 'mail'
 
 Tacpic.hash_branch 'orders' do |r|
 
+  r.get do
+    rodauth.require_authentication
+    Invoice.join(:orders, id: :order_id).where(user_id: rodauth.logged_in?).map(&:values)
+  end
+
+  # GET /orders/:id/invoice_link
+  r.get Integer, 'invoice_link' do |id|
+    rodauth.require_authentication
+    user_id = rodauth.logged_in?
+    return "hey"
+  end
+
   # GET /orders/:id
   r.get Integer do |id|
     rodauth.require_authentication
@@ -65,6 +77,11 @@ Tacpic.hash_branch 'orders' do |r|
   r.post do
     rodauth.require_authentication
     user_id = rodauth.logged_in?
+
+    if Order.where(idempotency_key: request[:idempotencyKey]).all.count > 0
+      response.status = 409
+      return "duplicate order"
+    end
 
     begin
       shipping_address_id = nil
@@ -132,6 +149,7 @@ Tacpic.hash_branch 'orders' do |r|
         comment: "TODO",
         payment_method: request[:paymentMethod],
         total_gross: final_quote.gross,
+        idempotency_key: request[:idempotencyKey],
         total_net: final_quote.net,
         weight: final_quote.weight,
         test: ENV['RACK_ENV'] != 'production'
@@ -170,7 +188,7 @@ Tacpic.hash_branch 'orders' do |r|
 
     if shipping_address_id != invoice_address_id
       voucher_invoice = Internetmarke::Voucher.new(1, shipment.id, Address[invoice_address_id].values)
-      # voucher_invoice.checkout
+      voucher_invoice.checkout
       invoice.update(
           voucher_id: voucher_invoice.shop_order_id,
           voucher_filename: voucher_invoice.file_name
@@ -190,10 +208,7 @@ Tacpic.hash_branch 'orders' do |r|
     # mail.deliver!
 
     response.status = 201
-    {
-        order: order.values,
-        quote: final_quote
-    }
+    order.values
 
     # rescue StandardError => e
     #   puts e.message

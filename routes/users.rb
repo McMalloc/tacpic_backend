@@ -2,7 +2,17 @@ Tacpic.hash_branch "users" do |r|
   # @request = JSON.parse r.body.read
 
   r.on 'addresses' do
-    r.post 'delete', Integer do |id|
+    r.post Integer do |id|
+      rodauth.require_authentication
+      if Address[id].user_id != rodauth.logged_in?
+        response.status = 403 # forbidden
+        return 'unauthorized to update address'
+      end
+      r.params.delete 'id'
+      Address[id].update(r.params)
+    end
+
+    r.post 'inactivate', Integer do |id|
       rodauth.require_authentication
       begin
         address = Address[id]
@@ -27,13 +37,12 @@ Tacpic.hash_branch "users" do |r|
       r.get do
         begin
           rodauth.require_authentication
-          User[rodauth.logged_in?].addresses.map(&:values)
+          Address.where(user_id: rodauth.logged_in?, active: true).map(&:values)
         rescue Sequel::Error
           response.status = 401
           $!.to_json
         end
       end
-
       r.post do
         rodauth.require_authentication
         begin
@@ -41,7 +50,8 @@ Tacpic.hash_branch "users" do |r|
           #   response.status = 400
           #   raise "at least one name needs to be present"
           # else
-          values = User[rodauth.logged_in?].add_address(JSON.parse(request.body.read)).values
+          r.params.delete 'id'
+          values = User[rodauth.logged_in?].add_address(r.params).values
           response.status = 201
           return values
             # end

@@ -12,8 +12,9 @@ class CreateOrders < Sequel::Migration
       Integer :total_net
       String :payment_method, default: 'invoice'
       Integer :weight
-      Integer :status, null: false, default: 1
+      Integer :status, null: false, default: 0
       String :comment, text: true
+      String :idempotency_key, null: false, unique: true # todo sollte primary key sein
       DateTime :created_at
     end
   end

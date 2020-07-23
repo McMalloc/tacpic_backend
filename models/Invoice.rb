@@ -47,11 +47,18 @@ class Invoice < Sequel::Model
         ["Pos.", "Stck.", "Art.-Nr.", "Netto p. Stck.", "Artikel", "Netto", "USt.-Satz"]
     ]
     items.each_with_index do |item, index|
+      art_no = ""
+      if item.product_id == 'graphic'
+        art_no = "GB-#{item.content_id.to_s.rjust(5, '0')}"
+      end
+      if item.product_id == 'graphic_nobraille'
+        art_no = "GN-#{item.content_id.to_s.rjust(5, '0')}"
+      end
       item_table_data.push(
           [
               index + 1,
               item.quantity,
-              "#{item.product_id == 'graphic' ? 'GB' : 'GN'}-#{item.content_id.to_s.rjust(5, '0')}",
+              art_no,
               Helper.format_currency(item.net_price / item.quantity),
               item.description,
               Helper.format_currency(item.net_price),

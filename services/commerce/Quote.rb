@@ -117,11 +117,11 @@ class Quote
 
   def requires_antikink?
     @order_items.each_with_index do |item, index|
-      if @variants[index][:graphic_format] == "a3"
+      if @variants.find {|variant|variant[:id] == item.content_id}[:graphic_format] == "a3"
         return true
       end
       if item[:with_braille]
-        if @variants[index][:braille_format] == "a3"
+        if @variants.find {|variant|variant[:id] == item.content_id}[:braille_format] == "a3"
           return true
         end
       end

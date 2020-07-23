@@ -168,6 +168,15 @@ begin
                      braille_format: "a4",
                      title: "4x a4 Grafik, 7x Braille"
                  }).id
+  $variant_i_id = Variant.create({
+                     graphic_id: $fixture1_graphic_id,
+                     graphic_no_of_pages: 1,
+                     graphic_format: "a3",
+                     graphic_landscape: false,
+                     braille_no_of_pages: 0,
+                     braille_format: "a4",
+                     title: "1x a3 Grafik"
+                 }).id
   $variant_j_id = Variant.create({
                      graphic_id: $fixture1_graphic_id,
                      graphic_no_of_pages: 0,

@@ -6,6 +6,7 @@ class CreateAddresses < Sequel::Migration
 
       # fields are corresponding to the specifications of DPAG's Internetmarke
       TrueClass :is_invoice_addr, null: false, default: false
+      TrueClass :active, default: true
       String :street, null: false
       String :house_number, null: false
       String :company_name
