@@ -94,6 +94,10 @@ end
 namespace 'stage' do
 
   desc 'Pulls new frontend and backend code, builds new react app (if neccessary), copies build and starts application, in background'
+  task :force do
+
+  end
+
   task :main do
     if ENV['RACK_ENV'] == 'development'
       puts "\tℹ | Staging is not available on development environments.".blue.bold
