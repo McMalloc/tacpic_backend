@@ -180,7 +180,9 @@ Tacpic.hash_branch 'orders' do |r|
 
     voucher_invoice = nil
     voucher_shipping = Internetmarke::Voucher.new(final_quote.postage_item[:content_id], shipment.id, Address[shipping_address_id].values)
-    # voucher_shipping.checkout
+    if ENV['RACK_ENV'] == 'production'
+      voucher_shipping.checkout
+    end
     shipment.update(
         voucher_id: voucher_shipping.shop_order_id,
         voucher_filename: voucher_shipping.file_name
@@ -197,15 +199,20 @@ Tacpic.hash_branch 'orders' do |r|
 
     invoice.generate_invoice_pdf
 
-    # mail = Mail.new do
-    #   from 'localhost'
-    #   to 'robert@tacpic.de'
-    #   subject 'Here is the image you wanted'
-    #   body 'testest'
-    # end
-    #
-    # mail.delivery_method :sendmail
-    # mail.deliver!
+    if ENV['RACK_ENV'] == 'production'
+      # schicke E-Mail an Produktionspartner
+    end
+
+    mail = Mail.new do
+      from 'localhost'
+      to User[user_id].email
+      subject "Ihre Bestellung #{invoice.invoice_number}"
+      body 'testest'
+      add_file "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/invoices/#{invoice.invoice_number}.pdf"
+    end
+
+    mail.delivery_method :sendmail
+    mail.deliver!
 
     response.status = 201
     order.values

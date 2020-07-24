@@ -35,12 +35,14 @@ class Invoice < Sequel::Model
 
     if self.address_id.nil?
       invoice_address = shipment_adress
-      voucher_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/voucher_1_A0027A5C6800000001DB/0.png"
-      # voucher_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/#{shipment.voucher_filename}/0.png"
+      voucher_path = ''
+      if ENV['RACK_ENV'] == 'production'
+        voucher_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/#{shipment.voucher_filename}/0.png"
+      else
+        voucher_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/placeholder/0.png"
+      end
     else
       invoice_address = Address[self.address_id]
-      voucher_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/voucher_1_A0027A5C6800000001DB/0.png"
-      # voucher_path = self.voucher_filename
     end
 
     item_table_data = [

@@ -93,7 +93,7 @@ mkdir tacpic_backend/files/invoices
 sudo -u postgres psql
 postgres=# create database "tacpic-production";
 postgres=# create user tacpic with encrypted password 'password';
-postgres=# grant all privileges on "tacpic-production" to tacpic;
+postgres=# grant all privileges on DATABASE "tacpic-production" to tacpic;
 \q
 
 rake db:migrate RACK_ENV=production

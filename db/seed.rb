@@ -6,6 +6,10 @@ require_relative '../helper/functions'
 $_db = Database.init ENV['TACPIC_DATABASE_URL']
 Store.init
 
+Taxonomy.create(
+    taxonomy: 'misc'
+)
+
 # Product.unrestrict_primary_key
 # Product.create(
 #     customisable: true,
