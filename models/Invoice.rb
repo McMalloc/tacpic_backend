@@ -23,7 +23,7 @@ class Invoice < Sequel::Model
     user = order.user
     items = order.order_items
     payment_method = order.payment_method
-    logo_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/assets/tacpic_logo.png"
+    logo_path = "#{ENV['APPLICATION_BASE']}/assets/tacpic_logo.png"
     shipment = Shipment.find(order_id: self.order_id)
     shipment_adress = Address[shipment.id]
     invoice_address = nil
@@ -31,15 +31,15 @@ class Invoice < Sequel::Model
     invoice_date = self.created_at
     due_date = Helper.add_working_days(self.created_at, 14)
     shipment_date = Helper.add_working_days(self.created_at, 3)
-    voucher_path = nil
+    voucher_path = ''
 
     if self.address_id.nil?
       invoice_address = shipment_adress
       voucher_path = ''
       if ENV['RACK_ENV'] == 'production'
-        voucher_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/#{shipment.voucher_filename}/0.png"
+        voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{shipment.voucher_filename}/0.png"
       else
-        voucher_path = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/placeholder/0.png"
+        voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/placeholder/0.png"
       end
     else
       invoice_address = Address[self.address_id]
@@ -89,13 +89,13 @@ class Invoice < Sequel::Model
                              '' #todo lookup for product_id
                          ])
 
-    Prawn::Document.generate("#{ENV['APPLICATION_BASE']}/tacpic_backend/files/invoices/#{self.invoice_number}.pdf",
+    Prawn::Document.generate("#{ENV['APPLICATION_BASE']}/files/invoices/#{self.invoice_number}.pdf",
                              page_size: 'A4', page_layout: :portrait, left_margin: 20.mm, margin_right: 20.mm, top_margin: 10.mm, bottom_margin: 10.mm) do
       font_families.update(
           "Roboto" => {
-              normal: "#{ENV['APPLICATION_BASE']}/tacpic_backend/public/webfonts/Roboto/Roboto-Regular.ttf",
-              bold: "#{ENV['APPLICATION_BASE']}/tacpic_backend/public/webfonts/Roboto/Roboto-Bold.ttf",
-              black: "#{ENV['APPLICATION_BASE']}/tacpic_backend/public/webfonts/Roboto/Roboto-Black.ttf"
+              normal: "#{ENV['APPLICATION_BASE']}/public/webfonts/Roboto/Roboto-Regular.ttf",
+              bold: "#{ENV['APPLICATION_BASE']}/public/webfonts/Roboto/Roboto-Bold.ttf",
+              black: "#{ENV['APPLICATION_BASE']}/public/webfonts/Roboto/Roboto-Black.ttf"
           }
       )
       font "Roboto", size: 10

@@ -36,10 +36,10 @@ end
 
 # TODO Dateinamenschema templaten
 class DocumentProcessor
-  @@svg_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/tacpic_backend/services/processor/svg_template.svg.erb")
-  @@brf_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/tacpic_backend/services/processor/brf_template.brf.erb")
-  @@font_data = Base64.strict_encode64 File.read("#{ENV['APPLICATION_BASE']}/tacpic_backend/services/processor/tacpic_swellbraille_euro6.woff")
-  @@root = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files"
+  @@svg_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/processor/svg_template.svg.erb")
+  @@brf_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/processor/brf_template.brf.erb")
+  @@font_data = Base64.strict_encode64 File.read("#{ENV['APPLICATION_BASE']}/services/processor/tacpic_swellbraille_euro6.woff")
+  @@root = "#{ENV['APPLICATION_BASE']}/files"
 
   def initialize(version)
     @version = version.values

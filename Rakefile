@@ -167,7 +167,7 @@ namespace 'stage' do
     end
 
     puts "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
-    if system "cp -r #{base}/tacpic/build/* #{base}/tacpic_backend/public"
+    if system "cp -r #{base}/tacpic/build/* /var/www/frontend/"
       puts "Success!".black.bg_green
     end
 

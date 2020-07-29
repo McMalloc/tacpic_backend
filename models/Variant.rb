@@ -5,10 +5,10 @@ class Variant < Sequel::Model
   one_to_many :versions
 
   def get_pdf
-    File.open("#{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{self.file_name}-PRINT-merged.pdf").read
+    File.open("#{ENV['APPLICATION_BASE']}/files/#{self.file_name}-PRINT-merged.pdf").read
   end
 
   def get_brf
-    File.open("#{ENV['APPLICATION_BASE']}/tacpic_backend/files/#{self.file_name}-BRAILLE.brf").read
+    File.open("#{ENV['APPLICATION_BASE']}/files/#{self.file_name}-BRAILLE.brf").read
   end
 end

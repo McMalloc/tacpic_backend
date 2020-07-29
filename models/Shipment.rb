@@ -4,7 +4,7 @@ class Shipment < Sequel::Model
 
   def generate_shipping_receipt_pdf
     Prawn::Document.generate("implicit.pdf") do
-      logo = "#{ENV['APPLICATION_BASE']}/tacpic_backend/assets/tacpic_logo.png"
+      logo = "#{ENV['APPLICATION_BASE']}/assets/tacpic_logo.png"
       image logo, :at => [50,450], :width => 450
       text "Hello World"
     end

@@ -32,7 +32,7 @@ class Tacpic < Roda
   end
 
   plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
-  plugin :common_logger, $stdout
+  # plugin :common_logger, $stdout
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
@@ -41,29 +41,20 @@ class Tacpic < Roda
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
     login_required_error_status 401
-    enable :login, :logout, :jwt, :create_account#, :jwt_cors#, :session_expiration
+    enable :login, :logout, :jwt, :create_account #, :jwt_cors#, :session_expiration
     # :verify_account # requires an SMTP server on port 25 by default
-    # jwt_cors_allow_origin 'http://localhost:3000'
-    accounts_table :users
-    # jwt_cors_allow_methods 'GET', 'POST'
 
+    accounts_table :users
     jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
     # max_session_lifetime 86400
-
     after_login do
       response.write @account.to_json
     end
-    #
-
 
     before_create_account do
       # @account[:display_name] = request.params['display_name']
       @account[:created_at] = Time.now.to_s
     end
-
-    # after_create_account do
-    #   response.write(@account.to_json)
-    # end
   end
 
   plugin :error_handler do |e|
@@ -79,17 +70,17 @@ class Tacpic < Roda
 
     r.rodauth
 
-    r.root do
-      send_file "public/index.html"
-    end
+    # r.root do
+      # send_file "public/index.html"
+    # end
 
     r.public
     r.hash_routes
 
     # if no api or root call, send the react app to handle the url
-    r.is /.+/ do
-      send_file "public/index.html"
-    end
+    # r.is /.+/ do
+    #   send_file "public/index.html"
+    # end
   end
 end
 
@@ -105,6 +96,7 @@ end
 
 # business logic and rules
 require_relative 'services/internetmarke/internetmarke'
+require_relative 'services/mail/mail'
 require_relative 'services/commerce/Quote'
 require_relative 'services/commerce/GraphicPriceCalculator'
 

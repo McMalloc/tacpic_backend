@@ -99,6 +99,7 @@ module Internetmarke
     attr_accessor :sender_address
     attr_accessor :receiver_address
     attr_accessor :shipment_id
+    attr_accessor :wallet_balance
 
     def initialize(product, shipment_id, receiver_address, sender_address = {
             company_name: "tacpic UG (haftungsbeschränkt)",
@@ -122,14 +123,9 @@ module Internetmarke
 
     def save_voucher
       puts "Get from #{@file_link}"
-      @file_name = "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/voucher_#{@shipment_id}_#{@voucher_id}"
+      @file_name = "#{ENV['APPLICATION_BASE']}/files/vouchers/voucher_#{@shipment_id}_#{@voucher_id}"
       system "wget '#{@file_link}' -O #{@file_name}.zip"
       system "unzip #{@file_name}.zip -d #{@file_name}"
-    end
-
-    # @return [String]
-    def get_voucher_path
-      "#{ENV['APPLICATION_BASE']}/tacpic_backend/files/vouchers/voucher_#{@shipment_id}_#{@voucher_id}/0.png"
     end
 
     # TODO eventuell mehrere Marken pro Checkout?
@@ -139,19 +135,27 @@ module Internetmarke
       receiver = transform_address(@receiver_address)
       product = @product
       total = @@valid_pplsIds.find{|row|row[:pplId] == product}[:price]
+
       begin
         response = Client.instance.client.call :checkout_shopping_cart_png do
           soap_header Client.instance.create_header
-          message userToken: token,
-                  positions: {
-                      productCode: product,
-                      address: {
-                          sender: sender,
-                          receiver: receiver
-                      },
-                      voucherLayout: "AddressZone"
-                  },
-                  Total: total
+
+          if ENV['RACK_ENV'] == 'production'
+            message userToken: token,
+                    positions: {
+                        productCode: product,
+                        address: {
+                            sender: sender,
+                            receiver: receiver
+                        },
+                        voucherLayout: "AddressZone"
+                    },
+                    Total: total
+          else
+            message userToken: token,
+                    positions: {},
+                    Total: 0
+          end
         end
 
         @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]
