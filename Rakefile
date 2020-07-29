@@ -99,11 +99,6 @@ namespace 'stage' do
   end
 
   task :main do
-    if ENV['RACK_ENV'] == 'development'
-      puts "\tℹ | Staging is not available on development environments.".blue.bold
-      exit
-    end
-
     puts "▶ Are you sure?".magenta.bold + " (type yes to continue)".magenta
     answer = STDIN.gets.chomp
     unless answer == "yes"
