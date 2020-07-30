@@ -129,6 +129,6 @@ class DocumentProcessor
   end
 
   def save_pdf(index)
-    system "node #{ENV['APPLICATION_BASE']}/tacpic_backend/services/processor/convert_svg #{@file_name} #{@variant[:graphic_format]} #{@variant[:graphic_landscape]} #{index} #{@@root}"
+    system "node #{ENV['APPLICATION_BASE']}/services/processor/convert_svg #{@file_name} #{@variant[:graphic_format]} #{@variant[:graphic_landscape]} #{index} #{@@root}"
   end
 end

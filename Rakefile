@@ -157,9 +157,9 @@ namespace 'stage' do
       end
     end
 
-    unless Dir.exists?("#{base}/public")
-      system "mkdir #{base}/tacpic_backend/public"
-    end
+    # unless Dir.exists?("#{base}/public")
+    #   system "mkdir #{base}/tacpic_backend/public"
+    # end
 
     puts "Copying #{base}../tacpic/build/* to /var/www/frontend/"
     if system "cp -r #{base}../tacpic/build/* /var/www/frontend/"
