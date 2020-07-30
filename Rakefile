@@ -108,7 +108,7 @@ namespace 'stage' do
 
     base = ENV['APPLICATION_BASE']
     puts "Staging backend:".black.bg_cyan
-    Dir.chdir("#{base}/tacpic_backend") do
+    Dir.chdir("#{base}") do
       puts "Compare backend masters"
       system "git remote update"
       rev_local = `git rev-parse master`
@@ -135,7 +135,7 @@ namespace 'stage' do
     end
 
     puts "Staging frontend:".black.bg_cyan
-    Dir.chdir("#{base}/tacpic") do
+    Dir.chdir("#{base}/../tacpic") do
       puts "Compare frontend masters"
       system "git remote update"
       rev_local = `git rev-parse master`
@@ -157,19 +157,14 @@ namespace 'stage' do
       end
     end
 
-    unless Dir.exists?("#{base}/tacpic_backend/public")
+    unless Dir.exists?("#{base}/public")
       system "mkdir #{base}/tacpic_backend/public"
     end
 
-    puts "Copying #{base}/tacpic/build/* to #{base}/tacpic_backend/public ... "
-    if system "cp -r #{base}/tacpic/build/* /var/www/frontend/"
+    puts "Copying #{base}/../tacpic/build/* to /var/www/frontend/"
+    if system "cp -r #{base}/../tacpic/build/* /var/www/frontend/"
       puts "Success!".black.bg_green
     end
-
-    # puts "Starting application server".black.bg_green
-    # Dir.chdir("#{base}/tacpic_backend") do
-    #   system "rackup"
-    # end
   end
 end
 
