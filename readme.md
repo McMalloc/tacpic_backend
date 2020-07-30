@@ -17,7 +17,7 @@ SSH-Login via Keypair einrichten, Passwort-Login via SSH deaktivieren.
 sudo apt-get install git nano postgresql postgresql-client postgresql-contrib libpq-dev liblouis-bin netpbm ghostscript
 ```
 
-# Optional: Port forwarding mit Apache
+# Proxy mit Apache
 So kann Puma ohne Sudo laufen / ist nicht direkt offenbart.
 
 ```
@@ -26,16 +26,42 @@ sudo a2enmod proxy
 sudo a2enmod proxy_http
 ```
 
+Verzeichnis vorbereiten (ist durch das Rakefile vorgegeben)
+```
+sudo mkdir /var/www/frontend
+sudo chown www-data:www-data /var/www/frontend
+sudo chmod -R 770 /var/www
+TODO Befugnisse setzen für Ausführenden des Stage Scripts
+```
+
 In `/etc/apache2/sites-available/000-default.conf`:
 ```
 <VirtualHost *:80>
-    ProxyPreserveHost On
+        # ServerName h2875324.stratoserver.net
+        ServerAdmin robert@tacpic.de
+        DocumentRoot "/var/www/frontend"
 
-    ProxyPass / http://127.0.0.1:9292/
-    ProxyPassReverse / http://127.0.0.1:9292/
+        # Rewrite rules setzen, damit HTML5 history / client-seitiger Router richtig arbeiten kann.
+        <Directory /var/www/frontend>
+                RewriteEngine On
+                RewriteBase /
+                RewriteRule ^index\.html$ - [L]
+                RewriteCond %{REQUEST_FILENAME} !-f
+                RewriteCond %{REQUEST_FILENAME} !-d
+                RewriteCond %{REQUEST_FILENAME} !-l
+                RewriteRule . /index.html [L]
+        </Directory>
+
+        <Location /api>
+                ProxyPass http://127.0.0.1:9292
+                ProxyPassReverse http://127.0.0.1:9292
+        </Location>
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
 </VirtualHost>
+
 ```
-Dann `sudo systemctl restart apache2`
+Dann `sudo service apache2 restart`
 
 # Node installieren
 [Aktuelle Hinweise](https://github.com/nodesource/distributions/blob/master/README.md)
@@ -66,6 +92,8 @@ git clone git@github.com:McMalloc/tacpic_backend.git
 git clone git@github.com:McMalloc/tacpic.git
 
 cd ~/tacpic
+cp src/env.json.template src/env.json
+# API_URL entsprechend der Apache/IP Configuration anpassen
 npm install
 
 cd ~/tacpic_backend
@@ -111,7 +139,3 @@ tmux a -t app
 rake run:main RACK_ENV=production &
 # ctrl+b, d detached von der Session
 ```
-Vielleicht doch mit screen...
-
-
-
