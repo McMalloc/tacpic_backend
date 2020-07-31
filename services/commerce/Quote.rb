@@ -59,37 +59,39 @@ class Quote
   def vat
     amount = @order_items.inject(0) { |sum, item| !@@products[item.product_id.to_sym][:reduced_vat] ? item.gross_price - item.net_price + sum : sum }
     @postage_item.product_id == 'postage' && amount += @postage_item.gross_price - @postage_item.net_price
-    @packaging_item.product_id == 'packaging' && amount += @packaging_item.gross_price - @packaging_item.net_price
+    # @packaging_item.product_id == 'packaging' && amount += @packaging_item.gross_price - @packaging_item.net_price
     return amount
   end
 
   def reduced_vat
     amount = @order_items.inject(0) { |sum, item| @@products[item.product_id.to_sym][:reduced_vat] ? item.gross_price - item.net_price + sum : sum }
     @postage_item.product_id == 'postage_reduced' && amount += @postage_item.gross_price - @postage_item.net_price
-    @packaging_item.product_id == 'packaging_reduced' && amount += @packaging_item.gross_price - @packaging_item.net_price
+    # @packaging_item.product_id == 'packaging_reduced' && amount += @packaging_item.gross_price - @packaging_item.net_price
     return amount
   end
 
   def net
     amount = @order_items.inject(0) { |sum, item| item.net_price * item.quantity + sum }
     amount += @postage_item.net_price
-    amount += @packaging_item.net_price
+    # amount += @packaging_item.net_price
   end
 
   def gross
     amount = @order_items.inject(0) { |sum, item| item.gross_price * item.quantity + sum }
     amount += @postage_item.gross_price
-    amount += @packaging_item.gross_price
+    # amount += @packaging_item.gross_price
   end
 
-  def packaging_item
-    OrderItem.new(
-        product_id: "packaging",
-        quantity: 1,
-        net_price: @@prices[:packaging],
-        gross_price: @@prices[:packaging] * 1.07, # todo, s. unten
-    )
-  end
+  # DEPRECATED
+  # TODO
+  # def packaging_item
+  #   OrderItem.new(
+  #       product_id: "packaging",
+  #       quantity: 1,
+  #       net_price: @@prices[:packaging],
+  #       gross_price: @@prices[:packaging] * 1.07, # todo, s. unten
+  #   )
+  # end
 
   # TODO ab wann reduzierte vat?
   # Setuersatz für Verpackung und Versand nach teuerstem abrechnen
@@ -107,8 +109,9 @@ class Quote
       postage_product_id = :buewa1000
     end
 
-    postage.gross_price = @@postages[postage_product_id][:price]
-    postage.net_price = postage.gross_price - (postage.gross_price * 0.07)
+    postage.net_price = @@prices[:shipping_general]
+    # postage.gross_price = @@postages[postage_product_id][:price]
+    postage.gross_price = postage.net_price * 1.07 # TODO no magic numbers
     postage.content_id = @@postages[postage_product_id][:pplId]
     return postage
   end

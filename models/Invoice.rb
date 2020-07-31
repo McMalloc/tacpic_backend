@@ -25,24 +25,18 @@ class Invoice < Sequel::Model
     payment_method = order.payment_method
     logo_path = "#{ENV['APPLICATION_BASE']}/assets/tacpic_logo.png"
     shipment = Shipment.find(order_id: self.order_id)
-    shipment_adress = Address[shipment.id]
-    invoice_address = nil
+    shipment_address = Address[shipment.address_id]
+    invoice_address = Address[self.address_id]
     invoice_number = self.invoice_number
     invoice_date = self.created_at
     due_date = Helper.add_working_days(self.created_at, 14)
     shipment_date = Helper.add_working_days(self.created_at, 3)
     voucher_path = ''
 
-    if self.address_id.nil?
-      invoice_address = shipment_adress
-      voucher_path = ''
-      if ENV['RACK_ENV'] == 'production'
-        voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{shipment.voucher_filename}/0.png"
-      else
-        voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/placeholder/0.png"
-      end
+    if self.voucher_id.nil?
+      voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{ENV['RACK_ENV'] == 'production' ? shipment.voucher_filename : 'placeholder'}/0.png"
     else
-      invoice_address = Address[self.address_id]
+      voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{ENV['RACK_ENV'] == 'production' ? self.voucher_filename : 'placeholder'}/0.png"
     end
 
     item_table_data = [
@@ -72,22 +66,22 @@ class Invoice < Sequel::Model
     total_table_data = []
 
     total_table_data.push([
-                             '', '', '', '', 'Zwischensumme netto',
-                             Helper.format_currency(order.total_net),
-                             '' #todo lookup for product_id
-                         ])
+                              '', '', '', '', 'Zwischensumme netto',
+                              Helper.format_currency(order.total_net),
+                              '' #todo lookup for product_id
+                          ])
 
     total_table_data.push([
-                             '', '', '', '', 'zzgl. Umsatzsteuer',
-                             Helper.format_currency(order.total_gross - order.total_net),
-                             '' #todo lookup for product_id
-                         ])
+                              '', '', '', '', 'zzgl. Umsatzsteuer',
+                              Helper.format_currency(order.total_gross - order.total_net),
+                              '' #todo lookup for product_id
+                          ])
 
     total_table_data.push([
-                             '', '', '', '', 'Gesamt brutto',
-                             Helper.format_currency(order.total_gross),
-                             '' #todo lookup for product_id
-                         ])
+                              '', '', '', '', 'Gesamt brutto',
+                              Helper.format_currency(order.total_gross),
+                              '' #todo lookup for product_id
+                          ])
 
     Prawn::Document.generate("#{ENV['APPLICATION_BASE']}/files/invoices/#{self.invoice_number}.pdf",
                              page_size: 'A4', page_layout: :portrait, left_margin: 20.mm, margin_right: 20.mm, top_margin: 10.mm, bottom_margin: 10.mm) do
@@ -104,7 +98,7 @@ class Invoice < Sequel::Model
       customer_info_position = (297 - 100).mm
       footer_height = 25.mm
       width_percentile = bounds.width / 100.0
-      column_widths = [width_percentile*7, width_percentile*7, width_percentile*10, width_percentile*10, width_percentile*41, width_percentile*15, width_percentile*10]
+      column_widths = [width_percentile * 7, width_percentile * 7, width_percentile * 10, width_percentile * 10, width_percentile * 41, width_percentile * 15, width_percentile * 10]
       #                Posten                Menge                Art.-Nr.             Stückpreis           Artikel              Nettopreis           USt.-Satz"]
 
 
@@ -158,7 +152,7 @@ class Invoice < Sequel::Model
             header: true,
             column_widths: column_widths,
             row_colors: ['ffffff', 'efefef'] do
-        columns([3,5,6]).align = :right
+        columns([3, 5, 6]).align = :right
         # columns([0, 1,3,5,6]).valign = :center
         cells.padding = 3
         cells.valign = :center

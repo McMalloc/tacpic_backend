@@ -24,7 +24,11 @@ So kann Puma ohne Sudo laufen / ist nicht direkt offenbart.
 sudo apt-get install apache2
 sudo a2enmod proxy
 sudo a2enmod proxy_http
+sudo a2enmod ssl
+sudo a2enmod headers
 ```
+
+TODO: HTTPS einrichten
 
 Verzeichnis vorbereiten (ist durch das Rakefile vorgegeben)
 ```
@@ -114,6 +118,7 @@ Dateiverzeichnisse anlegen:
 mkdir tacpic_backend/files
 mkdir tacpic_backend/files/vouchers
 mkdir tacpic_backend/files/invoices
+mkdir tacpic_backend/files/shipment_receipts
 ```
 ## Datenbank einrichten
 

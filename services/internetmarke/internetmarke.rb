@@ -98,10 +98,9 @@ module Internetmarke
     attr_accessor :file_name
     attr_accessor :sender_address
     attr_accessor :receiver_address
-    attr_accessor :shipment_id
     attr_accessor :wallet_balance
 
-    def initialize(product, shipment_id, receiver_address, sender_address = {
+    def initialize(product, receiver_address, sender_address = {
             company_name: "tacpic UG (haftungsbeschränkt)",
             street: "Breitscheidtr.",
             house_number: "51",
@@ -115,7 +114,6 @@ module Internetmarke
         @product = nil # not a valid product
       end
 
-      @shipment_id = shipment_id
       @sender_address = sender_address
       @receiver_address = receiver_address
       @error = false
@@ -123,7 +121,7 @@ module Internetmarke
 
     def save_voucher
       puts "Get from #{@file_link}"
-      @file_name = "#{ENV['APPLICATION_BASE']}/files/vouchers/voucher_#{@shipment_id}_#{@voucher_id}"
+      @file_name = "#{ENV['APPLICATION_BASE']}/files/vouchers/voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}"
       system "wget '#{@file_link}' -O #{@file_name}.zip"
       system "unzip #{@file_name}.zip -d #{@file_name}"
     end

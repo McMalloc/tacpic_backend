@@ -44,7 +44,9 @@ Tacpic.hash_branch 'orders' do |r|
     r.post do
       if request[:items].count == 0
         return {
-            items: [], packaging_item: {}, postage_item: {},
+            items: [],
+            # packaging_item: {},
+            postage_item: {},
             vat: 0,
             vat_reduced: 0,
             net_total: 0,
@@ -54,7 +56,7 @@ Tacpic.hash_branch 'orders' do |r|
       quote = get_quote request[:items]
       {
           items: quote.order_items.map(&:values),
-          packaging_item: quote.packaging_item.values,
+          # packaging_item: quote.packaging_item.values,
           postage_item: quote.postage_item.values,
           vat: quote.vat,
           weight: quote.weight,
@@ -81,6 +83,7 @@ Tacpic.hash_branch 'orders' do |r|
       return "duplicate order"
     end
 
+    # set shipping address id, depending on the fields in the request either from db or directly from the request
     begin
       shipping_address_id = nil
       if request[:shippingAddress]['id'].nil?
@@ -109,7 +112,7 @@ Tacpic.hash_branch 'orders' do |r|
 
     begin
       invoice_address_id = nil
-      if request[:invoiceAddress].nil?
+      if request[:invoiceAddress].nil? # no talk about the invoice address, so it is the same as shipping
         invoice_address_id = shipping_address_id
       elsif request[:invoiceAddress]['id'].nil?
         fields = request[:invoiceAddress]
@@ -153,6 +156,13 @@ Tacpic.hash_branch 'orders' do |r|
         test: ENV['RACK_ENV'] != 'production'
     )
 
+    final_quote.order_items.each do |item|
+      order.add_order_item(item)
+    end
+
+    order.add_order_item(final_quote.postage_item)
+    # order.add_order_item(final_quote.packaging_item)
+
     invoice = Invoice.create(
         address_id: invoice_address_id,
         order_id: order.id
@@ -164,22 +174,9 @@ Tacpic.hash_branch 'orders' do |r|
     )
 
     # TODO Zahlung anlegen
-    # payment = Payment.create(
-    #     order_id: order.id,
-    #     address_id: shipping_address_id
-    # )
-
-    final_quote.order_items.each do |item|
-      order.add_order_item(item)
-    end
-
-    order.add_order_item(final_quote.postage_item)
-    order.add_order_item(final_quote.packaging_item)
-
-    voucher_invoice = nil
+    # the shipping voucher will be put on the invoice if it's the same address
     voucher_shipping = Internetmarke::Voucher.new(
         final_quote.postage_item[:content_id],
-        shipment.id,
         Address[shipping_address_id].values)
     if ENV['RACK_ENV'] == 'production'
       voucher_shipping.checkout
@@ -189,17 +186,28 @@ Tacpic.hash_branch 'orders' do |r|
         voucher_filename: voucher_shipping.file_name
     )
 
+    # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
     if shipping_address_id != invoice_address_id
-      voucher_invoice = Internetmarke::Voucher.new(1, shipment.id, Address[invoice_address_id].values)
-      voucher_invoice.checkout
-      puts voucher_invoice.wallet_balance
+      voucher_invoice = Internetmarke::Voucher.new(
+          1,
+          Address[invoice_address_id].values)
+      if ENV['RACK_ENV'] == 'production'
+        voucher_shipping.checkout
+      end
       invoice.update(
           voucher_id: voucher_invoice.shop_order_id,
           voucher_filename: voucher_invoice.file_name
       )
+      shipment.generate_shipping_pdf
     end
 
     invoice.generate_invoice_pdf
+
+    SMTP::SendMail.instance.send_order_confirmation(
+        User[user_id].email,
+        invoice.invoice_number,
+        "#{ENV['APPLICATION_BASE']}/files/invoices/#{invoice.invoice_number}.pdf"
+    )
 
     # SMTPMail::Mail.send_confirmation(
     #
@@ -214,10 +222,5 @@ Tacpic.hash_branch 'orders' do |r|
 
     response.status = 201
     order.values
-
-    # rescue StandardError => e
-    #   puts e.message
-    #   puts e.backtrace.inspect
-    # end
   end
 end
