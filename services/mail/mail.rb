@@ -20,12 +20,14 @@ module SMTP
     end
 
     def send_order_confirmation(recipient, invoice_number, invoice_filepath)
-      Mail.deliver do
-        from     'info@tacpic.de'
-        to       recipient
-        subject  "Ihre Bestellung #{invoice_number}"
-        body     ORDER_CONFIRM_TEMPLATE.result_with_hash({})
-        add_file invoice_filepath
+      unless ENV["RACK_ENV"] == 'test'
+        Mail.deliver do
+          from     'info@tacpic.de'
+          to       recipient
+          subject  "Ihre Bestellung #{invoice_number}"
+          body     ORDER_CONFIRM_TEMPLATE.result_with_hash({})
+          add_file invoice_filepath
+        end
       end
     end
   end

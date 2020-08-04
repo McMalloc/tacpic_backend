@@ -3,77 +3,76 @@ require_relative "./test_helper"
 describe "Quote" do
   it "should correctly calculate a quote" do
     post "orders/quote", {items: [{
-        contentId: $variant_a_id,
+        contentId: $variant_1_id,
         productId: "graphic",
         quantity: 1
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal 510, response['gross_total']
+    assert_equal 389 + 200, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_b_id,
+        contentId: $variant_2_id,
         productId: "graphic",
         quantity: 1
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 827
+    assert_equal 689 + 200, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_c_id,
+        contentId: $variant_3_id,
         productId: "graphic",
         quantity: 1
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 287
+    assert_equal 159 + 200, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_d_id,
+        contentId: $variant_4_id,
         productId: "graphic",
         quantity: 1
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 602
+    assert_equal 1099 + 200, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_e_id,
+        contentId: $variant_5_id,
         productId: "graphic",
         quantity: 1
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 1140
+    assert_equal 869 + 200, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_f_id,
+        contentId: $variant_6_id,
         productId: "graphic",
-        quantity: 1
+        quantity: 6
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 1579
+    assert_equal (100 + 5*289)*6+200, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_g_id,
+        contentId: $variant_7_id,
         productId: "graphic",
-        quantity: 1
+        quantity: 6
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 9787
+    assert_equal 17799 + 200, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_h_id,
+        contentId: $variant_8_id,
         productId: "graphic",
-        quantity: 1
+        quantity: 6
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 1485
+    assert_equal 1899 + 200 + 600, response['gross_total']
 
     post "orders/quote", {items: [{
-        contentId: $variant_j_id,
+        contentId: $variant_9_id,
         productId: "graphic",
         quantity: 1
     }]}
     response = JSON.parse(last_response.body)
-    assert_equal response['gross_total'], 2180
-
+    assert_equal 1900 + 200, response['gross_total']
   end
 end
 

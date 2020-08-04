@@ -90,7 +90,7 @@ Tacpic.hash_branch "variants" do |r|
           created_tag = Tag.create(
               name: tag['name'],
               user_id: user_id,
-              taxonomy_id: 4
+              # taxonomy_id: 4
           )
 
           tag['tag_id'] = created_tag[:id]

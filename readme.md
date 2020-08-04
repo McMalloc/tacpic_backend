@@ -14,7 +14,9 @@ SSH-Login via Keypair einrichten, Passwort-Login via SSH deaktivieren.
 
 # Pakete installieren
 ```
-sudo apt-get install git nano postgresql postgresql-client postgresql-contrib libpq-dev liblouis-bin netpbm ghostscript
+sudo apt-get install git nano postgresql postgresql-client postgresql-contrib libpq-dev liblouis-bin netpbm ghostscript 
+# Packages für headless Chrome
+sudo apt-get install libgbm1 libxcb-dri3
 ```
 
 # Proxy mit Apache

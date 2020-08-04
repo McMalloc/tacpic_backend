@@ -13,12 +13,12 @@ describe "Addresses" do
     header 'Content-Type', 'application/json'
   end
 
-  it "should delete addresses" do
-    post "users/addresses/delete/#{$fixture_disposable_address_id}", {}
+  it "should delete/inactivate address with id #{$fixture_disposable_address_id}" do
+    post "users/addresses/inactivate/#{$fixture_disposable_address_id}", {}
     assert_equal 204, last_response.status
-    post "users/addresses/delete/#{$fixture_disposable_address_id}", {}
-    assert_equal 404, last_response.status
-    post "users/addresses/delete/#{$fixture_foreign_address_id}", {}
+    post "users/addresses/inactivate/#{$fixture_disposable_address_id}", {}
+    assert_equal 204, last_response.status
+    post "users/addresses/inactivate/#{$fixture_foreign_address_id}", {}
     assert_equal 403, last_response.status
   end
 

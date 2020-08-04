@@ -111,7 +111,7 @@ class Quote
 
     postage.net_price = @@prices[:shipping_general]
     # postage.gross_price = @@postages[postage_product_id][:price]
-    postage.gross_price = postage.net_price * 1.07 # TODO no magic numbers
+    postage.gross_price = (postage.net_price * 1.07).round # TODO no magic numbers
     postage.content_id = @@postages[postage_product_id][:pplId]
     return postage
   end

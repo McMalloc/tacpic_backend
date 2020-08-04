@@ -36,6 +36,6 @@ class GraphicPriceCalculator
     unless net_only
       price += @tax_rate * price
     end
-    return price
+    return price.round
   end
 end

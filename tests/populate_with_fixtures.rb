@@ -96,7 +96,7 @@ begin
   $fixture4_variant_id = response['default_variant']['id']
   $fixture4_graphic_id = response['created_graphic']['id']
 
-  $variant_a_id = Variant.create({
+  $variant_1_id = Variant.create({
                      graphic_id: $fixture1_graphic_id,
                      graphic_no_of_pages: 1,
                      graphic_format: "a4",
@@ -105,7 +105,7 @@ begin
                      braille_format: "a4",
                      title: "1x a4 Grafik"
                  }).id
-  $variant_b_id = Variant.create({
+  $variant_2_id = Variant.create({
                      graphic_id: $fixture1_graphic_id,
                      graphic_no_of_pages: 1,
                      graphic_format: "a3",
@@ -114,7 +114,7 @@ begin
                      braille_format: "a4",
                      title: "1x a3 Grafik"
                  }).id
-  $variant_c_id = Variant.create({
+  $variant_3_id = Variant.create({
                      graphic_id: $fixture1_graphic_id,
                      graphic_no_of_pages: 0,
                      graphic_format: "a4",
@@ -123,68 +123,59 @@ begin
                      braille_format: "a4",
                      title: "1x Braille"
                  }).id
-  $variant_d_id = Variant.create({
-                     graphic_id: $fixture1_graphic_id,
-                     graphic_no_of_pages: 1,
-                     graphic_format: "a4",
-                     graphic_landscape: false,
-                     braille_no_of_pages: 3,
-                     braille_format: "a4",
-                     title: "1x a4 Grafik, 3x Braille"
-                 }).id
-  $variant_e_id = Variant.create({
-                     graphic_id: $fixture1_graphic_id,
-                     graphic_no_of_pages: 3,
-                     graphic_format: "a4",
-                     graphic_landscape: false,
-                     braille_no_of_pages: 4,
-                     braille_format: "a4",
-                     title: "3x a4 Grafik, 4x Braille"
-                 }).id
-  $variant_f_id = Variant.create({
+  $variant_4_id = Variant.create({
                      graphic_id: $fixture1_graphic_id,
                      graphic_no_of_pages: 2,
-                     graphic_format: "a3",
-                     graphic_landscape: false,
-                     braille_no_of_pages: 6,
-                     braille_format: "a4",
-                     title: "2x a3 Grafik, 6x Braille"
-                 }).id
-  $variant_g_id = Variant.create({
-                     graphic_id: $fixture1_graphic_id,
-                     graphic_no_of_pages: 30,
-                     graphic_format: "a4",
-                     graphic_landscape: true,
-                     braille_no_of_pages: 60,
-                     braille_format: "a4",
-                     title: "30x a4 Grafik, 60x Braille"
-                 }).id
-  $variant_h_id = Variant.create({
-                     graphic_id: $fixture1_graphic_id,
-                     graphic_no_of_pages: 4,
                      graphic_format: "a4",
                      graphic_landscape: false,
                      braille_no_of_pages: 7,
                      braille_format: "a4",
-                     title: "4x a4 Grafik, 7x Braille"
+                     title: "2x a4 Grafik, 7x Braille"
                  }).id
-  $variant_i_id = Variant.create({
+  $variant_5_id = Variant.create({
                      graphic_id: $fixture1_graphic_id,
                      graphic_no_of_pages: 1,
                      graphic_format: "a3",
                      graphic_landscape: false,
+                     braille_no_of_pages: 3,
+                     braille_format: "a4",
+                     title: "1x a3 Grafik, 3x Braille"
+                 }).id
+  $variant_6_id = Variant.create({
+                     graphic_id: $fixture1_graphic_id,
+                     graphic_no_of_pages: 5,
+                     graphic_format: "a4",
+                     graphic_landscape: false,
                      braille_no_of_pages: 0,
                      braille_format: "a4",
-                     title: "1x a3 Grafik"
+                     title: "5x a4 Grafik"
                  }).id
-  $variant_j_id = Variant.create({
+  $variant_7_id = Variant.create({
+                     graphic_id: $fixture1_graphic_id,
+                     graphic_no_of_pages: 5,
+                     graphic_format: "a3",
+                     graphic_landscape: true,
+                     braille_no_of_pages: 0,
+                     braille_format: "a4",
+                     title: "5x a3 Grafik"
+                 }).id
+  $variant_8_id = Variant.create({
                      graphic_id: $fixture1_graphic_id,
                      graphic_no_of_pages: 0,
                      graphic_format: "a4",
                      graphic_landscape: false,
-                     braille_no_of_pages: 60,
+                     braille_no_of_pages: 5,
                      braille_format: "a4",
-                     title: "60x Braille"
+                     title: "5x Braille"
+                 }).id
+  $variant_9_id = Variant.create({
+                     graphic_id: $fixture1_graphic_id,
+                     graphic_no_of_pages: 0,
+                     graphic_format: "a4",
+                     graphic_landscape: false,
+                     braille_no_of_pages: 30,
+                     braille_format: "a4",
+                     title: "30x Braille"
                  }).id
 
 # pp last_response.body

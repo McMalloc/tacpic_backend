@@ -20,7 +20,7 @@ Tacpic.hash_branch "users" do |r|
           response.status = 404
           "Error: Ressource address does not exist"
         elsif address.user_id == rodauth.logged_in?
-          address.destroy
+          address.update active: false
           response.status = 204
           nil
         else
