@@ -48,6 +48,21 @@ describe "Orders" do
     assert_equal prev_nr_of_orders, Order.all.count
   end
 
+  it 'should reject an order sent from the same form' do
+    key = uuid_gen.generate
+    post 'orders', order_renderer.result_with_hash({variant1_id: $fixture1_variant_id,
+                                                    shipping_address_id: $fixture_address_id,
+                                                                      variant2_id: $fixture2_variant_id,
+                                                                      variant3_id: $fixture3_variant_id,
+                                                                      idempotency_key: key})
+    post 'orders', order_renderer.result_with_hash({variant1_id: $fixture1_variant_id,
+                                                    shipping_address_id: $fixture_address_id,
+                                                                      variant2_id: $fixture2_variant_id,
+                                                                      variant3_id: $fixture3_variant_id,
+                                                                      idempotency_key: key})
+    assert_equal 409, last_response.status
+  end
+
   it "should create a new order" do
     nr_of_addresses = Address.all.count
     nr_of_orders = Order.where(user_id: $test_user_id).count
