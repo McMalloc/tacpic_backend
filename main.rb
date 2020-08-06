@@ -2,6 +2,7 @@
 require 'roda'
 require 'logger'
 require 'csv'
+require 'mail'
 
 # require_relative './helper/auth'
 require_relative 'models/init' # gets Store
@@ -17,15 +18,26 @@ class Tacpic < Roda
   # $_db.extension :pg_array
   Store.init
 
+  Mail.defaults do
+    delivery_method :smtp, { address:              ENV['SMTP_SERVER'],
+                             port:                 ENV['SMTP_PORT'],
+                             domain:               ENV['SMTP_HELOHOST'],
+                             user_name:            ENV['SMTP_USER'],
+                             password:             ENV.delete('SMTP_PASSWORD'),
+                             authentication:       'login',
+                             enable_starttls_auto: true  }
+  end
+
   plugin :route_csrf
   # handle json responses, serialize Sequel models
   plugin :json, classes: [Array, Hash, Sequel::Model]
   plugin :json_parser
   plugin :request_headers
   plugin :hash_routes
+  plugin :render
   plugin :public #, root: 'static'
   plugin :sinatra_helpers
-  plugin :all_verbs
+  # plugin :all_verbs
 
   unless Dir.exists?("logs")
     Dir.mkdir("logs")
@@ -41,8 +53,7 @@ class Tacpic < Roda
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
     login_required_error_status 401
-    enable :login, :logout, :jwt, :create_account #, :jwt_cors#, :session_expiration
-    # :verify_account # requires an SMTP server on port 25 by default
+    enable :login, :logout, :jwt, :create_account, :verify_account  #, :jwt_cors#, :session_expiration
 
     accounts_table :users
     jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
@@ -54,6 +65,12 @@ class Tacpic < Roda
     before_create_account do
       # @account[:display_name] = request.params['display_name']
       @account[:created_at] = Time.now.to_s
+    end
+
+    verify_account_email_subject 'tacpic: Bestätigung Ihrer E-Mail-Adresse'
+    # verify_account_email_body "#{verify_account_email_link}"
+    after_verify_account do
+      response.write @account.to_json
     end
   end
 
