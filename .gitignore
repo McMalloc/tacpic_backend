@@ -1,6 +1,5 @@
 .idea/*
 .idea
-*.lock
 env.yml
 env.rb
 doc
