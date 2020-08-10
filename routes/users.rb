@@ -65,6 +65,7 @@ Tacpic.hash_branch "users" do |r|
 
   # r.on Integer do |user_id|
   r.get 'validate' do
+    rodauth.require_authentication
     {
         display_name: User[rodauth.logged_in?][:display_name],
         email: User[rodauth.logged_in?][:email],
