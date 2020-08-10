@@ -166,7 +166,7 @@ namespace 'stage' do
         frontend_log += `git log --pretty=format:'{"hash": "%h", "author": "%an", "timestamp": "%at", "subject": "%s", "message": "%b"},'`
         frontend_log.delete_suffix!(', ')
         frontend_log += ']}}'
-        File.open("public/FRONTEND.json", "w") do |f|
+        File.open("../tacpic_backend/public/FRONTEND.json", "w") do |f|
           f.write frontend_log.gsub(/\n+/, "").gsub(/\t+/, "")
         end
 
