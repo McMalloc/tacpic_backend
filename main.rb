@@ -11,8 +11,6 @@ require_relative 'env' # gets Config
 require_relative 'helper/functions'
 
 class Tacpic < Roda
-  $_backend_version = File.read "public/BACKEND_VERSION.txt"
-
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
   $_db.extension :pg_trgm #https://github.com/mitchellhenke/sequel-pg-trgm
   # $_db.extension :pg_array
@@ -48,7 +46,7 @@ class Tacpic < Roda
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
-  # secret = ENV.delete('RODAUTH_SESSION_SECRET') || SecureRandom.random_bytes(64)
+  # secret = ENV.delete('TACPIC_SESSION_SECRET') || SecureRandom.random_bytes(64)
   plugin :sessions, :secret => secret, :key => 'rodauth.session'
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
@@ -123,6 +121,7 @@ require_relative 'routes/variants'
 require_relative 'routes/tags'
 require_relative 'routes/users'
 require_relative 'routes/orders'
+require_relative 'routes/quotes'
 require_relative 'routes/braille'
 #
 # require_relative 'routes/backend/users'
