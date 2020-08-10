@@ -39,34 +39,6 @@ Tacpic.hash_branch 'orders' do |r|
            .map(&:values))
   end
 
-  # POST /orders/quote
-  r.is "quote" do
-    r.post do
-      if request[:items].count == 0
-        return {
-            items: [],
-            # packaging_item: {},
-            postage_item: {},
-            vat: 0,
-            vat_reduced: 0,
-            net_total: 0,
-            gross_total: 0
-        }
-      end
-      quote = get_quote request[:items]
-      {
-          items: quote.order_items.map(&:values),
-          # packaging_item: quote.packaging_item.values,
-          postage_item: quote.postage_item.values,
-          vat: quote.vat,
-          weight: quote.weight,
-          vat_reduced: quote.reduced_vat,
-          net_total: quote.net,
-          gross_total: quote.gross
-      }
-    end
-  end
-
   # POST /orders
   # Creates an order, also create order_items based on the provided checkout data
   # @param address_id [Integer] The selected shipping address

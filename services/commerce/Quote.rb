@@ -31,21 +31,23 @@ class Quote
     @weight = 0
 
     @order_items.each_with_index do |item, index|
-      corresponding_variant = @variants.find {|variant|variant[:id] == item.content_id}
-      if item.product_id == 'graphic'
-        price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
-        item.net_price = price.net
-        item.gross_price = price.gross
-        item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
-        +corresponding_variant[:braille_no_of_pages] * @@weights["emboss_#{corresponding_variant[:braille_format]}".to_sym]
-      elsif item.product_id == 'graphic_nobraille'
-        price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
-        item.net_price = price.net_graphics_only
-        item.gross_price = price.gross_graphics_only
-        item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
-      end
+      corresponding_variant = @variants.find { |variant| variant[:id] == item.content_id }
+      unless corresponding_variant.nil?
+        if item.product_id == 'graphic'
+          price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
+          item.net_price = price.net
+          item.gross_price = price.gross
+          item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
+          +corresponding_variant[:braille_no_of_pages] * @@weights["emboss_#{corresponding_variant[:braille_format]}".to_sym]
+        elsif item.product_id == 'graphic_nobraille'
+          price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
+          item.net_price = price.net_graphics_only
+          item.gross_price = price.gross_graphics_only
+          item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
+        end
 
-      @weight += item.weight
+        @weight += item.weight
+      end
     end
 
     @postage_item = postage_item
@@ -120,12 +122,15 @@ class Quote
 
   def requires_antikink?
     @order_items.each_with_index do |item, index|
-      if @variants.find {|variant|variant[:id] == item.content_id}[:graphic_format] == "a3"
-        return true
-      end
-      if item[:with_braille]
-        if @variants.find {|variant|variant[:id] == item.content_id}[:braille_format] == "a3"
+      corresponding_variant = @variants.find { |variant| variant[:id] == item.content_id }
+      unless corresponding_variant.nil?
+        if corresponding_variant[:graphic_format] == "a3"
           return true
+        end
+        if item[:with_braille]
+          if corresponding_variant[:braille_format] == "a3"
+            return true
+          end
         end
       end
     end

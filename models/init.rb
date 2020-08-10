@@ -26,6 +26,7 @@ module Store
     Annotation
     Comment
     Post
+    QuoteRequest
     Vote
     Request
     Proposal

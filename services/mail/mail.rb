@@ -6,6 +6,7 @@ module SMTP
     include Singleton
     # SMTP_PASSWORD = ENV.delete('SMTP_PASSWORD')
     ORDER_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/order_confirmation_template.erb")
+    QUOTE_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/quote_confirmation_template.erb")
 
     def initialize
       # Mail.defaults do
@@ -27,6 +28,17 @@ module SMTP
           subject  "Ihre Bestellung #{invoice_number}"
           body     ORDER_CONFIRM_TEMPLATE.result_with_hash({})
           add_file invoice_filepath
+        end
+      end
+    end
+
+    def send_quote_confirmation(recipient, quote_id, items)
+      unless ENV["RACK_ENV"] == 'test'
+        Mail.deliver do
+          from     'info@tacpic.de'
+          to       recipient
+          subject  "Ihre Anfrage #{quote_id}"
+          body     ORDER_CONFIRM_TEMPLATE.result_with_hash({items: items})
         end
       end
     end

@@ -16,21 +16,27 @@ Tacpic.hash_branch 'quotes' do |r|
   end
 
   r.post 'request' do
-    quote = Quote.create(
-        user_id: user.logged_in?,
-        answer_address: request[:email] || null,
+    quote_request = QuoteRequest.create(
+        user_id: rodauth.logged_in?,
+        answer_address: request[:email] || nil,
         items: request[:items].to_json,
         comment: request[:comment]
     )
 
-    if user.logged_in? || request[:emailCopy]
+    if rodauth.logged_in?
+      if request[:emailCopy]
+        SMTP::SendMail.instance.send_quote_confirmation(
+            User[rodauth.logged_in?].email, quote_request.id, request[:items]
+        )
+      end
+    else
       SMTP::SendMail.instance.send_quote_confirmation(
-          user.logged_in? ? User[user.logged_in?].email : request[:email], quote.id, request[:items]
+          request[:email], quote_request.id, request[:items]
       )
     end
 
     response.status = 202
-    quote
+    quote_request.values
   end
 
   # POST /quotes
