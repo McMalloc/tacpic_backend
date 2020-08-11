@@ -70,6 +70,8 @@ class Tacpic < Roda
     after_verify_account do
       response.write @account.to_json
     end
+
+    email_from 'kontoverwaltung@tacpic.de'
   end
 
   plugin :error_handler do |e|
