@@ -51,7 +51,18 @@ class Tacpic < Roda
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
     login_required_error_status 401
-    enable :login, :logout, :jwt, :create_account, :verify_account  #, :jwt_cors#, :session_expiration
+    enable :login, :logout, :jwt, :create_account   #, :jwt_cors#, :session_expiration
+
+    unless ENV['RACK_ENV'] == 'test'
+      enable :verify_account
+
+      verify_account_email_subject 'tacpic: Bestätigung Ihrer E-Mail-Adresse'
+      # verify_account_email_body "#{verify_account_email_link}"
+      email_from 'kontoverwaltung@tacpic.de'
+      after_verify_account do
+        response.write @account.to_json
+      end
+    end
 
     accounts_table :users
     jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
@@ -64,14 +75,6 @@ class Tacpic < Roda
       # @account[:display_name] = request.params['display_name']
       @account[:created_at] = Time.now.to_s
     end
-
-    verify_account_email_subject 'tacpic: Bestätigung Ihrer E-Mail-Adresse'
-    # verify_account_email_body "#{verify_account_email_link}"
-    after_verify_account do
-      response.write @account.to_json
-    end
-
-    email_from 'kontoverwaltung@tacpic.de'
   end
 
   plugin :error_handler do |e|

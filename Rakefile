@@ -123,10 +123,10 @@ namespace 'stage' do
         backend_log = '{"backend": {"tag": "'
         system "git pull"
         backend_log += `git describe --tags`
-        backend_log += '", "commits": ['
-        backend_log += `git log --pretty=format:'{"hash": "%h", "author": "%an", "timestamp": "%at", "subject": "%s", "message": "%b"},'`
-        backend_log.delete_suffix!(', ')
-        backend_log += ']}}'
+        # backend_log += '", "commits": ['
+        # backend_log += `git log --pretty=format:'{"hash": "%h", "author": "%an", "timestamp": "%at", "subject": "%s", "message": "%b"},'`
+        # backend_log.delete_suffix!(', ')
+        backend_log += '"}}'
         File.open("public/BACKEND.json", "w") do |f|
           f.write backend_log.gsub(/\n+/, "").gsub(/\t+/, "")
         end
@@ -162,10 +162,10 @@ namespace 'stage' do
         frontend_log = '{"frontend": {"tag": "'
         system "git pull"
         frontend_log += `git describe --tags`
-        frontend_log += '", "commits": ['
-        frontend_log += `git log --pretty=format:'{"hash": "%h", "author": "%an", "timestamp": "%at", "subject": "%s", "message": "%b"},'`
-        frontend_log.delete_suffix!(', ')
-        frontend_log += ']}}'
+        # frontend_log += '", "commits": ['
+        # frontend_log += `git log --pretty=format:'{"hash": "%h", "author": "%an", "timestamp": "%at", "subject": "%s", "message": "%b"},'`
+        # frontend_log.delete_suffix!(', ')
+        frontend_log += '"}}'
         File.open("../tacpic_backend/public/FRONTEND.json", "w") do |f|
           f.write frontend_log.gsub(/\n+/, "").gsub(/\t+/, "")
         end
