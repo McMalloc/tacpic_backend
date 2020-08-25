@@ -146,6 +146,11 @@ Tacpic.hash_branch "graphics" do |r|
       limit_clause = "LIMIT #{r.params['limit'].to_i}"
     end
 
+    offset_clause = 'OFFSET 0'
+    unless r.params['offset'].nil? || r.params['offset'].length == 0
+      offset_clause = "OFFSET #{r.params['offset'].to_i}"
+    end
+
     # TODO wird nicht mehr alles gebraucht, kann entschlackt werden
     begin
       $_db.fetch(
@@ -176,6 +181,7 @@ Tacpic.hash_branch "graphics" do |r|
                    "variants"."graphic_landscape", "variants"."braille_no_of_pages", "variants"."braille_format", "variants"."file_name"
           ORDER BY "variants"."created_at" DESC
           #{limit_clause}
+          #{offset_clause}
           }
       ).all
     rescue Sequel::Error
