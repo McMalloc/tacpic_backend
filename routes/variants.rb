@@ -10,9 +10,9 @@ Tacpic.hash_branch "variants" do |r|
       rodauth.require_authentication
       user_id = rodauth.logged_in?
 
-      graphic_no_of_pages = request[:pages].select {|p| not p['text']}.count
+      graphic_no_of_pages = request[:pages].select { |p| not p['text'] }.count
       graphic_format, graphic_landscape = Helper.determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:pages].select {|p| p['text']}.count
+      braille_no_of_pages = request[:pages].select { |p| p['text'] }.count
 
       new_variant = Graphic[request['graphic_id']]
                         .add_variant(
@@ -27,6 +27,22 @@ Tacpic.hash_branch "variants" do |r|
                             graphic_format: graphic_format,
                             graphic_landscape: graphic_landscape,
                         )
+
+      request[:tags].each { |tag|
+        if tag['tag_id'].nil?
+          created_tag = Tag.create(
+              name: tag['name'],
+              user_id: user_id,
+              )
+          tag['tag_id'] = created_tag[:id]
+        end
+
+        Tagging.create(
+            user_id: user_id,
+            tag_id: tag['tag_id'],
+            variant_id: new_variant.id
+        )
+      }
 
       version = new_variant.add_version(
           document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
@@ -59,7 +75,7 @@ Tacpic.hash_branch "variants" do |r|
       requested_variant[:tags] = Tagging
                                      .where(variant_id: requested_id)
                                      .join(:tags, id: :tag_id)
-                                     .select(:tag_id, :name).map(&:values)# { |tagging| tagging[:tag_id] }
+                                     .select(:tag_id, :name).map(&:values) # { |tagging| tagging[:tag_id] }
       requested_variant[:current_version] = Version
                                                 .where(variant_id: requested_id)
                                                 .order_by(:created_at)
@@ -90,7 +106,7 @@ Tacpic.hash_branch "variants" do |r|
           created_tag = Tag.create(
               name: tag['name'],
               user_id: user_id,
-              # taxonomy_id: 4
+          # taxonomy_id: 4
           )
 
           tag['tag_id'] = created_tag[:id]
@@ -112,9 +128,9 @@ Tacpic.hash_branch "variants" do |r|
         end
       }
 
-      graphic_no_of_pages = request[:pages].select {|p| not p['text']}.count
+      graphic_no_of_pages = request[:pages].select { |p| not p['text'] }.count
       graphic_format, graphic_landscape = determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:pages].select {|p| p['text']}.count
+      braille_no_of_pages = request[:pages].select { |p| p['text'] }.count
 
       Variant[requested_id].update(
           title: request[:variantTitle],
@@ -136,6 +152,6 @@ Tacpic.hash_branch "variants" do |r|
     end
 
   end
-# new variant
+  # new variant
 
 end
