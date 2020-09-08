@@ -51,8 +51,9 @@ class Tacpic < Roda
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
     login_required_error_status 401
-    enable :login, :logout, :jwt, :create_account   #, :jwt_cors#, :session_expiration
+    enable :login, :logout, :jwt, :create_account, :reset_password   #, :jwt_cors#, :session_expiration
 
+    # EMAIL CONFIG
     unless ENV['RACK_ENV'] == 'test'
       enable :verify_account
 
@@ -62,7 +63,22 @@ class Tacpic < Roda
       after_verify_account do
         response.write @account.to_json
       end
+
+      verify_account_email_body do
+        SMTP::render(:verify_account, {url: verify_account_email_link})
+      end
     end
+
+    reset_password_email_subject 'tacpic: Zurücksetzen Ihres Passworts'
+    reset_password_email_body do
+      SMTP::render(:reset_password, {url: reset_password_email_link})
+    end
+
+    send_email do |email|
+      email.content_type 'text/html; charset=UTF-8'
+      super email
+    end
+    email_from 'kontoverwaltung@tacpic.de'
 
     accounts_table :users
     jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
@@ -87,20 +103,9 @@ class Tacpic < Roda
   end
 
   route do |r|
-
     r.rodauth
-
-    # r.root do
-      # send_file "public/index.html"
-    # end
-
     r.public
     r.hash_routes
-
-    # if no api or root call, send the react app to handle the url
-    # r.is /.+/ do
-    #   send_file "public/index.html"
-    # end
   end
 end
 

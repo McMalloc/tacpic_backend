@@ -2,22 +2,38 @@ require 'mail'
 require 'singleton'
 
 module SMTP
+  LAYOUT = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/layout.html.erb")
+  def self.layout(params)
+    LAYOUT.result_with_hash(params)
+  end
+  ORDER_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/order_confirmation_template.erb")
+  def self.order_confirm(params)
+    ORDER_CONFIRM_TEMPLATE.result_with_hash(params)
+  end
+  QUOTE_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/quote_confirmation_template.erb")
+  VERIFY_ACCOUNT_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/verify_account_template.erb")
+  def self.verify_account(params)
+    LAYOUT.result_with_hash({body: VERIFY_ACCOUNT_TEMPLATE.result_with_hash(params)})
+  end
+
+  RESET_PASSWORD_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/reset_password_template.erb")
+  def self.reset_password(params)
+    LAYOUT.result_with_hash({body: RESET_PASSWORD_TEMPLATE.result_with_hash(params)})
+  end
+
+  def self.render(template, params)
+    begin
+      send(template, params)
+    rescue StandardError => error
+      puts error.message
+      error.message
+    end
+  end
+
   class SendMail
     include Singleton
-    # SMTP_PASSWORD = ENV.delete('SMTP_PASSWORD')
-    ORDER_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/order_confirmation_template.erb")
-    QUOTE_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/quote_confirmation_template.erb")
 
     def initialize
-      # Mail.defaults do
-      #   delivery_method :smtp, { address:              ENV['SMTP_SERVER'],
-      #                            port:                 ENV['SMTP_PORT'],
-      #                            domain:               ENV['SMTP_HELOHOST'],
-      #                            user_name:            ENV['SMTP_USER'],
-      #                            password:             ENV.delete('SMTP_PASSWORD'),
-      #                            authentication:       'login',
-      #                            enable_starttls_auto: true  }
-      # end
     end
 
     def send_order_confirmation(recipient, invoice_number, invoice_filepath)
