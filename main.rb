@@ -133,5 +133,6 @@ require_relative 'routes/users'
 require_relative 'routes/orders'
 require_relative 'routes/quotes'
 require_relative 'routes/braille'
+require_relative 'routes/trace'
 #
 # require_relative 'routes/backend/users'
