@@ -4,16 +4,25 @@ uuid_gen = UUID.new
 Tacpic.hash_branch "trace" do |r|
   r.is do
     # POST /trace
+    # traces an image that needs to be in a form-data field called 'image' in the post body.
+    # Uses potrace (http://potrace.sourceforge.net/)
     r.post do
       response['Content-Type'] = 'image/svg+xml'
-      tempfile_input = "#{ENV['APPLICATION_BASE']}/files/temp/#{uuid_gen.generate}_#{request['image'][:filename]}"
-      puts request['image'][:type]
+      tempfile_input = "#{ENV['APPLICATION_BASE']}/files/temp/#{uuid_gen.generate}_#{request['image'][:filename].gsub!(/[^0-9A-Za-z.\-]/, '_')}"
+      type = request['image'][:type]
+
+      converter_name = ''
+      if type == 'image/jpeg'
+        converter_name = 'jpegtopnm'
+      elsif type == 'image/png'
+        converter_name = 'pngtopnm'
+      end
 
       f = File.new(tempfile_input, "wb")
       f.write(request['image'][:tempfile].read)     #=> 10
       f.close
 
-      system "cat #{tempfile_input} | pngtopnm | potrace --output #{tempfile_input}.svg --svg"
+      system "cat #{tempfile_input} | #{converter_name} | potrace --output #{tempfile_input}.svg --svg --group"
       File.read(tempfile_input + '.svg')
     end
   end

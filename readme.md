@@ -122,6 +122,7 @@ mkdir tacpic_backend/files
 mkdir tacpic_backend/files/vouchers
 mkdir tacpic_backend/files/invoices
 mkdir tacpic_backend/files/shipment_receipts
+mkdir tacpic_backend/files/temp
 ```
 ## Datenbank einrichten
 
