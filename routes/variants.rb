@@ -143,6 +143,10 @@ Tacpic.hash_branch "variants" do |r|
           medium: request[:medium]
       )
 
+      if Variant[requested_id].derived_from.nil?
+        Graphic[request[:graphic_id]].update(title: request['graphicTitle'])
+      end
+
       version = Variant[requested_id].add_version(
           document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
           user_id: user_id

@@ -5,7 +5,7 @@ end
 def determine_format(width, height)
 
 end
-
+#TODO refactor from trace.rb
 class Tracer
   @@root = "#{ENV['APPLICATION_BASE']}/files"
 

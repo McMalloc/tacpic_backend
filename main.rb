@@ -124,6 +124,7 @@ require_relative 'services/internetmarke/internetmarke'
 require_relative 'services/mail/mail'
 require_relative 'services/commerce/Quote'
 require_relative 'services/commerce/GraphicPriceCalculator'
+require_relative 'services/ocr/ocr'
 
 # routes
 require_relative 'routes/graphics'

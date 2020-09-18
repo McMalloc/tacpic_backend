@@ -7,7 +7,6 @@ Tacpic.hash_branch "trace" do |r|
     # traces an image that needs to be in a form-data field called 'image' in the post body.
     # Uses potrace (http://potrace.sourceforge.net/)
     r.post do
-      response['Content-Type'] = 'image/svg+xml'
       tempfile_input = "#{ENV['APPLICATION_BASE']}/files/temp/#{uuid_gen.generate}_#{request['image'][:filename].gsub!(/[^0-9A-Za-z.\-]/, '_')}"
       type = request['image'][:type]
 
@@ -19,11 +18,15 @@ Tacpic.hash_branch "trace" do |r|
       end
 
       f = File.new(tempfile_input, "wb")
-      f.write(request['image'][:tempfile].read)     #=> 10
+      f.write(request['image'][:tempfile].read)
       f.close
+      ocr = OCR.new tempfile_input
 
       system "cat #{tempfile_input} | #{converter_name} | potrace --output #{tempfile_input}.svg --svg --group"
-      File.read(tempfile_input + '.svg')
+      {
+          graphic: File.read(tempfile_input + '.svg'),
+          ocr: ocr.get_ocr
+      }
     end
   end
 end
