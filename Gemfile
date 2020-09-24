@@ -17,6 +17,7 @@ gem 'i18n'
 gem 'bcrypt'
 gem 'savon'
 gem 'rodauth' # , git: 'https://github.com/jeremyevans/rodauth.git' # todo use release when merged
+gem 'rubyzip'
 
 # Test requirements
 group :test, :development do

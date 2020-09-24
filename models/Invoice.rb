@@ -18,6 +18,10 @@ class Invoice < Sequel::Model
     self.invoice_number = "RE-TS#{now.year}-#{now.month}-#{now.day}-2#{Invoice.all.count.to_s.rjust(5, "0")}"
   end
 
+  def get_pdf_path
+    File.join(ENV['APPLICATION_BASE'], "/files/invoices/", self.invoice_number + ".pdf")
+  end
+
   def generate_invoice_pdf
     order = Order[self.order_id]
     user = order.user
@@ -201,8 +205,6 @@ class Invoice < Sequel::Model
 
       number_pages "Seite <b><page> von <total></b>", at: [0, 0], width: bounds.width, align: :right, inline_format: true
       # end
-
-
     end
   end
 end

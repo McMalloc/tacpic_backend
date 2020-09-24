@@ -21,6 +21,11 @@ module SMTP
     LAYOUT.result_with_hash({body: RESET_PASSWORD_TEMPLATE.result_with_hash(params)})
   end
 
+  PRODUCTION_JOB_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/production_job_template.erb")
+  def self.production_job(params)
+    LAYOUT.result_with_hash({body: PRODUCTION_JOB_TEMPLATE.result_with_hash(params)})
+  end
+
   def self.render(template, params)
     begin
       send(template, params)
@@ -44,6 +49,24 @@ module SMTP
           subject  "Ihre Bestellung #{invoice_number}"
           body     ORDER_CONFIRM_TEMPLATE.result_with_hash({})
           add_file invoice_filepath
+        end
+      end
+    end
+
+    def send_production_job(order, zipfile_name)
+      unless ENV["RACK_ENV"] == 'test'
+        Mail.deliver do
+          from     'auftrag@tacpic.de'
+          to       ENV['PRODUCTION_ADDRESS']
+          subject  "Auftrag \##{order.id}"
+          html_part do
+            content_type 'text/html; charset=UTF-8'
+            body     SMTP::production_job({
+                                              order_items: order.order_items.map(&:values)
+                                          })
+          end
+
+          add_file zipfile_name
         end
       end
     end

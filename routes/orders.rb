@@ -147,50 +147,58 @@ Tacpic.hash_branch 'orders' do |r|
 
     # TODO Zahlung anlegen
     # the shipping voucher will be put on the invoice if it's the same address
-    voucher_shipping = Internetmarke::Voucher.new(
-        final_quote.postage_item[:content_id],
-        Address[shipping_address_id].values)
-    if ENV['RACK_ENV'] == 'production'
-      voucher_shipping.checkout
-    end
-    shipment.update(
-        voucher_id: voucher_shipping.shop_order_id,
-        voucher_filename: voucher_shipping.file_name
-    )
-
-    # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
-    if shipping_address_id != invoice_address_id
-      voucher_invoice = Internetmarke::Voucher.new(
-          1,
-          Address[invoice_address_id].values)
+    begin
+      voucher_shipping = Internetmarke::Voucher.new(
+          final_quote.postage_item[:content_id],
+          Address[shipping_address_id].values)
       if ENV['RACK_ENV'] == 'production'
         voucher_shipping.checkout
       end
-      invoice.update(
-          voucher_id: voucher_invoice.shop_order_id,
-          voucher_filename: voucher_invoice.file_name
+      shipment.update(
+          voucher_id: voucher_shipping.shop_order_id,
+          voucher_filename: voucher_shipping.file_name
       )
-      shipment.generate_shipping_pdf
+
+      # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
+      if shipping_address_id != invoice_address_id
+        voucher_invoice = Internetmarke::Voucher.new(
+            1,
+            Address[invoice_address_id].values)
+        if ENV['RACK_ENV'] == 'production'
+          voucher_shipping.checkout
+        end
+        invoice.update(
+            voucher_id: voucher_invoice.shop_order_id,
+            voucher_filename: voucher_invoice.file_name
+        )
+        shipment.generate_shipping_pdf
+      end
+    rescue
+      response.status = 500
+      return "Fehler beim Lösen der Internetmarke"
     end
 
     invoice.generate_invoice_pdf
 
-    SMTP::SendMail.instance.send_order_confirmation(
-        User[user_id].email,
-        invoice.invoice_number,
-        "#{ENV['APPLICATION_BASE']}/files/invoices/#{invoice.invoice_number}.pdf"
-    )
+    job = nil
+    begin
+      job = Job.new(order)
+    rescue StandardError=>error
+      response.status = 500
+      raise error
+    end
 
-    # SMTPMail::Mail.send_confirmation(
-    #
-    # )
-    #
-    # if ENV['RACK_ENV'] == 'production'
-    #   # schicke E-Mail an Produktionspartner
-    #   SMTPMail::Mail.send_job(
-    #
-    #   )
-    # end
+    Thread.new {
+      job.send_mail
+
+      SMTP::SendMail.instance.send_order_confirmation(
+          User[user_id].email,
+          invoice.invoice_number,
+          "#{ENV['APPLICATION_BASE']}/files/invoices/#{invoice.invoice_number}.pdf"
+      )
+
+      order.update(status: 1)
+    }
 
     response.status = 201
     order.values

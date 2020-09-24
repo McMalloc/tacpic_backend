@@ -206,11 +206,9 @@ Tacpic.hash_branch "graphics" do |r|
       )
 
       # TODO put in Variant model
-      graphic_no_of_pages = request[:pages].select { |p| not p['text'] }.count
+      graphic_no_of_pages = request[:pages].count
       graphic_format, graphic_landscape = determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:pages].select { |p| p['text'] }.inject(0) do |sum, braille_page|
-        sum + braille_page['formatted'].count
-      end
+      braille_no_of_pages = request[:braillePages]['formatted'].length
 
       default_variant = created_graphic.add_variant(
           title: 'Basis', # TODO i18n

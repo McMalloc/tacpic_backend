@@ -86,6 +86,7 @@ GEM
       roda (>= 2.6.0)
       sequel (>= 4)
     ruby-progressbar (1.10.1)
+    rubyzip (2.3.0)
     savon (2.12.1)
       akami (~> 1.2)
       builder (>= 2.1.2)
@@ -144,6 +145,7 @@ DEPENDENCIES
   roda
   roda-route_list
   rodauth
+  rubyzip
   savon
   sequel
   sequel-pg-trgm

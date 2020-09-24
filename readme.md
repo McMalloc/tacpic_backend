@@ -15,7 +15,7 @@ SSH-Login via Keypair einrichten, Passwort-Login via SSH deaktivieren.
 
 # Pakete installieren
 ```
-sudo apt-get install git nano postgresql postgresql-client postgresql-contrib libpq-dev liblouis-bin netpbm ghostscript potrace tesseract-ocr
+sudo apt-get install git nano unrtf postgresql postgresql-client postgresql-contrib libpq-dev liblouis-bin netpbm ghostscript potrace tesseract-ocr
 # Packages für headless Chrome
 sudo apt-get install libgbm1 libxcb-dri3
 ```

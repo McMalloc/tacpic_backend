@@ -2,6 +2,10 @@ class Shipment < Sequel::Model
   many_to_one :address
   one_to_many :shipped_items
 
+  def get_pdf_path
+    File.join(ENV['APPLICATION_BASE'], "/files/shipment_receipts/", "lieferschein_" + self.id.to_s + ".pdf")
+  end
+
   def generate_shipping_pdf
     order = Order[self.order_id]
     user = order.user
@@ -11,7 +15,7 @@ class Shipment < Sequel::Model
     invoice_number = invoice.invoice_number
     invoice_address = Address[invoice.address_id]
     invoice_date = invoice.created_at
-    shipment_date = Helper.add_working_days(self.created_at, 3)
+    shipment_date = Helper.add_working_days(self.created_at, 3) #todo no magic numbers
     voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{ENV['RACK_ENV'] == 'production' ? self.voucher_filename : 'placeholder'}/0.png"
 
     item_table_data = [
@@ -38,7 +42,7 @@ class Shipment < Sequel::Model
       )
     end
 
-    Prawn::Document.generate("#{ENV['APPLICATION_BASE']}/files/shipment_receipts/#{self.id}.pdf",
+    Prawn::Document.generate("#{ENV['APPLICATION_BASE']}/files/shipment_receipts/lieferschein_#{self.id}.pdf",
                              page_size: 'A4', page_layout: :portrait, left_margin: 20.mm, margin_right: 20.mm, top_margin: 10.mm, bottom_margin: 10.mm) do
       font_families.update(
           "Roboto" => {

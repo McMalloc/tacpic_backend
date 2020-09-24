@@ -44,13 +44,13 @@ class DocumentProcessor
   def initialize(version)
     @version = version.values
     @variant = version.variant.values
-    graphic = version.variant.graphic
+    @graphic = version.variant.graphic
     document = JSON.parse @version[:document]
     @pages = document['pages']
 
-    @braille_layout = document['braillePages']
+    @braille_pages = document['braillePages']
     @graphic_width, @graphic_height = determine_dimensions(@variant[:graphic_format], @variant[:graphic_landscape])
-    @file_name = "v#{@version[:id]}-#{graphic.title.gsub(/[^0-9A-Za-z.\-]/, '_')}-#{@variant[:title].gsub(/[^0-9A-Za-z.\-]/, '_') or "basis"}"
+    @file_name = "v#{@version[:id]}-#{@graphic.title.gsub(/[^0-9A-Za-z.\-]/, '_')}-#{@variant[:title].gsub(/[^0-9A-Za-z.\-]/, '_') or "basis"}"
   end
 
   def save_svg(index)
@@ -65,24 +65,22 @@ class DocumentProcessor
     end
   end
 
-  def save_brf(index)
+  def save_brf(formattedContent)
     # TODO Validierer, damit keine fehlerhaften BRFs ausgegeben werden, die die Produktion stören
 
     File.open "#{@@root}/#{@file_name}-BRAILLE.brf", 'w' do |f|
-      content = @pages[index]['formatted']
-      content.nil? && return
       page_index = 0
       binding = {
-          cellsPerRow: @braille_layout['cellsPerRow'],
-          height: @braille_layout['height'],
-          marginLeft: @braille_layout['marginLeft'],
-          marginTop: @braille_layout['marginTop'],
-          pageNumbers: @braille_layout['pageNumbers'],
-          rowsPerPage: @braille_layout['rowsPerPage'],
-          width: @braille_layout['width'],
-          braille_content: content.reduce("") { |memo, pagebreak|
+          cellsPerRow: @braille_pages['cellsPerRow'],
+          height: @braille_pages['height'],
+          marginLeft: @braille_pages['marginLeft'],
+          marginTop: @braille_pages['marginTop'],
+          pageNumbers: @braille_pages['pageNumbers'],
+          rowsPerPage: @braille_pages['rowsPerPage'],
+          width: @braille_pages['width'],
+          braille_content: formattedContent.reduce("") { |memo, pagebreak|
             page_index += 1
-            if page_index === content.count
+            if page_index === formattedContent.count
               suffix = ""
             else
               suffix = "\x0c" # page feed
@@ -98,16 +96,13 @@ class DocumentProcessor
 
   def save_files
     ENV['RACK_ENV'] == 'test' and return @file_name
-    @pages.nil? && return
     begin
+      self.save_brf @braille_pages['formatted']
+      @pages.nil? && return
       @pages.count.times do |index|
-        if @pages[index]['text'] != true
-          self.save_svg index
-          self.save_pdf index
-          self.save_thumbnails index
-        else
-          self.save_brf index
-        end
+        self.save_svg index
+        self.save_pdf index
+        self.save_thumbnails index
       end
       # TODO wenn einer Variante Seiten entfernt werden, werden die Dateien trotzdem noch gemergt. => map
       merge_input = "#{@@root}/#{@file_name}-PRINT-p*.pdf"

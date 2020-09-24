@@ -128,9 +128,9 @@ Tacpic.hash_branch "variants" do |r|
         end
       }
 
-      graphic_no_of_pages = request[:pages].select { |p| not p['text'] }.count
+      graphic_no_of_pages = request[:pages].count
       graphic_format, graphic_landscape = determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:pages].select { |p| p['text'] }.count
+      braille_no_of_pages = request[:braillePages]['formatted'].length
 
       Variant[requested_id].update(
           title: request[:variantTitle],
