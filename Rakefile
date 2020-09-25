@@ -137,7 +137,7 @@ namespace 'stage' do
     end
 
     puts "Staging frontend:".black.bg_cyan
-    Dir.chdir("#{base}/../tacpic") do
+    Dir.chdir("#{File.join(base,'../tacpic')}") do
       puts "Compare frontend masters"
       system "git remote update"
       rev_local = `git rev-parse master`
@@ -150,7 +150,7 @@ namespace 'stage' do
         digest_package_old = Digest::SHA256.digest File.read 'package.json'
         system "git pull"
 
-        system "./git_log_to_json.sh #{base}/../tacpic #{base}/public/FRONTEND.json"
+        system "./git_log_to_json.sh #{File.join(base,'../tacpic')} #{base}/public/FRONTEND.json"
 
         # system "git describe --tags > public/FRONTEND_VERSION.txt"
         digest_package_new = Digest::SHA256.digest File.read 'package.json'
@@ -166,8 +166,8 @@ namespace 'stage' do
     #   system "mkdir #{base}/tacpic_backend/public"
     # end
 
-    puts "Copying #{base}../tacpic/build/* to /var/www/frontend/"
-    if system "cp -r #{base}../tacpic/build/* /var/www/frontend/"
+    puts "Copying #{File.join(base,'../tacpic/build/*')} to /var/www/frontend/"
+    if system "cp -r #{File.join(base,'../tacpic/build/*')} /var/www/frontend/"
       puts "Success!".black.bg_green
     end
   end
