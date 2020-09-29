@@ -229,7 +229,7 @@ Tacpic.hash_branch "graphics" do |r|
           created_tag = Tag.create(
               name: tag['name'],
               user_id: user_id,
-              taxonomy_id: 0
+              taxonomy_id: 1
           )
 
           tag['tag_id'] = created_tag[:id]
