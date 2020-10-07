@@ -92,7 +92,7 @@ module Internetmarke
   end
 
   class Voucher
-    @@valid_pplsIds = CSV.parse(File.read('services/commerce/postage.csv'), headers: true).map{|row|{pplId: row[0].to_i, price: row[2].to_i}}
+    @@valid_pplsIds = CSV.parse(File.read('services/commerce/postage.csv'), headers: true).map { |row| {pplId: row[0].to_i, price: row[2].to_i} }
     attr_accessor :shop_order_id
     attr_accessor :file_url
     attr_accessor :file_name
@@ -108,7 +108,7 @@ module Internetmarke
             city: "Magdeburg",
             country: "DEU",
         })
-      if @@valid_pplsIds.map{|row|row[:pplId]}.include? product
+      if @@valid_pplsIds.map { |row| row[:pplId] }.include? product
         @product = product
       else
         @product = nil # not a valid product
@@ -121,7 +121,7 @@ module Internetmarke
 
     def save_voucher
       puts "Get from #{@file_link}"
-      @file_name = "#{ENV['APPLICATION_BASE']}/files/vouchers/voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}"
+      @file_name = "voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}"
       system "wget '#{@file_link}' -O #{@file_name}.zip"
       system "unzip #{@file_name}.zip -d #{@file_name}"
     end
@@ -132,28 +132,21 @@ module Internetmarke
       sender = transform_address(@sender_address)
       receiver = transform_address(@receiver_address)
       product = @product
-      total = @@valid_pplsIds.find{|row|row[:pplId] == product}[:price]
+      total = @@valid_pplsIds.find { |row| row[:pplId] == product }[:price]
 
       begin
         response = Client.instance.client.call :checkout_shopping_cart_png do
           soap_header Client.instance.create_header
-
-          if ENV['RACK_ENV'] == 'production'
-            message userToken: token,
-                    positions: {
-                        productCode: product,
-                        address: {
-                            sender: sender,
-                            receiver: receiver
-                        },
-                        voucherLayout: "AddressZone"
-                    },
-                    Total: total
-          else
-            message userToken: token,
-                    positions: {},
-                    Total: 0
-          end
+          message userToken: token,
+                  positions: {
+                      productCode: product,
+                      address: {
+                          sender: sender,
+                          receiver: receiver
+                      },
+                      voucherLayout: "AddressZone"
+                  },
+                  Total: total
         end
 
         @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]

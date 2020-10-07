@@ -213,10 +213,10 @@ Tacpic.hash_branch "graphics" do |r|
       default_variant = created_graphic.add_variant(
           title: 'Basis', # TODO i18n
           public: false,
-          description: nil,
           medium: request[:medium],
           graphic_no_of_pages: graphic_no_of_pages,
           braille_no_of_pages: braille_no_of_pages,
+          description: request[:variantDescription],
           graphic_format: graphic_format,
           braille_format: 'a4',
           graphic_landscape: graphic_landscape,

@@ -18,7 +18,7 @@ Sequel.migration do
 
       # String :password, size: 16, null: false, fixed: true
       # String :salt, size: 8, null: false, fixed: true
-      String :display_name, size: 32
+      String :display_name, size: 32, :unique => true
       Integer :role, null: false, default: 0
       DateTime :created_at
     end

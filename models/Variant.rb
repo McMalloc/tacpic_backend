@@ -8,6 +8,14 @@ class Variant < Sequel::Model
     File.open("#{ENV['APPLICATION_BASE']}/files/#{self.file_name}-PRINT-merged.pdf").read
   end
 
+  def latest_version
+    Version
+        .where(variant_id: self.id)
+        .order_by(:created_at)
+        .limit(1)
+        .last
+  end
+
   def get_brf
     File.open("#{ENV['APPLICATION_BASE']}/files/#{self.file_name}-BRAILLE.brf").read
   end

@@ -164,7 +164,7 @@ Tacpic.hash_branch 'orders' do |r|
         voucher_invoice = Internetmarke::Voucher.new(
             1,
             Address[invoice_address_id].values)
-        if ENV['RACK_ENV'] == 'production'
+        unless order.test
           voucher_shipping.checkout
         end
         invoice.update(
@@ -183,7 +183,7 @@ Tacpic.hash_branch 'orders' do |r|
     job = nil
     begin
       job = Job.new(order)
-    rescue StandardError=>error
+    rescue StandardError => error
       response.status = 500
       raise error
     end

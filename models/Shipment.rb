@@ -37,7 +37,7 @@ class Shipment < Sequel::Model
               Helper.format_currency(item.net_price / item.quantity),
               item.description,
               Helper.format_currency(item.net_price),
-              '7%' #todo lookup for product_id
+              GraphicPriceCalculator.taxes[:de_reduced_vat].to_s + '%' #todo lookup for product_id
           ]
       )
     end

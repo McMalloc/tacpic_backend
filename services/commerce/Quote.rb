@@ -19,8 +19,8 @@ class Quote
   @@products = {}
   CSV.parse(File.read('services/commerce/products.csv'), headers: true).each do |row|
     @@products[row[0].strip.to_sym] = {
-        customisable: row[0].to_i,
-        reduced_vat: row[2].to_i
+        customisable: row[1],
+        reduced_vat: row[2]
     }
   end
 
@@ -34,7 +34,7 @@ class Quote
       corresponding_variant = @variants.find { |variant| variant[:id] == item.content_id }
       unless corresponding_variant.nil?
         if item.product_id == 'graphic'
-          price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
+          price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat] == 'true')
           item.net_price = price.net
           item.gross_price = price.gross
           item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
@@ -84,17 +84,6 @@ class Quote
     # amount += @packaging_item.gross_price
   end
 
-  # DEPRECATED
-  # TODO
-  # def packaging_item
-  #   OrderItem.new(
-  #       product_id: "packaging",
-  #       quantity: 1,
-  #       net_price: @@prices[:packaging],
-  #       gross_price: @@prices[:packaging] * 1.07, # todo, s. unten
-  #   )
-  # end
-
   # TODO ab wann reduzierte vat?
   # Setuersatz für Verpackung und Versand nach teuerstem abrechnen
   def postage_item
@@ -112,8 +101,7 @@ class Quote
     end
 
     postage.net_price = @@prices[:shipping_general]
-    # postage.gross_price = @@postages[postage_product_id][:price]
-    postage.gross_price = (postage.net_price * 1.07).round # TODO no magic numbers
+    postage.gross_price = (postage.net_price * (1 + GraphicPriceCalculator.taxes[:de_reduced_vat] / 100.0)).round
     postage.content_id = @@postages[postage_product_id][:pplId]
     return postage
   end

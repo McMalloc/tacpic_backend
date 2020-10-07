@@ -76,11 +76,7 @@ Tacpic.hash_branch "variants" do |r|
                                      .where(variant_id: requested_id)
                                      .join(:tags, id: :tag_id)
                                      .select(:tag_id, :name).map(&:values) # { |tagging| tagging[:tag_id] }
-      requested_variant[:current_version] = Version
-                                                .where(variant_id: requested_id)
-                                                .order_by(:created_at)
-                                                .limit(1)
-                                                .last.values
+      requested_variant[:current_version] = requested_variant.latest_version.values
       requested_variant.values
     end
 

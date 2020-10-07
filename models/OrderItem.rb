@@ -8,7 +8,7 @@ class OrderItem < Sequel::Model
   def before_save
     if self.product_id == 'graphic' || self.product_id == 'graphic_nobraille'
       variant = Variant[self.content_id]
-      self.description = "#{variant.graphic.title} (#{variant.title})\n#{variant.graphic_no_of_pages} Schwellpapierseiten"
+      self.description = "#{variant.graphic.title} (#{variant.title})\nv#{variant.latest_version.id}, #{variant.graphic_no_of_pages} Schwellpapierseite(n)"
     elsif self.product_id == 'postage' || self.product_id == 'postage_reduced'
       self.description = "Versand"
     elsif self.product_id == 'packaging'

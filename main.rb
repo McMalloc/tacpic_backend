@@ -42,7 +42,6 @@ class Tacpic < Roda
   end
 
   plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
-  # plugin :common_logger, $stdout
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
@@ -88,7 +87,10 @@ class Tacpic < Roda
     end
 
     before_create_account do
-      # @account[:display_name] = request.params['display_name']
+      if !User.find(display_name: request[:display_name]).nil?
+        return "error"
+      end
+      @account[:display_name] = request.params['display_name']
       @account[:created_at] = Time.now.to_s
     end
   end

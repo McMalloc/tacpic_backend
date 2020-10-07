@@ -62,9 +62,15 @@
       color: blue;
       background-color: transparent;
       }
+
+      .version-label {
+      font-size: 3mm;
+      fill: blue;
+      }
     </style>
   </defs>
 
   <%= content %>
 
+  <text class="version-label" y="<%= height - 2 %>mm" x="<%= width - 6 %>mm">v<%= version_id %></text>
 </svg>

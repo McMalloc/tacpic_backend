@@ -35,13 +35,15 @@ class Invoice < Sequel::Model
     invoice_date = self.created_at
     due_date = Helper.add_working_days(self.created_at, 14)
     shipment_date = Helper.add_working_days(self.created_at, 3)
-    voucher_path = ''
+    voucher_filename = ''
 
     if self.voucher_id.nil?
-      voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{ENV['RACK_ENV'] == 'production' ? shipment.voucher_filename : 'placeholder'}/0.png"
+      voucher_filename = ENV['RACK_ENV'] == 'production' ? shipment.voucher_filename : 'placeholder'
     else
-      voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{ENV['RACK_ENV'] == 'production' ? self.voucher_filename : 'placeholder'}/0.png"
+      voucher_filename = ENV['RACK_ENV'] == 'production' ? self.voucher_filename : 'placeholder'
     end
+
+    voucher_path = File.join(ENV['APPLICATION_BASE'], "/files/vouchers/", voucher_filename, "0.png")
 
     item_table_data = [
         ["Pos.", "Stck.", "Art.-Nr.", "Netto p. Stck.", "Artikel", "Netto", "USt.-Satz"]
@@ -62,7 +64,7 @@ class Invoice < Sequel::Model
               Helper.format_currency(item.net_price / item.quantity),
               item.description,
               Helper.format_currency(item.net_price),
-              '7%' #todo lookup for product_id
+              GraphicPriceCalculator.taxes[:de_reduced_vat].to_s + '%' #todo lookup for product_id
           ]
       )
     end
@@ -132,8 +134,8 @@ class Invoice < Sequel::Model
       end
 
       bounding_box([second_column_offset, customer_info_position], width: 60.mm) do
-        text "Ihre Kundennr.:", style: :bold
-        text "Rechnungsnr.:"
+        text "Ihre Kunden-Nr.:", style: :bold
+        text "Rechnungs-Nr.:"
         text "Rechnungsdatum:"
         text "Bestellnummer:"
         text "Lieferdatum:"
@@ -186,7 +188,7 @@ class Invoice < Sequel::Model
 
       move_down 3.mm
       if order.payment_method == 'invoice'
-        text "Bitte überweisen Sie den Gesamtbetrag bis zum <b>#{due_date.strftime("%d.%m.%Y")}</b> auf das am Dokumentenende aufgeführte Konto.",
+        text "Bitte überweisen Sie den Gesamtbetrag bis zum <b>#{due_date.strftime("%d.%m.%Y")}</b> auf das am Dokumentenende aufgeführte Konto. Geben Sie dabei bitte die <b>Rechnungsnummer als Verwendungszweck</b> an.",
              inline_format: true
       end
       if order.payment_method == 'paypal'
@@ -200,7 +202,7 @@ class Invoice < Sequel::Model
       text_box "<b>Bankverbindung</b>\nPostbank\nIBAN: DE 6910 0100 1009 3662 5102\nBIC: PBNKDEFF",
                at: [0, footer_height], width: 65.mm, height: footer_height, valign: :bottom, inline_format: true
 
-      text_box "\nUSt-IdNr.: DE328130974\nAmtsgericht Stendal, HRB 27976\nGeschäftsführende: Laura Evers, Robert Wlcek, Florentin Förschler",
+      text_box "\nUSt-IdNr.: DE328130974 | St.-Nr.: 102/117/03623\nAmtsgericht Stendal, HRB 27976\nGeschäftsführende: Laura Evers, Robert Wlcek, Florentin Förschler",
                at: [70.mm, footer_height], width: 90.mm, height: footer_height, valign: :bottom
 
       number_pages "Seite <b><page> von <total></b>", at: [0, 0], width: bounds.width, align: :right, inline_format: true

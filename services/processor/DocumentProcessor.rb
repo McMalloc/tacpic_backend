@@ -58,6 +58,7 @@ class DocumentProcessor
       binding = {
           content: @pages[index]['rendering'],
           font_data: @@font_data,
+          version_id: @version[:id],
           width: @graphic_width,
           height: @graphic_height
       }
