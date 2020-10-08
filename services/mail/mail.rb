@@ -46,7 +46,7 @@ module SMTP
         Mail.deliver do
           from     'bestellung@tacpic.de'
           to       recipient
-          subject  "Bestellbestätigung #{invoice_number}"
+          subject  "Bestellbestätigung #{invoice.invoice_number}"
           html_part do
             content_type 'text/html; charset=UTF-8'
             body     SMTP::order_confirm({
