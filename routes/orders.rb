@@ -193,8 +193,7 @@ Tacpic.hash_branch 'orders' do |r|
 
       SMTP::SendMail.instance.send_order_confirmation(
           User[user_id].email,
-          invoice.invoice_number,
-          "#{ENV['APPLICATION_BASE']}/files/invoices/#{invoice.invoice_number}.pdf"
+          invoice
       )
 
       order.update(status: 1)

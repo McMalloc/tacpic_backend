@@ -121,7 +121,7 @@ module Internetmarke
 
     def save_voucher
       puts "Get from #{@file_link}"
-      @file_name = "voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}"
+      @file_name = File.join(ENV["APPLICATION_BASE"], 'files/vouchers', "voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}")
       system "wget '#{@file_link}' -O #{@file_name}.zip"
       system "unzip #{@file_name}.zip -d #{@file_name}"
     end

@@ -8,7 +8,7 @@ module SMTP
   end
   ORDER_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/order_confirmation_template.erb")
   def self.order_confirm(params)
-    ORDER_CONFIRM_TEMPLATE.result_with_hash(params)
+    LAYOUT.result_with_hash({body: ORDER_CONFIRM_TEMPLATE.result_with_hash(params)})
   end
   QUOTE_CONFIRM_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/quote_confirmation_template.erb")
   VERIFY_ACCOUNT_TEMPLATE = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/verify_account_template.erb")
@@ -41,14 +41,19 @@ module SMTP
     def initialize
     end
 
-    def send_order_confirmation(recipient, invoice_number, invoice_filepath)
+    def send_order_confirmation(recipient, invoice)
       unless ENV["RACK_ENV"] == 'test'
         Mail.deliver do
-          from     'info@tacpic.de'
+          from     'bestellung@tacpic.de'
           to       recipient
-          subject  "Ihre Bestellung #{invoice_number}"
-          body     ORDER_CONFIRM_TEMPLATE.result_with_hash({})
-          add_file invoice_filepath
+          subject  "Bestellbestätigung #{invoice_number}"
+          html_part do
+            content_type 'text/html; charset=UTF-8'
+            body     SMTP::order_confirm({
+                                             invoice: invoice
+                                          })
+          end
+          add_file invoice.get_pdf_path
         end
       end
     end
