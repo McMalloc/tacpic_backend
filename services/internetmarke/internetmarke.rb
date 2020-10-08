@@ -121,9 +121,10 @@ module Internetmarke
 
     def save_voucher
       puts "Get from #{@file_link}"
-      @file_name = File.join(ENV["APPLICATION_BASE"], 'files/vouchers', "voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}")
-      system "wget '#{@file_link}' -O #{@file_name}.zip"
-      system "unzip #{@file_name}.zip -d #{@file_name}"
+      @file_name = "voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}"
+      file_path = File.join(ENV["APPLICATION_BASE"], 'files/vouchers', @file_name)
+      system "wget '#{@file_link}' -O #{file_path}.zip"
+      system "unzip #{file_path}.zip -d #{file_path}"
     end
 
     # TODO eventuell mehrere Marken pro Checkout?
