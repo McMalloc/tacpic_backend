@@ -111,18 +111,12 @@ Tacpic.hash_branch "graphics" do |r|
 
     # paper format
     unless r.params['format'].nil? || r.params['format'].length == 0
-      format_mapping = {
-          'a4': [210, 297],
-          'a3': [297, 420]
-      }
       formats = r.params['format'].split ','
       where_clause = where_clause + "#{where_clause.length == 0 ? 'WHERE (' : 'AND ('}"
 
       formats.each_with_index do |format, index|
-        format = format.to_sym
         where_clause = where_clause + %Q{#{index == 0 ? '' : 'OR'}
-          (variants.width = #{format_mapping[format][0]} AND variants.height = #{format_mapping[format][1]}) OR
-          (variants.width = #{format_mapping[format][1]} AND variants.height = #{format_mapping[format][0]})
+          (variants.graphic_format = '#{format}')
         }
       end
       where_clause = where_clause + ') '

@@ -3,7 +3,7 @@ require "prawn/table"
 require "prawn/measurement_extensions"
 
 class Invoice < Sequel::Model
-  one_to_one :address
+  many_to_one :address
   many_to_many :order_items, join_table: :invoice_items
   one_to_many :payments
   one_to_one :order
@@ -22,10 +22,34 @@ class Invoice < Sequel::Model
     File.join(ENV['APPLICATION_BASE'], "/files/invoices/", self.invoice_number + ".pdf")
   end
 
+  def get_item_listing
+    listing = []
+    Order[self.order_id].order_items.each_with_index do |item, index|
+      art_no = ""
+      if item.product_id == 'graphic'
+        art_no = "GB-#{item.content_id.to_s.rjust(5, '0')}"
+      end
+      if item.product_id == 'graphic_nobraille'
+        art_no = "GN-#{item.content_id.to_s.rjust(5, '0')}"
+      end
+      listing.push(
+          [
+              index + 1,
+              item.quantity,
+              art_no,
+              Helper.format_currency(item.net_price / item.quantity),
+              item.description,
+              Helper.format_currency(item.net_price),
+              GraphicPriceCalculator.taxes[:de_reduced_vat].to_s + '%' #todo lookup for product_id
+          ]
+      )
+    end
+    return listing
+  end
+
   def generate_invoice_pdf
     order = Order[self.order_id]
     user = order.user
-    items = order.order_items
     payment_method = order.payment_method
     logo_path = "#{ENV['APPLICATION_BASE']}/assets/tacpic_logo.png"
     shipment = Shipment.find(order_id: self.order_id)
@@ -34,7 +58,7 @@ class Invoice < Sequel::Model
     invoice_number = self.invoice_number
     invoice_date = self.created_at
     due_date = Helper.add_working_days(self.created_at, 14)
-    shipment_date = Helper.add_working_days(self.created_at, 3)
+    shipment_date = Helper.add_working_days(self.created_at, 3) # TODO Zeiten zentraler speichern
     voucher_filename = ''
 
     if self.voucher_id.nil?
@@ -48,26 +72,7 @@ class Invoice < Sequel::Model
     item_table_data = [
         ["Pos.", "Stck.", "Art.-Nr.", "Netto p. Stck.", "Artikel", "Netto", "USt.-Satz"]
     ]
-    items.each_with_index do |item, index|
-      art_no = ""
-      if item.product_id == 'graphic'
-        art_no = "GB-#{item.content_id.to_s.rjust(5, '0')}"
-      end
-      if item.product_id == 'graphic_nobraille'
-        art_no = "GN-#{item.content_id.to_s.rjust(5, '0')}"
-      end
-      item_table_data.push(
-          [
-              index + 1,
-              item.quantity,
-              art_no,
-              Helper.format_currency(item.net_price / item.quantity),
-              item.description,
-              Helper.format_currency(item.net_price),
-              GraphicPriceCalculator.taxes[:de_reduced_vat].to_s + '%' #todo lookup for product_id
-          ]
-      )
-    end
+    item_table_data.concat(self.get_item_listing)
 
     total_table_data = []
 

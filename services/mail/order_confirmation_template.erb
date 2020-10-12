@@ -1,4 +1,71 @@
-Hallo,
-<%= invoice.invoice_number %>
-LG
-tacpic
+<p>Hallo,</p>
+
+<p>
+  vielen Dank für Ihre Bestellung bei tacpic.de!<br/>
+  Mit dieser E-Mail bestätigen wir Ihre Bestellung vom <%= order.created_at.strftime("%d.%m.%Y") %>. Unsere AGB sowie die Widerrufsbelehrung und
+  das Wiederrufsformular finden Sie als PDF im Anhang.
+</p>
+<p><small>
+  Sollten Sie kein PDF-kompatibles Leseprogramm besitzen,
+  <a href="https://get.adobe.com/de/reader/">
+    finden Sie den kostenlosen Adobe Acrobat Reader unter diesem Link
+  </a>.</small>
+</p>
+
+<table style="vertical-align: bottom">
+  <thead>
+  <tr>
+    <th>Pos.</th>
+    <th>Stck.</th>
+    <th>Art.-Nr.</th>
+    <th>Netto <br/>p. Stck.</th>
+    <th>Artikel</th>
+    <th>Netto</th>
+    <th>USt.-Satz</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% invoice.get_item_listing.each do |item| %>
+    <tr>
+      <% item.each do |entry| %>
+        <td><%= entry %></td>
+      <% end %>
+    </tr>
+  <% end %>
+  <tr style="text-align: right">
+    <td colspan="5">Summe Netto: </td>
+    <td><%= Helper.format_currency(order.total_net) %></td>
+  </tr>
+  <tr style="text-align: right">
+    <td colspan="5">zzgl. Mwst.: </td>
+    <td><%= Helper.format_currency(order.total_gross - order.total_net) %></td>
+  </tr>
+  <tr style="font-weight: bold; text-align: right">
+    <td colspan="5">Gesamtsumme Brutto: </td>
+    <td><%= Helper.format_currency(order.total_gross) %></td>
+  </tr>
+  </tbody>
+</table>
+
+<p>
+  Die Rechnung wird ausgestellt an: <br/>
+  <%= !invoice_address.company_name.nil? && invoice_address.company_name + "<br/>"%>
+  <%= invoice_address.first_name %> <%= invoice_address.last_name %><br/>
+  <%= invoice_address.street %> <%= invoice_address.house_number %><br/>
+  <%= !invoice_address.additional.nil? && invoice_address.additional + "<br/>" %>
+  <%= invoice_address.zip %> <%= invoice_address.city %>
+  <%= invoice_address.state %> <%= invoice_address.country %>
+</p>
+<p>
+  Die Lieferung erfolgt an: <br/>
+  <%= !shipping_address.company_name.nil? && shipping_address.company_name + "<br/>"%>
+  <%= shipping_address.first_name %> <%= shipping_address.last_name %><br/>
+  <%= shipping_address.street %> <%= shipping_address.house_number %><br/>
+  <%= !shipping_address.additional.nil? && shipping_address.additional + "<br/>" %>
+  <%= shipping_address.zip %> <%= shipping_address.city %>
+  <%= shipping_address.state %> <%= shipping_address.country %>
+</p>
+
+<p>
+  Die Lieferzeit beträgt 2 bis 4 Werktage.
+</p>

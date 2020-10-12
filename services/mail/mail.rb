@@ -42,6 +42,7 @@ module SMTP
     end
 
     def send_order_confirmation(recipient, invoice)
+      order = Order[invoice.order_id]
       unless ENV["RACK_ENV"] == 'test'
         Mail.deliver do
           from     'bestellung@tacpic.de'
@@ -50,10 +51,12 @@ module SMTP
           html_part do
             content_type 'text/html; charset=UTF-8'
             body     SMTP::order_confirm({
-                                             invoice: invoice
+                                             invoice: invoice,
+                                             order: order,
+                                             invoice_address: invoice.address,
+                                             shipping_address: Address[Shipment.find(order_id: order.id).address_id]
                                           })
           end
-          add_file invoice.get_pdf_path
         end
       end
     end
@@ -71,7 +74,7 @@ module SMTP
                                           })
           end
 
-          add_file zipfile_name
+          add_file content: File.read(zipfile_name), filename: "#{order.created_at.strftime("%Y-%m-%d")} Dateien für Bestellung Nr. #{order.id}.zip"
         end
       end
     end
