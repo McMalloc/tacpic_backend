@@ -57,7 +57,7 @@ class Invoice < Sequel::Model
     invoice_address = Address[self.address_id]
     invoice_number = self.invoice_number
     invoice_date = self.created_at
-    due_date = Helper.add_working_days(self.created_at, 14)
+    # due_date = Helper.add_working_days(self.created_at, 20)
     shipment_date = Helper.add_working_days(self.created_at, 3) # TODO Zeiten zentraler speichern
     voucher_filename = ''
 
@@ -193,7 +193,7 @@ class Invoice < Sequel::Model
 
       move_down 3.mm
       if order.payment_method == 'invoice'
-        text "Bitte überweisen Sie den Gesamtbetrag bis zum <b>#{due_date.strftime("%d.%m.%Y")}</b> auf das am Dokumentenende aufgeführte Konto. Geben Sie dabei bitte die <b>Rechnungsnummer als Verwendungszweck</b> an.",
+        text "Die Zahlung des Gesamtbetrag ist <b>20 Tage nach Rechnungsdatum fällig</b>. Bitte überweisen Sie ihn auf das am Dokumentenende aufgeführte Konto. Geben Sie dabei bitte die <b>Rechnungsnummer als Verwendungszweck</b> an.",
              inline_format: true
       end
       if order.payment_method == 'paypal'

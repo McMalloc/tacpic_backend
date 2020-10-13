@@ -1,5 +1,6 @@
 require 'sequel'
 Sequel.extension :symbol_as
+Sequel::Model.plugin :validation_helpers
 # https://github.com/jeremyevans/sequel-annotate
 module Store
   def self.init

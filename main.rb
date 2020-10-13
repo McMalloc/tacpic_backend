@@ -9,6 +9,7 @@ require_relative 'models/init' # gets Store
 require_relative 'db/config' # gets Database
 require_relative 'env' # gets Config
 require_relative 'helper/functions'
+require_relative 'helper/exceptions'
 
 class Tacpic < Roda
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
@@ -17,13 +18,13 @@ class Tacpic < Roda
   Store.init
 
   Mail.defaults do
-    delivery_method :smtp, { address:              ENV['SMTP_SERVER'],
-                             port:                 ENV['SMTP_PORT'],
-                             domain:               ENV['SMTP_HELOHOST'],
-                             user_name:            ENV['SMTP_USER'],
-                             password:             ENV.delete('SMTP_PASSWORD'),
-                             authentication:       'login',
-                             enable_starttls_auto: true  }
+    delivery_method :smtp, {address: ENV['SMTP_SERVER'],
+                            port: ENV['SMTP_PORT'],
+                            domain: ENV['SMTP_HELOHOST'],
+                            user_name: ENV['SMTP_USER'],
+                            password: ENV.delete('SMTP_PASSWORD'),
+                            authentication: 'login',
+                            enable_starttls_auto: true}
   end
 
   plugin :route_csrf
@@ -50,7 +51,7 @@ class Tacpic < Roda
   plugin :rodauth, json: :only, csrf: :route_csrf do
 
     login_required_error_status 401
-    enable :login, :logout, :jwt, :create_account, :reset_password   #, :jwt_cors#, :session_expiration
+    enable :login, :logout, :jwt, :create_account, :reset_password #, :jwt_cors#, :session_expiration
 
     # EMAIL CONFIG
     unless ENV['RACK_ENV'] == 'test'
@@ -87,16 +88,21 @@ class Tacpic < Roda
     end
 
     before_create_account do
-      if !User.find(display_name: request[:display_name]).nil?
-        return "error"
+      unless request.params['display_name'].empty?
+        @account[:display_name] = request.params['display_name']
       end
-      @account[:display_name] = request.params['display_name']
+
+      raise AccountError.new "not whitelisted" unless
+          File.open(File.join(ENV['APPLICATION_BASE'], "config/whitelist.txt"))
+              .read.split("\n").include? @account[:email]
+
       @account[:created_at] = Time.now.to_s
     end
   end
 
   plugin :error_handler do |e|
     pp e.message
+    response.status = 403
     {
         type: e.class.name,
         message: e.message,
