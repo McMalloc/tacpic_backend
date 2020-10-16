@@ -96,6 +96,9 @@ class Tacpic < Roda
           File.open(File.join(ENV['APPLICATION_BASE'], "config/whitelist.txt"))
               .read.split("\n").include? @account[:email]
 
+      raise AccountError.new "display name already in use" unless
+          User.find(display_name: request[:display_name]).nil?
+
       @account[:created_at] = Time.now.to_s
     end
   end

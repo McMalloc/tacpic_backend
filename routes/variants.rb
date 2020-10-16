@@ -10,9 +10,9 @@ Tacpic.hash_branch "variants" do |r|
       rodauth.require_authentication
       user_id = rodauth.logged_in?
 
-      graphic_no_of_pages = request[:pages].select { |p| not p['text'] }.count
-      graphic_format, graphic_landscape = Helper.determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:pages].select { |p| p['text'] }.count
+      graphic_no_of_pages = request[:pages].count
+      graphic_format, graphic_landscape = determine_format request[:width], request[:height]
+      braille_no_of_pages = request[:braillePages]['formatted'].length
 
       new_variant = Graphic[request['graphic_id']]
                         .add_variant(

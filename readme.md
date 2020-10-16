@@ -31,8 +31,6 @@ sudo a2enmod ssl
 sudo a2enmod headers
 ```
 
-TODO: HTTPS einrichten
-
 Verzeichnis vorbereiten (ist durch das Rakefile vorgegeben)
 ```
 sudo mkdir /var/www/frontend
@@ -69,6 +67,9 @@ In `/etc/apache2/sites-available/000-default.conf`:
 
 ```
 Dann `sudo service apache2 restart`
+
+## SSL einrichten
+siehe https://certbot.eff.org/lets-encrypt/ubuntubionic-apache
 
 # Node installieren
 [Aktuelle Hinweise](https://github.com/nodesource/distributions/blob/master/README.md)
