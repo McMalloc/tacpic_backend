@@ -121,7 +121,6 @@ namespace 'stage' do
         digest_package_old = Digest::SHA256.digest File.read 'package.json'
 
         system "git pull"
-        system "./git_log_to_json.sh #{base} #{base}/public/BACKEND.json"
 
         digest_gemfile_new = Digest::SHA256.digest File.read 'Gemfile'
         if digest_gemfile_new != digest_gemfile_old
@@ -134,6 +133,7 @@ namespace 'stage' do
           system "npm install" # if package.json was modified
         end
       end
+      system "./git_log_to_json.sh #{base} #{base}/public/BACKEND.json"
     end
 
     puts "Staging frontend:".black.bg_cyan
@@ -150,9 +150,6 @@ namespace 'stage' do
         digest_package_old = Digest::SHA256.digest File.read 'package.json'
         system "git pull"
 
-        system "./git_log_to_json.sh #{File.join(base,'../tacpic')} #{base}/public/FRONTEND.json"
-
-        # system "git describe --tags > public/FRONTEND_VERSION.txt"
         digest_package_new = Digest::SHA256.digest File.read 'package.json'
         if digest_package_new != digest_package_old
           puts "Package.json (frontend) " + digest_package_new.magenta + " differs from " + digest_package_old.magenta + ", reinstalling package."
@@ -160,6 +157,7 @@ namespace 'stage' do
         end
         system "npm run build"
       end
+      system "./git_log_to_json.sh #{File.join(base,'../tacpic')} #{base}/public/FRONTEND.json"
     end
 
     # unless Dir.exists?("#{base}/public")
