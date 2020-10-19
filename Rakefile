@@ -157,7 +157,7 @@ namespace 'stage' do
         end
         system "npm run build"
       end
-      system "./git_log_to_json.sh #{File.join(base,'../tacpic')} #{base}/public/FRONTEND.json"
+      system "#{File.join(base,'git_log_to_json.sh')} #{File.join(base,'../tacpic')} #{base}/public/FRONTEND.json"
     end
 
     # unless Dir.exists?("#{base}/public")
