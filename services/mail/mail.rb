@@ -1,5 +1,5 @@
 require 'mail'
-require 'singleton'
+# require 'singleton'
 
 module SMTP
   LAYOUT = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/mail/layout.html.erb")

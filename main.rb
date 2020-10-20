@@ -3,6 +3,7 @@ require 'roda'
 require 'logger'
 require 'csv'
 require 'mail'
+require 'singleton'
 
 # require_relative './helper/auth'
 require_relative 'models/init' # gets Store
@@ -11,11 +12,14 @@ require_relative 'env' # gets Config
 require_relative 'helper/functions'
 require_relative 'helper/exceptions'
 
+require_relative 'services/haendlerbund/legal_api'
+
 class Tacpic < Roda
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
   $_db.extension :pg_trgm #https://github.com/mitchellhenke/sequel-pg-trgm
   # $_db.extension :pg_array
   Store.init
+  LegalAPI.instance.init
 
   Mail.defaults do
     delivery_method :smtp, {address: ENV['SMTP_SERVER'],
@@ -147,5 +151,6 @@ require_relative 'routes/orders'
 require_relative 'routes/quotes'
 require_relative 'routes/braille'
 require_relative 'routes/trace'
+require_relative 'routes/legal'
 #
 # require_relative 'routes/backend/users'

@@ -6,6 +6,7 @@ doc
 logs
 .yardoc
 public/*
+views/legal/*.inc
 files
 node_modules
 package-lock.json

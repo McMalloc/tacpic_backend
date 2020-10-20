@@ -1,6 +1,6 @@
 require 'savon'
 require 'digest/md5'
-require 'singleton'
+# require 'singleton'
 
 def transform_address(address)
   formatted_address = {}
