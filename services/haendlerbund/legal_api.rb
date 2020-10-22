@@ -12,10 +12,14 @@ class LegalAPI
     }
     @endpoint = ENV['HAENDLERBUND_API_URL']
 
-    @index = index
-    @index.each do |id, title|
-      save URI.encode(title), get_text(id)
+    @index = []
+    unless ENV['RACK_ENV'] == 'development'
+      @index = index
+      @index.each do |id, title|
+        save URI.encode(title), get_text(id)
+      end
     end
+
   end
 
   def build_query(params)

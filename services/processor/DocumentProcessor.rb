@@ -108,7 +108,8 @@ class DocumentProcessor
       # TODO wenn einer Variante Seiten entfernt werden, werden die Dateien trotzdem noch gemergt. => map
       merge_input = "#{@@root}/#{@file_name}-PRINT-p*.pdf"
       merge_output = "#{@@root}/#{@file_name}-PRINT-merged.pdf"
-      print system "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{merge_output} #{merge_input}"
+      # print system "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{merge_output} #{merge_input}"
+      print system "gs -sProcessColorModel=DeviceCMYK -sColorConversionStrategy=CMYK -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{merge_output} #{merge_input}"
     rescue StandardError => e
       puts e.message
       puts e.backtrace.inspect
