@@ -151,7 +151,7 @@ Tacpic.hash_branch 'orders' do |r|
       voucher_shipping = Internetmarke::Voucher.new(
           final_quote.postage_item[:content_id],
           Address[shipping_address_id].values)
-      if ENV['RACK_ENV'] == 'production'
+      unless ENV['RACK_ENV'] == 'test'
         voucher_shipping.checkout
       end
       shipment.update(
@@ -164,7 +164,7 @@ Tacpic.hash_branch 'orders' do |r|
         voucher_invoice = Internetmarke::Voucher.new(
             1,
             Address[invoice_address_id].values)
-        unless order.test
+        unless ENV['RACK_ENV'] == 'test'
           voucher_shipping.checkout
         end
         invoice.update(
