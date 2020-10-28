@@ -62,9 +62,9 @@ class Invoice < Sequel::Model
     voucher_filename = ''
 
     if self.voucher_id.nil?
-      voucher_filename = ENV['RACK_ENV'] == 'production' ? shipment.voucher_filename : 'placeholder'
+      voucher_filename = ENV['RACK_ENV'] != 'test' ? shipment.voucher_filename : 'placeholder'
     else
-      voucher_filename = ENV['RACK_ENV'] == 'production' ? self.voucher_filename : 'placeholder'
+      voucher_filename = ENV['RACK_ENV'] != 'test' ? self.voucher_filename : 'placeholder'
     end
 
     voucher_path = File.join(ENV['APPLICATION_BASE'], "/files/vouchers/", voucher_filename, "0.png")

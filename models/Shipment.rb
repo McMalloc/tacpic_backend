@@ -16,7 +16,7 @@ class Shipment < Sequel::Model
     invoice_address = Address[invoice.address_id]
     invoice_date = invoice.created_at
     shipment_date = Helper.add_working_days(self.created_at, 3) #todo no magic numbers
-    voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{ENV['RACK_ENV'] == 'production' ? self.voucher_filename : 'placeholder'}/0.png"
+    voucher_path = "#{ENV['APPLICATION_BASE']}/files/vouchers/#{ENV['RACK_ENV'] != 'test' ? self.voucher_filename : 'placeholder'}/0.png"
 
     item_table_data = [
         ["Pos.", "Stck.", "Art.-Nr.", "Netto p. Stck.", "Artikel", "Netto", "USt.-Satz"]
