@@ -95,6 +95,7 @@ class Tacpic < Roda
       unless request.params['display_name'].empty?
         @account[:display_name] = request.params['display_name']
       end
+      @account[:newsletter_active] = request.params['newsletter_active']
 
       raise AccountError.new "not whitelisted" unless
           File.open(File.join(ENV['APPLICATION_BASE'], "config/whitelist.txt"))

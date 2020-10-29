@@ -66,15 +66,20 @@ Tacpic.hash_branch "users" do |r|
   # r.on Integer do |user_id|
   r.get 'validate' do
     rodauth.require_authentication
-    {
-        display_name: User[rodauth.logged_in?][:display_name],
-        email: User[rodauth.logged_in?][:email],
-        id: rodauth.logged_in?
-    }
+    user_id = rodauth.logged_in?
+    User[user_id].values
   end
 
-  r.get Integer do
+  r.post Integer do |requested_id|
+    rodauth.require_authentication
+    user_id = rodauth.logged_in?
+    if requested_id != user_id
+      response.status = 403
+      return "tried to change another user"
+    end
 
+    User[user_id].update(display_name: request['displayName'], newsletter_active: request['newsletterActive'])
+    User[user_id].values
   end
 
   # GET users/versions
