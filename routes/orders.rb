@@ -1,5 +1,18 @@
 Tacpic.hash_branch 'orders' do |r|
 
+  # GET /orders/:id/finalise?hash=xyz
+  r.get Integer, 'finalise' do |id|
+    if Order[id].get_hash == request['hash']
+      Order[id].update(status: 2)
+      SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoice)
+
+      return "Produktionsauftrag bestaetigt."
+    else
+      response.status = 406
+      return "406: Ungültiger Hash. Bitte Link überprüfen"
+    end
+  end
+
   r.get do
     rodauth.require_authentication
     Invoice.join(:orders, id: :order_id).where(user_id: rodauth.logged_in?).map(&:values)
