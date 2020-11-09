@@ -17,7 +17,7 @@ Tacpic.hash_branch "variants" do |r|
       new_variant = Graphic[request['graphic_id']]
                         .add_variant(
                             title: request['variantTitle'],
-                            derived_from: request['variant_id'],
+                            derived_from: request['derivedFrom'],
                             description: request['variantDescription'],
                             medium: request[:medium],
                             braille_system: request[:system],
@@ -145,6 +145,7 @@ Tacpic.hash_branch "variants" do |r|
 
       version = Variant[requested_id].add_version(
           document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
+          hash: request['hash'],
           user_id: user_id
       )
       response.status = 201
