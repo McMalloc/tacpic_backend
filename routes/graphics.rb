@@ -93,7 +93,7 @@ Tacpic.hash_branch "graphics" do |r|
 
     # where_clause = "WHERE (graphics.user_id = #{user_id})"
     unless r.params['search'].nil? || r.params['search'].length == 0
-      term = r.params['search']
+      term = r.params['search'].strip
       where_clause = where_clause + %Q{
         WHERE (variants.title       ILIKE '%#{term}%' OR
               variants.description ILIKE '%#{term}%' OR

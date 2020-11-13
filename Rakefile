@@ -86,6 +86,7 @@ namespace 'run' do
     system "rackup"
   end
   
+  desc 'Runs the main script with automatic restarting'
   task :rerun do
     system 'rerun --background rackup'
   end
