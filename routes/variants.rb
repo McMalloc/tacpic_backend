@@ -13,7 +13,7 @@ Tacpic.hash_branch "variants" do |r|
 
       graphic_no_of_pages = request[:pages].count
       graphic_format, graphic_landscape = determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:braillePages]['formatted'].length
+      braille_no_of_pages = request[:braillePages]['formatted'].select {|page| page.length>0}.length
 
       new_variant = Graphic[request['graphic_id']]
                         .add_variant(
@@ -127,7 +127,7 @@ Tacpic.hash_branch "variants" do |r|
 
       graphic_no_of_pages = request[:pages].count
       graphic_format, graphic_landscape = determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:braillePages]['formatted'].length
+      braille_no_of_pages = request[:braillePages]['formatted'].select {|page| page.length>0}.length
 
       Variant[requested_id].update(
           title: request[:variantTitle],

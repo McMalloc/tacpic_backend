@@ -11,3 +11,5 @@ files
 node_modules
 package-lock.json
 services/processor/BrailleDEComputer.woff
+.history
+.vscode
