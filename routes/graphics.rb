@@ -187,7 +187,7 @@ Tacpic.hash_branch "graphics" do |r|
   end
 
   # POST /graphics
-  # create a new graphic
+  # create a new graphic 
   r.post do
     begin
       rodauth.require_authentication
