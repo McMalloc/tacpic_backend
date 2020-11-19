@@ -13,3 +13,5 @@ package-lock.json
 services/processor/BrailleDEComputer.woff
 .history
 .vscode
+.rake_tasks~
+config/whitelist.txt
