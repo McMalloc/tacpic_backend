@@ -64,6 +64,8 @@ module SMTP
                                          shipping_address: Address[Shipment.find(order_id: order.id).address_id]
                                      })
           end
+
+          add_file "#{ENV['APPLICATION_BASE']}/assets/AGB_tacpic.pdf"
         end
       end
     end
