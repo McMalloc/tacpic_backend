@@ -4,6 +4,7 @@ require 'logger'
 require 'csv'
 require 'mail'
 require 'singleton'
+require 'pry'
 
 # require_relative './helper/auth'
 require_relative 'models/init' # gets Store
@@ -153,5 +154,6 @@ require_relative 'routes/quotes'
 require_relative 'routes/braille'
 require_relative 'routes/trace'
 require_relative 'routes/legal'
+require_relative 'routes/logging'
 #
 # require_relative 'routes/backend/users'

@@ -25,8 +25,10 @@ group :test, :development do
   gem 'minitest-sequel'
   gem 'minitest-hooks'
   gem 'rack-test'
+  gem 'gem-licenses'
   gem 'faker'
   gem 'uuid'
+  gem 'pry'
   gem 'yard'
   gem 'roda-route_list'
   # correct new 1.0 version wasn't marked as release, neither on Github nor on rubygems
