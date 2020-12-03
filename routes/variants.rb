@@ -1,7 +1,7 @@
 require './helper/functions'
 
 Tacpic.hash_branch "variants" do |r|
-
+ 
   
   r.is do
     # POST /variants

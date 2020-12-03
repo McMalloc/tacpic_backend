@@ -5,6 +5,7 @@ require 'csv'
 require 'mail'
 require 'singleton'
 require 'pry'
+require 'json'
 
 # require_relative './helper/auth'
 require_relative 'models/init' # gets Store
@@ -18,9 +19,12 @@ require_relative 'services/haendlerbund/legal_api'
 class Tacpic < Roda
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
   $_db.extension :pg_trgm #https://github.com/mitchellhenke/sequel-pg-trgm
+  $_version = JSON.parse(File.read 'public/BACKEND.json')['tag']
   # $_db.extension :pg_array
   Store.init
   LegalAPI.instance.init
+
+
 
   Mail.defaults do
     delivery_method :smtp, {address: ENV['SMTP_SERVER'],
@@ -110,8 +114,22 @@ class Tacpic < Roda
   end
 
   plugin :error_handler do |e|
-    pp e.message
-    response.status = 403
+    logs = $_db[:backend_errors]
+    request.body.rewind
+
+    logs.insert(
+      method: request.request_method,
+      path: request.path,
+      params: request.request_method == 'GET' ? request.query_string : request.body.read,
+      frontend_version: request.headers['TACPIC_VERSION'],
+      backend_version: $_version,
+      type: e.class.name,
+      backtrace: e.backtrace,
+      message: e.message,
+      created_at: Time.now
+    )
+
+    response.status = 500
     {
         type: e.class.name,
         message: e.message,
@@ -154,6 +172,6 @@ require_relative 'routes/quotes'
 require_relative 'routes/braille'
 require_relative 'routes/trace'
 require_relative 'routes/legal'
-require_relative 'routes/logging'
+require_relative 'routes/internal/index'
 #
 # require_relative 'routes/backend/users'

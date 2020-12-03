@@ -9,12 +9,16 @@ class CreateFrontendErrors < Sequel::Migration
         String :backend_version
         String :message
         String :stacktrace
+        String :ip_hash
 
         DateTime :created_at
       end
     end
   
+  
     def down
-      drop_table :frontend_errors
+      if @db.table_exists?(:frontend_errors)
+        drop_table :frontend_errors
+      end
     end
   end

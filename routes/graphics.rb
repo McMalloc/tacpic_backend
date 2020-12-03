@@ -74,7 +74,6 @@ Tacpic.hash_branch "graphics" do |r|
   # @argument variants Array[Integer] specific variants
   r.get do
     # TODO boolean Suche mit erweiterter Suchsyntax
-
     subquery = ''
     unless r.params['tags'].nil? || r.params['tags'].length == 0
       tag_ids = r.params['tags'].split(',').map(&:to_i)
