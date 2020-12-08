@@ -14,7 +14,7 @@ class CreateVariants < Sequel::Migration
       String :braille_format
       # constraint(:braille_valid_format){%w(a4 a3).include? braille_format}
 
-      String :file_name
+      String :current_file_name
       String :medium
       String :braille_system
       TrueClass :public, default: true

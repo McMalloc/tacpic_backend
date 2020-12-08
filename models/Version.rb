@@ -11,10 +11,10 @@ class Version < Sequel::Model
 
   def before_save
     super
-    self.change_message = "..." # TODO: Diff der Objekte im document?
     # self.hash = Digest::MD5.hexdigest self.document
     # self.document = Base64.encode64 Zlib::Deflate.deflate(self.document)
     # TODO compress serialised document
+    
   end
 
   def inflate
@@ -24,8 +24,7 @@ class Version < Sequel::Model
 
   def after_save
     super
-    self.variant.update(
-        file_name: DocumentProcessor.new(self).save_files
-    )
+    self.update(file_name: DocumentProcessor.new(self).save_files)
+    self.variant.update(current_file_name: self.file_name)
   end
 end

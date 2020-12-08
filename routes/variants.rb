@@ -1,8 +1,6 @@
 require './helper/functions'
 
-Tacpic.hash_branch "variants" do |r|
- 
-  
+Tacpic.hash_branch 'variants' do |r|
   r.is do
     # POST /variants
     # login required, roles: all
@@ -13,41 +11,41 @@ Tacpic.hash_branch "variants" do |r|
 
       graphic_no_of_pages = request[:pages].count
       graphic_format, graphic_landscape = determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:braillePages]['formatted'].select {|page| page.length>0}.length
+      braille_no_of_pages = request[:braillePages]['formatted'].select { |page| page.length > 0 }.length
 
       new_variant = Graphic[request['graphic_id']]
-                        .add_variant(
-                            title: request['variantTitle'],
-                            derived_from: request['derivedFrom'],
-                            description: request['variantDescription'],
-                            medium: request[:medium],
-                            braille_system: request[:system],
-                            braille_format: 'a4',
-                            graphic_no_of_pages: graphic_no_of_pages,
-                            braille_no_of_pages: braille_no_of_pages,
-                            graphic_format: graphic_format,
-                            graphic_landscape: graphic_landscape,
-                        )
+                    .add_variant(
+                      title: request['variantTitle'],
+                      derived_from: request['derivedFrom'],
+                      description: request['variantDescription'],
+                      medium: request[:medium],
+                      braille_system: request[:system],
+                      braille_format: 'a4',
+                      graphic_no_of_pages: graphic_no_of_pages,
+                      braille_no_of_pages: braille_no_of_pages,
+                      graphic_format: graphic_format,
+                      graphic_landscape: graphic_landscape
+                    )
 
-      request[:tags].each { |tag|
+      request[:tags].each do |tag|
         if tag['tag_id'].nil?
           created_tag = Tag.create(
-              name: tag['name'],
-              user_id: user_id,
-              )
+            name: tag['name'],
+            user_id: user_id
+          )
           tag['tag_id'] = created_tag[:id]
         end
 
         Tagging.create(
-            user_id: user_id,
-            tag_id: tag['tag_id'],
-            variant_id: new_variant.id
+          user_id: user_id,
+          tag_id: tag['tag_id'],
+          variant_id: new_variant.id
         )
-      }
+      end
 
       version = new_variant.add_version(
-          document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
-          user_id: user_id
+        document: Helper.pack_json(request, %w[pages braillePages keyedStrokes keyedTextures]),
+        user_id: user_id
       )
       response.status = 201
       version.values
@@ -55,6 +53,17 @@ Tacpic.hash_branch "variants" do |r|
   end
 
   r.on Integer do |requested_id|
+    r.get 'history' do
+      versions = Variant[requested_id].versions.map(&:values)
+
+      return {
+        contributors: User
+          .select(:display_name, :id)
+          .where(id: versions.map { |version| version[:user_id] }.uniq)
+          .map(&:values),
+        versions: versions
+      }
+    end
 
     r.get 'pdf' do
       # rodauth.require_authentication
@@ -74,9 +83,9 @@ Tacpic.hash_branch "variants" do |r|
       requested_variant = Variant[requested_id].clone
       requested_variant[:parent_graphic] = requested_variant.graphic.values
       requested_variant[:tags] = Tagging
-                                     .where(variant_id: requested_id)
-                                     .join(:tags, id: :tag_id)
-                                     .select(:tag_id, :name).map(&:values) # { |tagging| tagging[:tag_id] }
+                                 .where(variant_id: requested_id)
+                                 .join(:tags, id: :tag_id)
+                                 .select(:tag_id, :name).map(&:values) # { |tagging| tagging[:tag_id] }
       requested_variant[:current_version] = requested_variant.latest_version.values
       requested_variant.values
     end
@@ -98,62 +107,57 @@ Tacpic.hash_branch "variants" do |r|
       taggings = Tagging.where(variant_id: requested_id)
       tags = taggings.all.map { |tagging| tagging[:tag_id] }
 
-      request[:tags].each { |tag|
+      request[:tags].each do |tag|
         if tag['tag_id'].nil?
           created_tag = Tag.create(
-              name: tag['name'],
-              user_id: user_id,
-              taxonomy_id: 1
+            name: tag['name'],
+            user_id: user_id,
+            taxonomy_id: 1
           )
 
           tag['tag_id'] = created_tag[:id]
         end
 
-        unless tags.include? tag['tag_id']
-          Tagging.create(
-              user_id: user_id,
-              tag_id: tag['tag_id'],
-              variant_id: requested_id
-          )
-        end
-      }
+        next if tags.include? tag['tag_id']
+
+        Tagging.create(
+          user_id: user_id,
+          tag_id: tag['tag_id'],
+          variant_id: requested_id
+        )
+      end
 
       ids_of_request = request[:tags].map { |tag| tag['tag_id'] }
-      tags.each { |tag_id|
-        unless ids_of_request.include? tag_id
-          taggings.where(tag_id: tag_id).delete
-        end
-      }
+      tags.each do |tag_id|
+        taggings.where(tag_id: tag_id).delete unless ids_of_request.include? tag_id
+      end
 
       graphic_no_of_pages = request[:pages].count
       graphic_format, graphic_landscape = determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:braillePages]['formatted'].select {|page| page.length>0}.length
+      braille_no_of_pages = request[:braillePages]['formatted'].select { |page| page.length > 0 }.length
 
       Variant[requested_id].update(
-          title: request[:variantTitle],
-          description: request[:variantDescription],
-          graphic_no_of_pages: graphic_no_of_pages,
-          braille_no_of_pages: braille_no_of_pages,
-          graphic_format: graphic_format,
-          graphic_landscape: graphic_landscape,
-          braille_system: request[:system],
-          medium: request[:medium]
+        title: request[:variantTitle],
+        description: request[:variantDescription],
+        graphic_no_of_pages: graphic_no_of_pages,
+        braille_no_of_pages: braille_no_of_pages,
+        graphic_format: graphic_format,
+        graphic_landscape: graphic_landscape,
+        braille_system: request[:system],
+        medium: request[:medium]
       )
 
-      if Variant[requested_id].derived_from.nil?
-        Graphic[request[:graphic_id]].update(title: request['graphicTitle'])
-      end
+      Graphic[request[:graphic_id]].update(title: request['graphicTitle']) if Variant[requested_id].derived_from.nil?
 
       version = Variant[requested_id].add_version(
-          document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
-          hash: request['hash'],
-          user_id: user_id
+        document: Helper.pack_json(request, %w[pages braillePages keyedStrokes keyedTextures]),
+        # hash: request['hash'],
+        change_message: request['changeMessage'] || nil,
+        user_id: user_id
       )
       response.status = 201
       version.values
     end
-
   end
   # new variant
-
 end

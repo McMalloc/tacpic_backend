@@ -17,7 +17,7 @@ Tacpic.hash_branch "graphics" do |r|
                        Sequel[:graphics][:user_id].as(:original_author_id),
                        # Sequel[:variants][:user_id].as(:variant_author_id),
                        :braille_system, :graphic_no_of_pages, :graphic_format,
-                       :graphic_landscape, :braille_no_of_pages, :braille_format, :file_name,
+                       :graphic_landscape, :braille_no_of_pages, :braille_format, :current_file_name,
                        Sequel.lit("array_agg(taggings.tag_id) AS tags")
                    )
                    .where(graphic_id: requested_id)
@@ -32,7 +32,7 @@ Tacpic.hash_branch "graphics" do |r|
                              :original_author_id,
                              # :variant_author_id,
                              :braille_system, :graphic_no_of_pages, :graphic_format,
-                             :graphic_landscape, :braille_no_of_pages, :braille_format, :file_name,
+                             :graphic_landscape, :braille_no_of_pages, :braille_format, :current_file_name,
                              Sequel[:graphics][:id],
                              Sequel[:variants][:id])
                    .all
@@ -52,7 +52,7 @@ Tacpic.hash_branch "graphics" do |r|
               # TODO ineffizient, oder zumindest kann hiermit die query oben vereinfacht werden
               document: JSON.parse(Version.where(variant_id: variant[:variant_id]).last[:document]),
               braille_format: variant[:braille_format],
-              file_name: variant[:file_name],
+              current_file_name: variant[:current_file_name],
               braille_no_of_pages: variant[:braille_no_of_pages],
               graphic_format: variant[:graphic_format],
               derived_from: variant[:derived_from],
@@ -163,7 +163,7 @@ Tacpic.hash_branch "graphics" do |r|
                  "variants"."graphic_landscape"           AS "graphic_landscape",
                  "variants"."braille_no_of_pages"         AS "braille_no_of_pages",
                  "variants"."braille_format"              AS "braille_format",
-                 "variants"."file_name"                   AS "file_name",
+                 "variants"."current_file_name"                   AS "current_file_name",
                  "variants"."created_at"                  AS "created_at",
                   array_agg(taggings.tag_id)              AS tags,
                   array_agg("tags"."name")                AS tag_names
@@ -174,7 +174,7 @@ Tacpic.hash_branch "graphics" do |r|
           #{where_clause}
           GROUP BY "graphics"."title", "variants"."title", "graphics"."id", "variants"."id", "variants"."description",
                    "variants"."created_at", "variants"."braille_system", "variants"."graphic_no_of_pages", "variants"."graphic_format",
-                   "variants"."graphic_landscape", "variants"."braille_no_of_pages", "variants"."braille_format", "variants"."file_name"
+                   "variants"."graphic_landscape", "variants"."braille_no_of_pages", "variants"."braille_format", "variants"."current_file_name"
           ORDER BY "variants"."created_at" DESC
           #{limit_clause}
           #{offset_clause}

@@ -21,5 +21,9 @@ Tacpic.hash_branch "versions" do |r|
         user_id: user_id
     ).values
   end
+
+  r.get do
+    
+  end
 end
 

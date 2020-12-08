@@ -5,7 +5,7 @@ class Variant < Sequel::Model
   one_to_many :versions
 
   def get_pdf
-    File.open("#{ENV['APPLICATION_BASE']}/files/#{self.file_name}-PRINT-merged.pdf").read
+    File.open("#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-PRINT-merged.pdf").read
   end
 
   def latest_version
@@ -17,6 +17,6 @@ class Variant < Sequel::Model
   end
 
   def get_brf
-    File.open("#{ENV['APPLICATION_BASE']}/files/#{self.file_name}-BRAILLE.brf").read
+    File.open("#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-BRAILLE.brf").read
   end
 end
