@@ -54,14 +54,9 @@ Tacpic.hash_branch 'variants' do |r|
 
   r.on Integer do |requested_id|
     r.get 'history' do
-      versions = Variant[requested_id].versions.map(&:values)
-
       return {
-        contributors: User
-          .select(:display_name, :id)
-          .where(id: versions.map { |version| version[:user_id] }.uniq)
-          .map(&:values),
-        versions: versions
+        contributors: Variant[requested_id].contributors,
+        versions: Variant[requested_id].versions.map(&:values)
       }
     end
 

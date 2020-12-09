@@ -16,6 +16,13 @@ class Variant < Sequel::Model
         .last
   end
 
+  def contributors
+    User
+          .select(:display_name, :id)
+          .where(id: self.versions.map { |version| version.user_id }.uniq)
+          .map(&:values)
+  end
+
   def get_brf
     File.open("#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-BRAILLE.brf").read
   end

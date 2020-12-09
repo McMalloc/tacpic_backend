@@ -44,6 +44,7 @@ class DocumentProcessor
   def initialize(version)
     @version = version.values
     @variant = version.variant.values
+    @contributors = version.variant.contributors
     @graphic = version.variant.graphic
     document = JSON.parse @version[:document]
     @pages = document['pages']
@@ -60,7 +61,11 @@ class DocumentProcessor
           font_data: @@font_data,
           version_id: @version[:id],
           width: @graphic_width,
-          height: @graphic_height
+          height: @graphic_height,
+          title: @variant[:title] + ": " + @graphic[:title],
+          contributors: @contributors.map{|c| c[:display_name]}.join(", "),
+          description: @variant[:description],
+          date: @version[:created_at]
       }
       f.write @@svg_renderer.result_with_hash(binding)
     end
