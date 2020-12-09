@@ -4,7 +4,6 @@ require 'logger'
 require 'csv'
 require 'mail'
 require 'singleton'
-require 'pry'
 require 'json'
 
 # require_relative './helper/auth'
