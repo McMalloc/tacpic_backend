@@ -38,4 +38,5 @@ group :test, :development do
   gem 'json_schemer'
   gem 'yard-minitest-spec'
   gem 'rerun'
+  gem 'pry'
 end
