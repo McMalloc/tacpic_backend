@@ -10,6 +10,7 @@ views/legal/*.inc
 files
 node_modules
 package-lock.json
+Gemfile.lock
 services/processor/BrailleDEComputer.woff
 .history
 .vscode

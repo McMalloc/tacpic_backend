@@ -11,20 +11,19 @@ class Version < Sequel::Model
 
   def before_save
     super
-    # self.hash = Digest::MD5.hexdigest self.document
     # self.document = Base64.encode64 Zlib::Deflate.deflate(self.document)
     # TODO compress serialised document
-    
   end
 
-  def inflate
-    # self.document = Zlib::Inflate.inflate(Base64.decode64 self.document)
-    self
+  def inflate_document
+    return Zlib::Inflate.inflate(Base64.decode64 self.document)
   end
 
   def after_save
     super
-    self.update(file_name: DocumentProcessor.new(self).save_files)
-    self.variant.update(current_file_name: self.file_name)
+    if (self.file_name.nil?)
+      self.update(file_name: DocumentProcessor.new(self).save_files)
+      self.variant.update(current_file_name: self.file_name)
+    end
   end
 end

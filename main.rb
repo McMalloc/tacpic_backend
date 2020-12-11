@@ -15,6 +15,8 @@ require_relative 'helper/exceptions'
 
 require_relative 'services/haendlerbund/legal_api'
 
+require 'pry' if ENV["RACK_ENV"] == "development"
+
 class Tacpic < Roda
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
   $_db.extension :pg_trgm #https://github.com/mitchellhenke/sequel-pg-trgm

@@ -46,9 +46,8 @@ class DocumentProcessor
     @variant = version.variant.values
     @contributors = version.variant.contributors
     @graphic = version.variant.graphic
-    document = JSON.parse @version[:document]
+    document = JSON.parse(version.document)
     @pages = document['pages']
-
     @braille_pages = document['braillePages']
     @graphic_width, @graphic_height = determine_dimensions(@variant[:graphic_format], @variant[:graphic_landscape])
     @file_name = "v#{@version[:id]}-#{@graphic.title.gsub(/[^0-9A-Za-z.\-]/, '_')}-#{@variant[:title].gsub(/[^0-9A-Za-z.\-]/, '_') or "basis"}"

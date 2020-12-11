@@ -60,14 +60,14 @@ Tacpic.hash_branch 'variants' do |r|
       }
     end
 
-    r.get 'pdf' do
+    r.get /pdf_.+/ do
       # rodauth.require_authentication
       # Authentifizierung abfragen, dann Datei generieren und Link zurückschicken?
       response['Content-Type'] = 'application/pdf'
       Variant[requested_id].get_pdf
     end
 
-    r.get 'brf' do
+    r.get /brf_.+/ do
       # rodauth.require_authentication
       # Authentifizierung abfragen, dann Datei generieren und Link zurückschicken?
       response['Content-Type'] = 'text/plain'
