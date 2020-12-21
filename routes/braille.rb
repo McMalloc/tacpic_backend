@@ -2,15 +2,16 @@ Tacpic.hash_branch "braille" do |r|
   r.is do
     # POST /braille
     r.post do
+      # DON'T USE IN FUTURE. could be used for cli injection attacks
       if r.params['bulk'].nil?
-        `printf '#{request['label']}' | lou_translate --forward #{request['system']}`
+        `printf '#{request['label']}' | lou_translate --forward #{request['system'].shellescape}`
       else
         response_body = {
             labels: []
         }
         request['labels'].each do |label|
           response_body[:labels].push({
-                                           braille: `printf '#{label['text']}' | lou_translate --forward #{request['system']}`,
+                                           braille: `printf '#{label['text']}' | lou_translate --forward #{request['system'].shellescape}`,
                                            uuid: label['uuid']
                                        })
         end

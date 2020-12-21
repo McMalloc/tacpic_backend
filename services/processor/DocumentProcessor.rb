@@ -130,6 +130,6 @@ class DocumentProcessor
   end
 
   def save_pdf(index)
-    system "node #{ENV['APPLICATION_BASE']}/services/processor/convert_svg #{@file_name} #{@variant[:graphic_format]} #{@variant[:graphic_landscape]} #{index} #{@@root}"
+    `node #{ENV['APPLICATION_BASE']}/services/processor/convert_svg #{@file_name.to_s.shellescape} #{@variant[:graphic_format].to_s.shellescape} #{@variant[:graphic_landscape].to_s.shellescape} #{index} #{@@root}`
   end
 end
