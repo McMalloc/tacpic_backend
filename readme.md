@@ -15,9 +15,12 @@ SSH-Login via Keypair einrichten, Passwort-Login via SSH deaktivieren.
 
 # Pakete installieren
 ```
-sudo apt-get install git nano unrtf postgresql postgresql-client postgresql-contrib libpq-dev liblouis-bin netpbm ghostscript potrace tesseract-ocr
+# notwendige binaries
+sudo apt-get install git nano unrtf postgresql postgresql-client postgresql-contrib netpbm ghostscript potrace tesseract-ocr
+# notwendig zum Kompilieren der Ruby native extensions
+sudo apt-get install libpq-dev ruby-dev build-essentials zlibc zlib1g zlib1g-dev
 # Packages für headless Chrome
-sudo apt-get install libgbm1 libxcb-dri3
+sudo apt-get install libgbm1 libxcb-dri3-0
 ```
 
 # Proxy mit Apache
