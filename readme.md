@@ -131,6 +131,7 @@ mkdir tacpic_backend/files/temp
 ## Datenbank einrichten
 
 ```
+sudo service postgresql restart
 sudo -u postgres psql
 postgres=# create database "tacpic-production";
 postgres=# create user tacpic with encrypted password 'password';
