@@ -20,7 +20,9 @@ sudo apt-get install git nano unrtf postgresql postgresql-client postgresql-cont
 # notwendig zum Kompilieren der Ruby native extensions
 sudo apt-get install libpq-dev ruby-dev build-essentials zlibc zlib1g zlib1g-dev
 # Packages für headless Chrome
-sudo apt-get install libgbm1 libxcb-dri3-0
+sudo apt-get install libgbm1 libxcb-dri3-0 libxcursor1
+# Packages für headless Chrome / Puppeteer 3
+sudo apt-get install libxcursor1 libnss3 libgbm-dev libatk libatk-bridge-2.0-0
 ```
 
 # Proxy mit Apache

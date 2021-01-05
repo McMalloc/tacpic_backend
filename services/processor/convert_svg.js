@@ -5,6 +5,7 @@ const format = process.argv[3];
 const landscape = process.argv[4] === 'true';
 const pageIndex = parseInt(process.argv[5]);
 const basePath = process.argv[6].replace(/$\/+/, '');
+const noSandbox = process.argv[7] == 'true';
 
 (async() => {
 
@@ -22,7 +23,7 @@ const basePath = process.argv[6].replace(/$\/+/, '');
     // console.log(landscape, ratio, width_sm, height_sm);
 
     const browser = await puppeteer.launch({
-        args: ["--disable-gpu"], // makes startup faster
+        args: ["--disable-gpu", noSandbox ? "--no-sandbox" : ""], // makes startup faster
     });
     const page = await browser.newPage();
     await page.goto(`file:${basePath}/${title}-VECTOR-p${pageIndex}.svg`);
