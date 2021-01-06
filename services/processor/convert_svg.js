@@ -22,7 +22,7 @@ const basePath = process.argv[6].replace(/$\/+/, '');
     // console.log(landscape, ratio, width_sm, height_sm);
 
     const browser = await puppeteer.launch({
-        args: ["--disable-gpu"], // makes startup faster
+        args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"], // makes startup faster
     });
     const page = await browser.newPage();
     await page.goto(`file:${basePath}/${title}-VECTOR-p${pageIndex}.svg`);
