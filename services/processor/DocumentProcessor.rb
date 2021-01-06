@@ -110,8 +110,8 @@ class DocumentProcessor
         self.save_thumbnails index
       end
       # TODO wenn einer Variante Seiten entfernt werden, werden die Dateien trotzdem noch gemergt. => map
-      merge_input = "#{@@root}/#{@file_name}-PRINT-p*.pdf"
-      merge_output = "#{@@root}/#{@file_name}-PRINT-merged.pdf"
+      merge_input = "#{@@root.shellescape}/#{@file_name}-PRINT-p*.pdf"
+      merge_output = "#{@@root.shellescape}/#{@file_name}-PRINT-merged.pdf"
       # print system "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{merge_output} #{merge_input}"
       print system "gs -sProcessColorModel=DeviceCMYK -sColorConversionStrategy=CMYK -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=#{merge_output} #{merge_input}"
     rescue StandardError => e
@@ -123,13 +123,13 @@ class DocumentProcessor
   end
 
   def save_thumbnails(index)
-    source = "#{@@root}/#{@file_name}-RASTER-p#{index}.png"
-    dest_prefix = "#{@@root}/../public/thumbnails/#{@file_name}"
+    source = "#{@@root.shellescape}/#{@file_name}-RASTER-p#{index}.png"
+    dest_prefix = "#{@@root.shellescape}/../public/thumbnails/#{@file_name}"
     system "cat #{source} | pngtopnm | pnmscale 0.2 | pnmtopng > #{dest_prefix}-THUMBNAIL-sm-p#{index}.png"
     system "cat #{source} | pngtopnm | pnmscale 0.6 | pnmtopng > #{dest_prefix}-THUMBNAIL-xl-p#{index}.png"
   end
 
   def save_pdf(index)
-    `node #{ENV['APPLICATION_BASE']}/services/processor/convert_svg #{@file_name.to_s.shellescape} #{@variant[:graphic_format].to_s.shellescape} #{@variant[:graphic_landscape].to_s.shellescape} #{index} #{@@root}`
+    `node #{ENV['APPLICATION_BASE'].shellescape}/services/processor/convert_svg #{@file_name.to_s.shellescape} #{@variant[:graphic_format].to_s.shellescape} #{@variant[:graphic_landscape].to_s.shellescape} #{index} #{@@root} #{ENV['RACK_ENV'] === 'development'}`
   end
 end
