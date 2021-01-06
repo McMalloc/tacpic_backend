@@ -44,16 +44,16 @@ module Helper
 
 # TODO wohin damit?
   def self.determine_format(width, height)
-    if width == 210 and height == 297
+    if width.to_i == 210 and height.to_i == 297
       return ["a4", false]
     end
-    if width == 210 and height == 297
+    if width.to_i == 297 and height.to_i == 210
       return ["a4", true]
     end
-    if width == 297 and height == 420
+    if width.to_i == 297 and height.to_i == 420
       return ["a3", false]
     end
-    if width == 420 and height == 297
+    if width.to_i == 420 and height.to_i == 297
       return ["a3", true]
     end
   end
@@ -68,9 +68,9 @@ module Helper
     end
     if format == "a3"
       if is_landscape
-        return [297, 420]
-      else
         return [420, 297]
+      else
+        return [297, 420]
       end
     end
   end

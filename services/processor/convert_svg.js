@@ -30,7 +30,7 @@ const noSandbox = process.argv[7] == 'true';
 
     await page.pdf({
         path: `${basePath}/${title}-PRINT-p${pageIndex}.pdf`,
-        format, landscape,
+        format, landscape, pageRanges: "1", 
         margin: {
             top: "0",
             left: "0",

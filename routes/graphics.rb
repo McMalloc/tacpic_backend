@@ -55,6 +55,7 @@ Tacpic.hash_branch "graphics" do |r|
               current_file_name: variant[:current_file_name],
               braille_no_of_pages: variant[:braille_no_of_pages],
               graphic_format: variant[:graphic_format],
+              graphic_landscape: variant[:graphic_landscape],
               derived_from: variant[:derived_from],
               graphic_no_of_pages: variant[:graphic_no_of_pages],
               title: variant[:variant_title],
@@ -200,7 +201,7 @@ Tacpic.hash_branch "graphics" do |r|
 
       # TODO put in Variant model
       graphic_no_of_pages = request[:pages].count
-      graphic_format, graphic_landscape = determine_format request[:width], request[:height]
+      graphic_format, graphic_landscape = Helper.determine_format request[:width], request[:height]
       braille_no_of_pages = request[:braillePages]['formatted'].select{|page| page.inject(''){|sum, line| sum + line}.strip.length > 0}.length
 
       default_variant = created_graphic.add_variant(

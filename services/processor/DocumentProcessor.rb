@@ -1,38 +1,39 @@
 require 'erb'
 require_relative '../../terminal_colors'
 require "base64"
+# require_relative "../../helper/functions"
 
-def determine_dimensions(format, is_landscape)
-  if format == "a4"
-    if is_landscape
-      return [297, 210]
-    else
-      return [210, 297]
-    end
-  end
-  if format == "a3"
-    if is_landscape
-      return [297, 420]
-    else
-      return [420, 297]
-    end
-  end
-end
+# def determine_dimensions(format, is_landscape)
+#   if format == "a4"
+#     if is_landscape
+#       return [297, 210]
+#     else
+#       return [210, 297]
+#     end
+#   end
+#   if format == "a3"
+#     if is_landscape
+#       return [297, 420]
+#     else
+#       return [420, 297]
+#     end
+#   end
+# end
 
-def determine_format(width, height)
-  if width == 210 and height == 297
-    return ["a4", false]
-  end
-  if width == 210 and height == 297
-    return ["a4", true]
-  end
-  if width == 297 and height == 420
-    return ["a3", false]
-  end
-  if width == 420 and height == 297
-    return ["a3", true]
-  end
-end
+# def self.determine_format(width, height)
+#   if width.to_i == 210 and height.to_i == 297
+#     return ["a4", false]
+#   end
+#   if width.to_i == 297 and height.to_i == 210
+#     return ["a4", true]
+#   end
+#   if width.to_i == 297 and height.to_i == 420
+#     return ["a3", false]
+#   end
+#   if width.to_i == 420 and height.to_i == 297
+#     return ["a3", true]
+#   end
+# end
 
 # TODO Dateinamenschema templaten
 class DocumentProcessor
@@ -49,7 +50,8 @@ class DocumentProcessor
     document = JSON.parse(version.document)
     @pages = document['pages']
     @braille_pages = document['braillePages']
-    @graphic_width, @graphic_height = determine_dimensions(@variant[:graphic_format], @variant[:graphic_landscape])
+    @graphic_width, @graphic_height = Helper.determine_dimensions(@variant[:graphic_format], @variant[:graphic_landscape])
+    puts @graphic_width, @graphic_height
     @file_name = "v#{@version[:id]}-#{@graphic.title.gsub(/[^0-9A-Za-z.\-]/, '_')}-#{@variant[:title].gsub(/[^0-9A-Za-z.\-]/, '_') or "basis"}"
   end
 
