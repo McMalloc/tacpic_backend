@@ -167,6 +167,7 @@ Tacpic.hash_branch 'orders' do |r|
       unless ENV['RACK_ENV'] == 'test'
         voucher_shipping.checkout
       end
+
       shipment.update(
           voucher_id: voucher_shipping.shop_order_id,
           voucher_filename: voucher_shipping.file_name
@@ -178,8 +179,9 @@ Tacpic.hash_branch 'orders' do |r|
             1,
             Address[invoice_address_id].values)
         unless ENV['RACK_ENV'] == 'test'
-          voucher_shipping.checkout
+          voucher_invoice.checkout
         end
+
         invoice.update(
             voucher_id: voucher_invoice.shop_order_id,
             voucher_filename: voucher_invoice.file_name
@@ -191,28 +193,36 @@ Tacpic.hash_branch 'orders' do |r|
       return "Fehler beim Lösen der Internetmarke"
     end
 
-    invoice.generate_invoice_pdf
-
-    job = nil
-    begin
-      job = Job.new(order)
-    rescue StandardError => error
+    if voucher_shipping.error || voucher_invoice.error
       response.status = 500
-      raise error
+      order.update status: -1
+      return {type: "Serverfehler", message: "Es ist ein Fehler bei der automatischen Abwicklung aufgetreten. Wir werden uns mit Ihnen in Verbindung setzen."}
+    else
+      invoice.generate_invoice_pdf
+
+          job = nil
+          begin
+            job = Job.new(order)
+          rescue StandardError => error
+            response.status = 500
+            raise error
+          end
+
+          Thread.new {
+            job.send_mail
+
+            SMTP::SendMail.instance.send_order_confirmation(
+                User[user_id].email,
+                invoice
+            )
+
+            order.update(status: 1)
+          }
+
+          response.status = 201
+          return order.values
     end
 
-    Thread.new {
-      job.send_mail
-
-      SMTP::SendMail.instance.send_order_confirmation(
-          User[user_id].email,
-          invoice
-      )
-
-      order.update(status: 1)
-    }
-
-    response.status = 201
-    order.values
+    
   end
 end

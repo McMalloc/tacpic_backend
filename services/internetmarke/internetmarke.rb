@@ -70,6 +70,7 @@ module Internetmarke
 
     # TODO Fehlerbehandlung
     def authenticate
+      puts "[SOAP] INFO Authenticating..."
       request_time = Time.now.to_f.round
       if @time_of_last_request.nil? || request_time - @time_of_last_request > AUTH_TIMEOUT
         @time_of_last_request = request_time
@@ -87,6 +88,8 @@ module Internetmarke
         # end
       end
 
+      puts "[SOAP] OK   Authenticated: " + @token.to_s
+
       @token
     end
   end
@@ -99,6 +102,7 @@ module Internetmarke
     attr_accessor :sender_address
     attr_accessor :receiver_address
     attr_accessor :wallet_balance
+    attr_accessor :error
 
     def initialize(product, receiver_address, sender_address = {
             company_name: "tacpic UG (haftungsbeschränkt)",
