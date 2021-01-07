@@ -16,6 +16,7 @@ gem 'prawn-table'
 gem 'i18n'
 gem 'bcrypt'
 gem 'savon'
+gem 'rrtf'
 gem 'rodauth' # , git: 'https://github.com/jeremyevans/rodauth.git' # todo use release when merged
 gem 'rubyzip'
 

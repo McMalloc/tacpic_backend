@@ -26,4 +26,22 @@ class Variant < Sequel::Model
   def get_brf
     File.open("#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-BRAILLE.brf").read
   end
+
+  def get_rtf
+    File.open("#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-RICHTEXT.rtf").read
+  end
+
+  def get_zip
+    name = "#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}.zip"
+
+    unless File.exist? name
+      Zip::File.open(name, Zip::File::CREATE) do |zipfile|
+        zipfile.add(self.current_file_name + "__braille.brf", "#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-BRAILLE.brf")
+        zipfile.add(self.current_file_name + "__graphic.pdf", "#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-PRINT-merged.pdf")
+        zipfile.add(self.current_file_name + "__text.rtf", "#{ENV['APPLICATION_BASE']}/files/#{self.current_file_name}-RICHTEXT.rtf")
+      end
+    end
+
+    File.open(name).read
+  end
 end

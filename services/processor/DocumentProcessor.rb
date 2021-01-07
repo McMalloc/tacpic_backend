@@ -1,6 +1,7 @@
 require 'erb'
 require_relative '../../terminal_colors'
 require "base64"
+
 # require_relative "../../helper/functions"
 
 # def determine_dimensions(format, is_landscape)
@@ -49,6 +50,7 @@ class DocumentProcessor
     @graphic = version.variant.graphic
     document = JSON.parse(version.document)
     @pages = document['pages']
+    @image_description = document['braillePages']['imageDescription']
     @braille_pages = document['braillePages']
     @graphic_width, @graphic_height = Helper.determine_dimensions(@variant[:graphic_format], @variant[:graphic_landscape])
     puts @graphic_width, @graphic_height
@@ -101,10 +103,37 @@ class DocumentProcessor
     end
   end
 
+  def save_rtf(graphic_title, variant_title, description)
+    document = RRTF::Document.new
+    document.paragraph(
+      "font-size" => 18,
+      "space_after" => 12,
+      "bold" => true
+    ) << graphic_title + "\\line\nVariante: " + variant_title
+
+    unless description['type'].length == 0 
+      document.paragraph(
+        "font-size" => 12,
+        "space_after" => 12
+        ) << "(" + description['type'] + ")\\line"
+    end
+    document.paragraph(
+      "space_after" => 12
+      ) << description['summary'] + "\\line"
+    document.paragraph(
+      "space_after" => 12
+      ) << description['details']
+    
+    File.open "#{@@root}/#{@file_name}-RICHTEXT.rtf", 'w' do |f|
+      f.write document.to_rtf
+    end
+  end
+
   def save_files
     ENV['RACK_ENV'] == 'test' and return @file_name
     begin
       self.save_brf @braille_pages['formatted']
+      self.save_rtf @graphic.title, @variant[:title], @image_description
       @pages.nil? && return
       @pages.count.times do |index|
         self.save_svg index

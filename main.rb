@@ -3,6 +3,7 @@ require 'roda'
 require 'logger'
 require 'csv'
 require 'mail'
+require 'rrtf'
 require 'singleton'
 require 'json'
 
