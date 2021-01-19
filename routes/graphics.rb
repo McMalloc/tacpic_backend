@@ -193,61 +193,20 @@ Tacpic.hash_branch "graphics" do |r|
       rodauth.require_authentication
       user_id = rodauth.logged_in?
 
-      created_graphic = Graphic.create(
-          title: request[:graphicTitle],
-          user_id: user_id,
-      # description: request[:graphicDescription]
-      )
+      file = TpFile.new request, user_id
 
-      # TODO put in Variant model
-      graphic_no_of_pages = request[:pages].count
-      graphic_format, graphic_landscape = Helper.determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:braillePages]['formatted'].select{|page| page.inject(''){|sum, line| sum + line}.strip.length > 0}.length
-
-      default_variant = created_graphic.add_variant(
-          title: 'Basis', # TODO i18n
-          public: false,
-          medium: request[:medium],
-          graphic_no_of_pages: graphic_no_of_pages,
-          braille_no_of_pages: braille_no_of_pages,
-          description: request[:variantDescription],
-          graphic_format: graphic_format,
-          braille_format: 'a4',
-          graphic_landscape: graphic_landscape,
-          braille_system: request[:system]
-      )
-
-      # TAGS
-      request[:tags].each { |tag|
-        if tag['tag_id'].nil?
-          created_tag = Tag.create(
-              name: tag['name'],
-              user_id: user_id,
-              taxonomy_id: 1
-          )
-
-          tag['tag_id'] = created_tag[:id]
-        end
-        Tagging.create(
-            user_id: user_id,
-            tag_id: tag['tag_id'],
-            variant_id: default_variant.id
-        )
-      }
-
-      # FIRST VERSION
-
-      first_version = default_variant.add_version(
-          document: Helper.pack_json(request, %w(pages braillePages keyedStrokes keyedTextures)),
-          user_id: user_id)
+      created_graphic = file.create_graphic
+      default_variant = file.create_variant
+      file.create_taggings
+      first_version = file.create_version
 
       response.status = 201 # created
-
       {
           created_graphic: created_graphic.values,
           default_variant: default_variant.values,
           first_version: first_version.values
       }
+
     rescue StandardError => e
       response.status = 500
       e.to_json

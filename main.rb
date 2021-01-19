@@ -163,6 +163,7 @@ require_relative 'services/commerce/Quote'
 require_relative 'services/commerce/GraphicPriceCalculator'
 require_relative 'services/ocr/ocr'
 require_relative 'services/job/job'
+require_relative 'services/files/file'
 
 # routes
 require_relative 'routes/graphics'

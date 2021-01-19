@@ -9,47 +9,15 @@ Tacpic.hash_branch 'variants' do |r|
       rodauth.require_authentication
       user_id = rodauth.logged_in?
 
-      graphic_no_of_pages = request[:pages].count
-      graphic_format, graphic_landscape = Helper.determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:braillePages]['formatted'].select { |page| page.length > 0 }.length
+      file = TpFile.new request, user_id
 
-      new_variant = Graphic[request['graphic_id']]
-                    .add_variant(
-                      title: request['variantTitle'],
-                      derived_from: request['derivedFrom'],
-                      description: request['variantDescription'],
-                      medium: request[:medium],
-                      braille_system: request[:system],
-                      braille_format: 'a4',
-                      graphic_no_of_pages: graphic_no_of_pages,
-                      braille_no_of_pages: braille_no_of_pages,
-                      graphic_format: graphic_format,
-                      graphic_landscape: graphic_landscape
-                    )
+      new_variant = file.create_variant
+      file.create_taggings
+      version = file.create_version
 
-      request[:tags].each do |tag|
-        if tag['tag_id'].nil?
-          created_tag = Tag.create(
-            name: tag['name'],
-            user_id: user_id
-          )
-          tag['tag_id'] = created_tag[:id]
-        end
-
-        Tagging.create(
-          user_id: user_id,
-          tag_id: tag['tag_id'],
-          variant_id: new_variant.id
-        )
-      end
-
-      version = new_variant.add_version(
-        document: Helper.pack_json(request, %w[pages braillePages keyedStrokes keyedTextures]),
-        user_id: user_id
-      )
       response.status = 201
       version.values
-    end
+    end 
   end
 
   r.on Integer do |requested_id|
@@ -113,57 +81,13 @@ Tacpic.hash_branch 'variants' do |r|
     r.post do
       rodauth.require_authentication
       user_id = rodauth.logged_in?
-      taggings = Tagging.where(variant_id: requested_id)
-      tags = taggings.all.map { |tagging| tagging[:tag_id] }
 
-      request[:tags].each do |tag|
-        if tag['tag_id'].nil?
-          created_tag = Tag.create(
-            name: tag['name'],
-            user_id: user_id,
-            taxonomy_id: 1
-          )
+      file = TpFile.new request, user_id
+      file.update_taggings
+      file.update_variant
+      file.update_graphic
+      version = file.create_version
 
-          tag['tag_id'] = created_tag[:id]
-        end
-
-        next if tags.include? tag['tag_id']
-
-        Tagging.create(
-          user_id: user_id,
-          tag_id: tag['tag_id'],
-          variant_id: requested_id
-        )
-      end
-
-      ids_of_request = request[:tags].map { |tag| tag['tag_id'] }
-      tags.each do |tag_id|
-        taggings.where(tag_id: tag_id).delete unless ids_of_request.include? tag_id
-      end
-
-      graphic_no_of_pages = request[:pages].count
-      graphic_format, graphic_landscape = Helper.determine_format request[:width], request[:height]
-      braille_no_of_pages = request[:braillePages]['formatted'].select{|page| page.inject(''){|sum, line| sum + line}.strip.length > 0}.length
-
-      Variant[requested_id].update(
-        title: request[:variantTitle],
-        description: request[:variantDescription],
-        graphic_no_of_pages: graphic_no_of_pages,
-        braille_no_of_pages: braille_no_of_pages,
-        graphic_format: graphic_format,
-        graphic_landscape: graphic_landscape,
-        braille_system: request[:system],
-        medium: request[:medium]
-      )
-
-      Graphic[request[:graphic_id]].update(title: request['graphicTitle']) if Variant[requested_id].derived_from.nil?
-
-      version = Variant[requested_id].add_version(
-        document: Helper.pack_json(request, %w[pages braillePages keyedStrokes keyedTextures]),
-        # hash: request['hash'],
-        change_message: request['changeMessage'] || nil,
-        user_id: user_id
-      )
       response.status = 201
       version.values
     end

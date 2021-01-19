@@ -7,7 +7,7 @@ logs
 .yardoc
 public/*
 views/legal/*.inc
-files
+/files
 node_modules
 package-lock.json
 Gemfile.lock
