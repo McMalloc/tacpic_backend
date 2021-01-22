@@ -26,6 +26,7 @@ Tacpic.hash_branch "graphics" do |r|
                    .group_by(:graphic_title,
                              :variant_title,
                              :variant_created_at,
+                             :current_file_name,
                              :graphic_created_at,
                              :derived_from,
                              :description,
@@ -62,7 +63,7 @@ Tacpic.hash_branch "graphics" do |r|
               created_at: variant[:variant_created_at],
               description: variant[:description],
               system: variant[:braille_system],
-              tags: variant[:tags].scan(/[0-9]+/).map { |match| match.to_i }
+              tags: variant[:tags].scan(/[0-9]+/).map { |match| match.to_i } #TODO funktioniert mit ID 10+ ?
           } },
     }
   end
@@ -164,7 +165,7 @@ Tacpic.hash_branch "graphics" do |r|
                  "variants"."graphic_landscape"           AS "graphic_landscape",
                  "variants"."braille_no_of_pages"         AS "braille_no_of_pages",
                  "variants"."braille_format"              AS "braille_format",
-                 "variants"."current_file_name"                   AS "current_file_name",
+                 "variants"."current_file_name"           AS "current_file_name",
                  "variants"."created_at"                  AS "created_at",
                   array_agg(taggings.tag_id)              AS tags,
                   array_agg("tags"."name")                AS tag_names
