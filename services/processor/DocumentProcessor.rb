@@ -40,7 +40,7 @@ require "base64"
 class DocumentProcessor
   @@svg_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/processor/svg_template.svg.erb")
   @@brf_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/processor/brf_template.brf.erb")
-  @@font_data = Base64.strict_encode64 File.read("#{ENV['APPLICATION_BASE']}/services/processor/tacpic_swellbraille_euro6.woff")
+  @@font_data = Base64.strict_encode64 File.read("#{ENV['APPLICATION_BASE']}/services/processor/tacpic_swellbraille_euro6f.woff")
   @@root = "#{ENV['APPLICATION_BASE']}/files"
 
   def initialize(version)
