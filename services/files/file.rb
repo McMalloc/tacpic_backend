@@ -66,7 +66,7 @@ class TpFile
     end
 
     def create_variant
-        @variant = Graphic[@graphic_id]
+        variant = Graphic[@graphic_id]
             .add_variant(
                 title: @request['variantTitle'],
             derived_from: @request['derivedFrom'],
@@ -79,8 +79,10 @@ class TpFile
             graphic_format: determine_format,
             graphic_landscape: determine_orientation
             )
+            
+        @variant_id = variant.id
 
-        return @variant
+        return variant
     end
 
     def update_variant
@@ -122,7 +124,7 @@ class TpFile
             Tagging.create(
               user_id: @user_id,
               tag_id: tag['tag_id'],
-              variant_id: @variant.id
+              variant_id: @variant_id
             )
           end
     end
