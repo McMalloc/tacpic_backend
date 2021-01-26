@@ -94,12 +94,9 @@ end
 
 namespace 'stage' do
 
-  desc 'Pulls new frontend and backend code, builds new react app (if neccessary), copies build and starts application, in background'
-  task :force do
-
-  end
-
-  task :main do
+  desc 'Pulls new frontend and backend code, builds new react app (if neccessary), copies build and starts application, in background. run stage:main[true] for forced staging'
+  task :main, [:force] do |t, args|
+    force = args[:force].to_s.downcase == "true"
     puts "▶ Are you sure?".magenta.bold + " (type yes to continue)".magenta
     answer = STDIN.gets.chomp
     unless answer == "yes"
@@ -114,7 +111,7 @@ namespace 'stage' do
       system "git remote update"
       rev_local = `git rev-parse master`
       rev_remote = `git rev-parse origin/master`
-      if rev_local == rev_remote
+      if rev_local == rev_remote && !force
         puts "No change, ".green.bold + "Skipping."
       else
         puts "Change in backend repository detected.".blue.bold
@@ -124,12 +121,12 @@ namespace 'stage' do
         system "git pull"
 
         digest_gemfile_new = Digest::SHA256.digest File.read 'Gemfile'
-        if digest_gemfile_new != digest_gemfile_old
+        if digest_gemfile_new != digest_gemfile_old || force
           puts "Gemfile " + digest_gemfile_new + " differs from " + digest_gemfile_old + ", reinstalling bundle."
           system "bundle install"
         end
         digest_package_new = Digest::SHA256.digest File.read 'package.json'
-        if digest_package_new != digest_package_old
+        if digest_package_new != digest_package_old || force
           puts "Package.json " + digest_package_new + " differs from " + digest_package_old + ", reinstalling package."
           system "npm install" # if package.json was modified
         end
@@ -144,7 +141,7 @@ namespace 'stage' do
       rev_local = `git rev-parse master`
       rev_remote = `git rev-parse origin/master`
 
-      if rev_local == rev_remote
+      if rev_local == rev_remote && !force
         puts "No change, ".green.bold + "Skipping."
       else
         puts "Change in frontend repository detected.".blue.bold
@@ -152,7 +149,7 @@ namespace 'stage' do
         system "git pull"
 
         digest_package_new = Digest::SHA256.digest File.read 'package.json'
-        if digest_package_new != digest_package_old
+        if digest_package_new != digest_package_old || force
           puts "Package.json (frontend) " + digest_package_new.magenta + " differs from " + digest_package_old.magenta + ", reinstalling package."
           system "npm install" # if package.json was modified
         end
