@@ -1,7 +1,8 @@
 class CreateGraphics < Sequel::Migration
   def up
     create_table :graphics do
-      uuid :id, primary_key: true
+      # uuid :id, primary_key: true
+      primary_key :id
       foreign_key :user_id; :users
 
       String :title, size: 256, null: false
