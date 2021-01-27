@@ -1,26 +1,26 @@
 class Quote
   attr_accessor :order_items, :postage_item, :packaging_item, :weight
   @@weights = {}
-  CSV.parse(File.read('services/commerce/weights.csv'), headers: true).each do |row|
+  CSV.parse(File.read("services/commerce/weights.csv"), headers: true).each do |row|
     @@weights[row[0].strip.to_sym] = row[1].to_i
   end
   @@prices = {}
-  CSV.parse(File.read('services/commerce/base_prices.csv'), headers: true).each do |row|
+  CSV.parse(File.read("services/commerce/base_prices.csv"), headers: true).each do |row|
     @@prices[row[0].strip.to_sym] = row[1].to_i
   end
   @@postages = {}
-  CSV.parse(File.read('services/commerce/postage.csv'), headers: true).each do |row|
+  CSV.parse(File.read("services/commerce/postage.csv"), headers: true).each do |row|
     @@postages[row[1].strip.to_sym] = {
-        pplId: row[0].to_i,
-        price: row[2].to_i,
-        threshold: row[3].to_i
+      pplId: row[0].to_i,
+      price: row[2].to_i,
+      threshold: row[3].to_i,
     }
   end
   @@products = {}
-  CSV.parse(File.read('services/commerce/products.csv'), headers: true).each do |row|
+  CSV.parse(File.read("services/commerce/products.csv"), headers: true).each do |row|
     @@products[row[0].strip.to_sym] = {
-        customisable: row[1],
-        reduced_vat: row[2]
+      customisable: row[1],
+      reduced_vat: row[2],
     }
   end
 
@@ -33,13 +33,13 @@ class Quote
     @order_items.each_with_index do |item, index|
       corresponding_variant = @variants.find { |variant| variant[:id] == item.content_id }
       unless corresponding_variant.nil?
-        if item.product_id == 'graphic'
-          price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat] == 'true')
+        if item.product_id == "graphic"
+          price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat] == "true")
           item.net_price = price.net
           item.gross_price = price.gross
           item.weight = corresponding_variant[:graphic_no_of_pages] * @@weights["swell_#{corresponding_variant[:graphic_format]}".to_sym]
           +corresponding_variant[:braille_no_of_pages] * @@weights["emboss_#{corresponding_variant[:braille_format]}".to_sym]
-        elsif item.product_id == 'graphic_nobraille'
+        elsif item.product_id == "graphic_nobraille"
           price = GraphicPriceCalculator.new(corresponding_variant, @@products[item.product_id.to_sym][:reduced_vat])
           item.net_price = price.net_graphics_only
           item.gross_price = price.gross_graphics_only
@@ -60,14 +60,14 @@ class Quote
 
   def vat
     amount = @order_items.inject(0) { |sum, item| !@@products[item.product_id.to_sym][:reduced_vat] ? item.gross_price - item.net_price + sum : sum }
-    @postage_item.product_id == 'postage' && amount += @postage_item.gross_price - @postage_item.net_price
+    @postage_item.product_id == "postage" && amount += @postage_item.gross_price - @postage_item.net_price
     # @packaging_item.product_id == 'packaging' && amount += @packaging_item.gross_price - @packaging_item.net_price
     return amount
   end
 
   def reduced_vat
     amount = @order_items.inject(0) { |sum, item| @@products[item.product_id.to_sym][:reduced_vat] ? item.gross_price - item.net_price + sum : sum }
-    @postage_item.product_id == 'postage_reduced' && amount += @postage_item.gross_price - @postage_item.net_price
+    @postage_item.product_id == "postage_reduced" && amount += @postage_item.gross_price - @postage_item.net_price
     # @packaging_item.product_id == 'packaging_reduced' && amount += @packaging_item.gross_price - @packaging_item.net_price
     return amount
   end
@@ -88,8 +88,8 @@ class Quote
   # Setuersatz für Verpackung und Versand nach teuerstem abrechnen
   def postage_item
     postage = OrderItem.new(
-        product_id: 'postage_reduced',
-        quantity: 1
+      product_id: "postage_reduced",
+      quantity: 1,
     )
 
     postage_product_id = :gross
@@ -125,4 +125,3 @@ class Quote
     return false
   end
 end
-
