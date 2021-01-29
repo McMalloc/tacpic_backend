@@ -1,38 +1,40 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.7.0)
+      public_suffix (>= 2.0.2, < 5.0)
     akami (1.3.1)
       gyoku (>= 0.4.0)
       nokogiri
     ansi (1.5.0)
-    bcrypt (3.1.15)
+    bcrypt (3.1.16)
     builder (3.2.4)
     coderay (1.1.3)
-    concurrent-ruby (1.1.6)
-    ecma-re-validator (0.2.1)
-      regexp_parser (~> 1.2)
+    concurrent-ruby (1.1.8)
+    ecma-re-validator (0.3.0)
+      regexp_parser (~> 2.0)
     erubis (2.7.0)
-    faker (2.13.0)
+    faker (2.15.1)
       i18n (>= 1.6, < 2)
     fastimage (2.2.1)
-    ffi (1.13.1)
+    ffi (1.14.2)
     gem-licenses (0.2.2)
     gyoku (1.3.1)
       builder (>= 2.1.2)
-    hana (1.3.6)
+    hana (1.3.7)
     httpi (2.4.5)
       rack
       socksify
-    i18n (1.8.5)
+    i18n (1.8.7)
       concurrent-ruby (~> 1.0)
     json_schema (0.20.9)
-    json_schemer (0.2.12)
-      ecma-re-validator (~> 0.2)
+    json_schemer (0.2.17)
+      ecma-re-validator (~> 0.3)
       hana (~> 1.3)
-      regexp_parser (~> 1.5)
+      regexp_parser (~> 2.0)
       uri_template (~> 0.7)
-    jwt (2.2.1)
-    listen (3.2.1)
+    jwt (2.2.2)
+    listen (3.4.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     macaddr (1.7.2)
@@ -41,11 +43,10 @@ GEM
       mini_mime (>= 0.1.1)
     method_source (1.0.0)
     mini_mime (1.0.2)
-    mini_portile2 (2.4.0)
-    minitest (5.14.1)
+    minitest (5.14.3)
     minitest-hooks (1.5.0)
       minitest (> 5.3)
-    minitest-reporters (1.4.2)
+    minitest-reporters (1.4.3)
       ansi
       builder
       minitest (>= 5.0)
@@ -54,49 +55,51 @@ GEM
       minitest (>= 5.7.0)
       sequel (>= 4.35.0)
       sequel-paranoid (>= 0.6.2)
-    nio4r (2.5.2)
-    nokogiri (1.10.10)
-      mini_portile2 (~> 2.4.0)
+    nio4r (2.5.4)
+    nokogiri (1.11.1-x86_64-linux)
+      racc (~> 1.4)
     nori (2.6.0)
-    pdf-core (0.8.1)
+    pdf-core (0.9.0)
     pg (1.2.3)
-    prawn (2.3.0)
-      pdf-core (~> 0.8.1)
-      ttfunk (~> 1.6)
+    prawn (2.4.0)
+      pdf-core (~> 0.9.0)
+      ttfunk (~> 1.7)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
-    prmd (0.13.0)
+    prmd (0.14.0)
       erubis (~> 2.7)
       json_schema (~> 0.3, >= 0.3.1)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    puma (4.3.5)
+    public_suffix (4.0.6)
+    puma (5.2.0)
       nio4r (~> 2.0)
+    racc (1.5.2)
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
-    rake (13.0.1)
+    rake (13.0.3)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    regexp_parser (1.7.1)
-    rerun (0.13.0)
+    regexp_parser (2.0.3)
+    rerun (0.13.1)
       listen (~> 3.0)
-    roda (3.34.0)
+    roda (3.40.0)
       rack
     roda-route_list (2.1.0)
       roda
-    rodauth (2.2.0)
+    rodauth (2.9.0)
       roda (>= 2.6.0)
       sequel (>= 4)
     rrtf (1.3.1)
       fastimage
       nokogiri
       tidy
-    ruby-progressbar (1.10.1)
+    ruby-progressbar (1.11.0)
     rubyzip (2.3.0)
     savon (2.12.1)
       akami (~> 1.2)
@@ -106,7 +109,7 @@ GEM
       nokogiri (>= 1.8.1)
       nori (~> 2.4)
       wasabi (~> 3.4)
-    sequel (5.35.0)
+    sequel (5.40.0)
     sequel-paranoid (0.7.0)
       sequel
     sequel-pg-trgm (0.0.4)
@@ -115,14 +118,15 @@ GEM
     systemu (2.6.5)
     tidy (1.1.2)
     tilt (2.0.10)
-    ttfunk (1.6.2.1)
+    ttfunk (1.7.0)
     uri_template (0.7.0)
     uuid (2.3.9)
       macaddr (~> 1.0)
-    wasabi (3.5.0)
+    wasabi (3.6.1)
+      addressable
       httpi (~> 2.0)
       nokogiri (>= 1.4.2)
-    yard (0.9.25)
+    yard (0.9.26)
     yard-appendix (0.1.8)
       yard (>= 0.8.0)
     yard-doctest (0.1.17)
@@ -132,7 +136,7 @@ GEM
       yard
 
 PLATFORMS
-  ruby
+  x86_64-linux
 
 DEPENDENCIES
   bcrypt
@@ -142,6 +146,7 @@ DEPENDENCIES
   json_schemer
   jwt
   mail
+  minitest
   minitest-hooks
   minitest-reporters
   minitest-sequel

@@ -1,0 +1,114 @@
+{
+    "title": "",
+    "graphicTitle": "Nochmal Neue Grafik",
+    "graphicDescription": "",
+    "variantTitle": "Basis",
+    "transcribersNotes": "",
+    "tags": [
+        {
+            "name": "Test",
+            "tag_id": null
+        }
+    ],
+    "uuid": "6fc29db4-f3ee-437e-a94f-c6ebc8395456",
+    "category": null,
+    "variant_id": null,
+    "graphic_id": null,
+    "version_id": null,
+    "lastVersionHash": null,
+    "derivedFrom": null,
+    "formatVersion": "0.9",
+    "keyedStrokes": [],
+    "keyedTextures": [],
+    "medium": "swell",
+    "system": "DE:VOLL",
+    "width": 210,
+    "height": 297,
+    "verticalGridSpacing": 10,
+    "horizontalGridSpacing": 10,
+    "showVerticalGrid": false,
+    "showHorizontalGrid": false,
+    "braillePages": {
+        "width": 210,
+        "height": 297,
+        "marginLeft": 1,
+        "marginTop": 1,
+        "cellsPerRow": 33,
+        "rowsPerPage": 27,
+        "pageNumbers": 0,
+        "imageDescription": {
+            "type": "",
+            "summary": "",
+            "details": ""
+        },
+        "content": "",
+        "concatinated": "",
+        "braille": "",
+        "formatted": [
+            []
+        ]
+    },
+    "pages": [
+        {
+            "name": "Seite 1",
+            "text": false,
+            "rendering": "<g id=\"page-0\"><rect data-role=\"CANVAS\" data-pageidx=\"0\" x=\"0\" y=\"0\" width=\"210mm\" height=\"297mm\" stroke=\"rgba(0,0,0,0.0)\" fill=\"white\"></rect><g data-transformable=\"true\" id=\"ccafeac1-ddbe-49a4-be23-df04590d7f62\" data-group=\"1\" data-selectable=\"true\" data-editable=\"1\" data-select-override=\"true\" data-in_edit_mode=\"false\" transform=\"translate(10, 10) rotate(0, 0, 0) scale(1, 1)\"><foreignObject width=\"448\" height=\"94\" style=\"overflow: visible;\"><div xmlns=\"http://www.w3.org/1999/xhtml\" class=\"Label__Container-sc-1efrhn0-5 gzuiUF label-container\" style=\"position: relative; background-color: white;\"><div class=\"Label__Braille-sc-1efrhn0-0 cKaHKs label-braille\" xmlns=\"http://www.w3.org/1999/xhtml\" id=\"braille_ccafeac1-ddbe-49a4-be23-df04590d7f62\">no4mal n2e grafik </div><textarea xmlns=\"http://www.w3.org/1999/xhtml\" disabled=\"\" class=\"Label__Black-sc-1efrhn0-2 bvKJCl label-black\" tabindex=\"1\" id=\"editable_ccafeac1-ddbe-49a4-be23-df04590d7f62\" style=\"height: 94px;\">Nochmal Neue Grafik</textarea></div></foreignObject></g><g><foreignObject x=\"555.9922571182251\" y=\"1004.1447687149048\" width=\"1\" height=\"1\" id=\"6eaf6f7f-12f5-464b-8ed9-ebbd9369c851\" style=\"overflow: visible;\"><table class=\"initial\" id=\"container-6eaf6f7f-12f5-464b-8ed9-ebbd9369c851\" data-internal-x=\"555.9922571182251\" data-internal-y=\"1004.1447687149048\" data-uuid=\"6eaf6f7f-12f5-464b-8ed9-ebbd9369c851\" xmlns=\"http://www.w3.org/1999/xhtml\" style=\"background-color: white; border: 1mm solid black; width: 200px;\"><tbody data-selectable=\"true\" data-uuid=\"6eaf6f7f-12f5-464b-8ed9-ebbd9369c851\"><tr><td colspan=\"2\" style=\"padding: 2mm 6mm 0px 2mm;\"><span class=\"Key__Black-sc-5epqa8-1 bvXiFB key-label-black\" data-selectable=\"true\" data-transformable=\"true\" data-uuid=\"6eaf6f7f-12f5-464b-8ed9-ebbd9369c851\">Legende</span><span class=\"Key__Braille-sc-5epqa8-0 jHQgxX key-label-braille\" data-selectable=\"true\" data-transformable=\"true\" data-uuid=\"6eaf6f7f-12f5-464b-8ed9-ebbd9369c851\">legende</span></td></tr></tbody></table></foreignObject></g><g><ellipse data-uuid=\"323acbbf-7aab-471c-84a5-487654c60223\" class=\"neutral-border\" transform=\"translate(356, 394) rotate(0, 0, 0) scale(1, 1)\" rx=\"201\" ry=\"192\" style=\"stroke: white; fill: transparent; stroke-width: 20;\"></ellipse><ellipse id=\"323acbbf-7aab-471c-84a5-487654c60223\" data-uuid=\"323acbbf-7aab-471c-84a5-487654c60223\" transform=\"translate(356, 394) rotate(0, 0, 0) scale(1, 1)\" clip-path=\"url(#clip-323acbbf-7aab-471c-84a5-487654c60223)\" data-transformable=\"true\" data-selectable=\"true\" rx=\"201\" ry=\"192\" style=\"fill: url(&quot;#pattern-diagonal_lines-323acbbf-7aab-471c-84a5-487654c60223&quot;); stroke: rgb(67, 44, 134); stroke-width: 20;\"></ellipse><ellipse id=\"stroke-323acbbf-7aab-471c-84a5-487654c60223\" data-uuid=\"323acbbf-7aab-471c-84a5-487654c60223\" transform=\"translate(356, 394) rotate(0, 0, 0) scale(1, 1)\" stroke-width=\"1.5mm\" stroke-dasharray=\"solid\" data-transformable=\"true\" data-selectable=\"true\" stroke=\"black\" rx=\"201\" ry=\"192\" style=\"fill: none;\"></ellipse><clipPath id=\"clip-323acbbf-7aab-471c-84a5-487654c60223\"><ellipse rx=\"201\" ry=\"192\"></ellipse></clipPath><pattern patternUnits=\"userSpaceOnUse\" id=\"pattern-diagonal_lines-323acbbf-7aab-471c-84a5-487654c60223\" patternTransform=\"translate(0, 0) rotate(0, 0, 0) scale(1, 1)\" width=\"5.08mm\" height=\"5.08mm\"><rect x=\"0\" y=\"0\" width=\"200\" height=\"200\" fill=\"rgb(67,44,134)\"></rect><line x1=\"7.12mm\" y1=\"-1.27mm\" x2=\"-0.5mm\" y2=\"6.35mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line><line x1=\"2.04mm\" y1=\"-1.27mm\" x2=\"-1.77mm\" y2=\"2.54mm\" stroke=\"black\" stroke-width=\"0.8mm\"></line></pattern></g></g>",
+            "objects": [
+                {
+                    "uuid": "ccafeac1-ddbe-49a4-be23-df04590d7f62",
+                    "x": 10,
+                    "y": 10,
+                    "width": 448,
+                    "height": 94,
+                    "text": "Nochmal Neue Grafik",
+                    "braille": "no4mal n2e grafik",
+                    "moniker": "Beschriftung",
+                    "displayDots": true,
+                    "displayLetters": true,
+                    "smooth": true,
+                    "editMode": false,
+                    "isKey": false,
+                    "isTitle": true,
+                    "keyVal": "",
+                    "fullCharPrefix": false,
+                    "border": false,
+                    "type": "label",
+                    "pristine": false
+                },
+                {
+                    "uuid": "6eaf6f7f-12f5-464b-8ed9-ebbd9369c851",
+                    "x": 100,
+                    "y": 100,
+                    "width": 200,
+                    "height": 300,
+                    "moniker": "Legende",
+                    "editMode": true,
+                    "active": true,
+                    "anchored": true,
+                    "border": true,
+                    "borderWidth": 2,
+                    "type": "key"
+                },
+                {
+                    "uuid": "323acbbf-7aab-471c-84a5-487654c60223",
+                    "x": 356,
+                    "y": 394,
+                    "width": 201,
+                    "height": 192,
+                    "fill": "rgb(67,44,134)",
+                    "pattern": {
+                        "template": "diagonal_lines",
+                        "offset": true
+                    },
+                    "border": true,
+                    "borderWidth": 1.5,
+                    "borderStyle": "solid",
+                    "moniker": "Ellipse",
+                    "angle": 0,
+                    "type": "ellipse"
+                }
+            ]
+        }
+    ],
+    "variantDescription": " ()"
+}

@@ -61,23 +61,25 @@ namespace 'test' do
   Rake::TestTask.new do |t|
     t.name = 'routes'
     t.libs << "."
-    t.test_files = FileList['tests/*_tests.rb']
-    t.verbose = true
+    t.test_files = ['tests/graphic_tests.rb']
+    # t.test_files = FileList['tests/*_tests.rb']
+    t.verbose = false
     t.warning = false
   end
 
   Rake::TestTask.new do |t|
-    t.name = 'models'
-    # t.libs << "."
-    t.test_files = FileList['tests/model_tests.rb']
-    t.verbose = true
+    t.name = 'orders'
+    t.libs << "."
+    t.test_files = ['tests/order_tests.rb']
+    # t.test_files = FileList['tests/*_tests.rb']
+    t.verbose = false
     t.warning = false
   end
 
   desc 'Purges test db and runs model tests'
   # task :purge_and_models, [:mode] => ['db:purge', :models]
-  task :purge_and_routes, [:mode] => ['db:purge', :routes]
-  task :reset_and_routes, [:mode] => ['db:reset', :routes]
+  task :purge_and_all, [:mode] => ['db:purge', :routes, :orders]
+  # task :reset_and_routes, [:mode] => ['db:reset', :routes]
   # task :all_routes, [:mode] => [:routes]
 end
 

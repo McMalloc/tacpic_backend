@@ -4,7 +4,7 @@ require "main"
 require "env"
 require "rack/test"
 require "minitest/autorun"
-require 'minitest/reporters'
+# require 'minitest/reporters'
 require 'json'
 require "faker"
 
@@ -19,13 +19,25 @@ def get_body(response)
   JSON.parse(response.body)
 end
 
+def read_test_data(name)
+  File.open("./tests/test_data/" + name + ".json").read
+end
 
+def compare_images(image, ref, margin = 1, algorithm = 'ae')
+  `compare 
+    -metric #{algorithm} 
+    #{ENV['APPLICATION_BASE']}/tests/references/#{ref}.png 
+    -fuzz #{margin}% 
+    #{ENV['APPLICATION_BASE']}/tests/results/#{image}.png 
+    #{ENV['APPLICATION_BASE']}/tests/results/DIFF_#{image}.png`
+end
 
 # creating valid test user
 def create_test_user(login, password)
   register_data = {
       'login': login,
       'login-confirm': login,
+      'display_name': '',
       'password': password,
       'password-confirm': password,
   }
@@ -48,7 +60,9 @@ def create_test_user(login, password)
   }
 end
 
+$token = create_test_user('test@test.de', '12345678')[:token]
+
 
 # creating fixtures
-require_relative 'populate_with_fixtures'
-MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new]
+# require_relative 'populate_with_fixtures'
+# MiniTest::Reporters.use! [MiniTest::Reporters::SpecReporter.new]

@@ -16,7 +16,7 @@ class LegalAPI
     unless ENV['RACK_ENV'] == 'development'
       @index = index
       @index.each do |id, title|
-        save URI.encode(title), get_text(id)
+        save URI.encode_www_form_component(title), get_text(id)
       end
     end
 

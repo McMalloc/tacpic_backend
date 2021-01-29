@@ -22,6 +22,7 @@ gem 'rubyzip'
 
 # Test requirements
 group :test, :development do
+  gem 'minitest'
   gem 'minitest-reporters'
   gem 'minitest-sequel'
   gem 'minitest-hooks'

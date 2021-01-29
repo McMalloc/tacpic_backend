@@ -5,7 +5,6 @@ const format = process.argv[3];
 const landscape = process.argv[4] === 'true';
 const pageIndex = parseInt(process.argv[5]);
 const basePath = process.argv[6].replace(/$\/+/, '');
-const noSandbox = process.argv[7] == 'true';
 
 (async() => {
 

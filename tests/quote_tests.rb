@@ -1,5 +1,6 @@
 require_relative "./test_helper"
 
+return
 describe "Quote" do
   it "should correctly calculate a quote for a single a4 graphic" do
     post "orders/quote", {items: [{

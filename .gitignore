@@ -8,6 +8,8 @@ logs
 public/*
 views/legal/*.inc
 /files
+/tests/results
+/assets/*.ttf
 node_modules
 package-lock.json
 Gemfile.lock

@@ -127,8 +127,10 @@ Dateiverzeichnisse anlegen:
 mkdir tacpic_backend/files
 mkdir tacpic_backend/files/vouchers
 mkdir tacpic_backend/files/invoices
+mkdir tacpic_backend/files/thumbnails
 mkdir tacpic_backend/files/shipment_receipts
 mkdir tacpic_backend/files/temp
+mkdir tacpic_backend/files/jobs
 ```
 ## Datenbank einrichten
 

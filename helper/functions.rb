@@ -16,6 +16,10 @@ module Helper
     string.to_s[0..length-3] + "…"
   end
 
+  def self.load_template(path)
+    ERB.new File.read(path)
+  end
+
   def self.pack_json(request, fields)
     stripped_request = {}
     fields.each do |field|

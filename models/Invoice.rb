@@ -98,9 +98,9 @@ class Invoice < Sequel::Model
                              page_size: 'A4', page_layout: :portrait, left_margin: 20.mm, margin_right: 20.mm, top_margin: 10.mm, bottom_margin: 10.mm) do
       font_families.update(
           "Roboto" => {
-              normal: "#{ENV['APPLICATION_BASE']}/public/webfonts/Roboto/Roboto-Regular.ttf",
-              bold: "#{ENV['APPLICATION_BASE']}/public/webfonts/Roboto/Roboto-Bold.ttf",
-              black: "#{ENV['APPLICATION_BASE']}/public/webfonts/Roboto/Roboto-Black.ttf"
+              normal: "#{ENV['APPLICATION_BASE']}/assets/Roboto-Regular.ttf",
+              bold: "#{ENV['APPLICATION_BASE']}/assets/Roboto-Bold.ttf",
+              black: "#{ENV['APPLICATION_BASE']}/assets/Roboto-Black.ttf"
           }
       )
       font "Roboto", size: 10

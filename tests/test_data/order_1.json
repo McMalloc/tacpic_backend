@@ -1,0 +1,26 @@
+{
+    "shippingAddress": {
+        "is_invoice_addr": false,
+        "street": "Rheinallee",
+        "house_number": "2",
+        "company_name": "",
+        "first_name": "Florentin",
+        "last_name": "Förschler",
+        "additional": "",
+        "city": "Neuss",
+        "zip": "41460",
+        "state": "",
+        "id": null,
+        "country": "DEU"
+    },
+    "invoiceAddress": null,
+    "paymentMethod": "invoice",
+    "idempotencyKey": "5cb9c470-c996-4dc8-8ea9-8646dab38d29",
+    "basket": [
+        {
+            "contentId": 3,
+            "productId": "graphic",
+            "quantity": 1
+        }
+    ]
+}
