@@ -14,6 +14,5 @@ class OrderItem < Sequel::Model
     elsif self.product_id == 'packaging'
       self.description = "Verpackung"
     end
-
   end
 end

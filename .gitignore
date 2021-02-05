@@ -8,7 +8,7 @@ logs
 public/*
 views/legal/*.inc
 /files
-/tests/results
+/test/results
 /assets/*.ttf
 node_modules
 package-lock.json

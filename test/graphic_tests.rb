@@ -1,5 +1,4 @@
 require_relative "./test_helper"
-require "faker"
 
 describe "Creating Graphics" do
   before do
@@ -29,5 +28,12 @@ describe "Creating Graphics" do
     test_data = read_test_data("new_graphic_from_variant")
     post "graphics", test_data
     assert_equal 201, last_response.status
+
+    test_data = read_test_data("catch_all_graphic")
+    post "graphics", test_data
+    file = get_body(last_response)['first_version']['file_name']
+    assert_equal 201, last_response.status
+    assert_equal 0, compare_images(file + '-RASTER-p0', 'catch_all_p0')
+    assert_equal 0, compare_images(file + '-RASTER-p1', 'catch_all_p1')
   end
 end

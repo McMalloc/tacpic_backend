@@ -27,10 +27,10 @@ class Invoice < Sequel::Model
     Order[self.order_id].order_items.each_with_index do |item, index|
       art_no = ""
       if item.product_id == 'graphic'
-        art_no = "GB-#{item.content_id.to_s.rjust(5, '0')}"
+        art_no = "GB-\u00AD#{item.content_id.to_s.rjust(5, '0')}"
       end
       if item.product_id == 'graphic_nobraille'
-        art_no = "GN-#{item.content_id.to_s.rjust(5, '0')}"
+        art_no = "GN-\u00AD#{item.content_id.to_s.rjust(5, '0')}"
       end
       listing.push(
           [
@@ -40,7 +40,7 @@ class Invoice < Sequel::Model
               Helper.format_currency(item.net_price / item.quantity),
               item.description,
               Helper.format_currency(item.net_price),
-              GraphicPriceCalculator.taxes[:de_reduced_vat].to_s + '%' #todo lookup for product_id
+              PriceCalculator.taxes[:de_reduced_vat].to_s + '%' #todo lookup for product_id
           ]
       )
     end

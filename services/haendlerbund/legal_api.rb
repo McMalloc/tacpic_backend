@@ -13,7 +13,7 @@ class LegalAPI
     @endpoint = ENV['HAENDLERBUND_API_URL']
 
     @index = []
-    unless ENV['RACK_ENV'] == 'development'
+    if ENV['RACK_ENV'] == 'production'
       @index = index
       @index.each do |id, title|
         save URI.encode_www_form_component(title), get_text(id)

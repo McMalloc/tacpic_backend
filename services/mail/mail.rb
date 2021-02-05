@@ -49,14 +49,20 @@ module SMTP
     def initialize
     end
 
-    def deliver_in_thread(mail)
-      begin
-        Thread.new {
-          mail.deliver!
-        }
-      rescue
-        puts "Error"
-        # TODO error handling
+    def process_mail(mail)
+      func_name = /\`(.*?)\'/.match(caller[0]).captures[0]
+
+      if ENV["RACK_ENV"] == "test"
+        File.write("#{ENV["APPLICATION_BASE"]}/tests/results/#{func_name}.txt", mail.to_s)
+      else
+        begin
+          Thread.new {
+            mail.deliver!
+          }
+        rescue
+          puts "Error"
+          # TODO error handling
+        end
       end
     end
 
@@ -80,11 +86,7 @@ module SMTP
         add_file "#{ENV["APPLICATION_BASE"]}/assets/AGB_tacpic.pdf"
       end
 
-      if ENV["RACK_ENV"] == "test"
-        File.write("#{ENV["APPLICATION_BASE"]}/tests/results/order_confirm_#{invoice.invoice_number}.txt", mail.to_s)
-      else
-        deliver_in_thread(mail)
-      end
+      process_mail(mail)
     end
 
     def send_production_job(order, zipfile_name)
@@ -104,11 +106,7 @@ module SMTP
           add_file content: File.read(zipfile_name), filename: "#{order.created_at.strftime("%Y-%m-%d")} Dateien für Bestellung Nr. #{order.id}.zip"
         end
 
-        if ENV["RACK_ENV"] == "test"
-          File.write("#{ENV["APPLICATION_BASE"]}/tests/results/production_job_#{invoice.invoice_number}.txt", mail.to_s)
-        else
-          deliver_in_thread(mail)
-        end
+        process_mail(mail)
       end
     end
 
@@ -122,11 +120,7 @@ module SMTP
         add_file invoice.get_pdf_path
       end
 
-      if ENV["RACK_ENV"] == "test"
-        File.write("#{ENV["APPLICATION_BASE"]}/tests/results/invoice_to_accounting_#{invoice.id}.txt", mail.to_s)
-      else
-        deliver_in_thread(mail)
-      end
+      process_mail(mail)
     end
 
     def send_quote_confirmation(recipient, quote_id, items)
@@ -137,11 +131,7 @@ module SMTP
         body ORDER_CONFIRM_TEMPLATE.result_with_hash({ items: items })
       end
 
-      if ENV["RACK_ENV"] == "test"
-        File.write("#{ENV["APPLICATION_BASE"]}/tests/results/quote_confirmation_#{quote_id}.txt", mail.to_s)
-      else
-        deliver_in_thread(mail)
-      end
+      process_mail(mail)
     end
   end
 end

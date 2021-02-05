@@ -13,10 +13,11 @@ require_relative 'db/config' # gets Database
 require_relative 'env' # gets Config
 require_relative 'helper/functions'
 require_relative 'helper/exceptions'
+require_relative 'services/commerce/commerce_data'
 
 require_relative 'services/haendlerbund/legal_api'
 
-require 'pry' if ENV["RACK_ENV"] == "development"
+require 'pry' if ENV["RACK_ENV"] != "production"
 
 class Tacpic < Roda
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
@@ -146,6 +147,10 @@ class Tacpic < Roda
   end
 end
 
+END {
+  puts "shutting down"
+}
+
 # thrown when requesting parameters compromise the sanity of the response
 class DataError < StandardError
   attr_reader :parameter
@@ -160,7 +165,7 @@ end
 require_relative 'services/internetmarke/internetmarke'
 require_relative 'services/mail/mail'
 require_relative 'services/commerce/Quote'
-require_relative 'services/commerce/GraphicPriceCalculator'
+require_relative 'services/commerce/PriceCalculator'
 require_relative 'services/ocr/ocr'
 require_relative 'services/job/job'
 require_relative 'services/files/file'

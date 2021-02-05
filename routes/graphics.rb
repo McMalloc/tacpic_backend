@@ -45,7 +45,7 @@ Tacpic.hash_branch "graphics" do |r|
         created_at: variants[0][:graphic_created_at],
         original_author_id: variants[0][:original_author_id],
         variants: variants.map { |variant|
-          price = GraphicPriceCalculator.new variant, true
+          price = PriceCalculator.new variant, true
           {
               id: variant[:variant_id],
               quote: price.gross.ceil,

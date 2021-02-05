@@ -1,23 +1,10 @@
-class GraphicPriceCalculator
+class PriceCalculator
+  include CommerceData
   attr_accessor :tax_rate
-
-  @@prices = {}
-  CSV.parse(File.read('services/commerce/base_prices.csv'), headers: true).each do |row|
-    @@prices[row[0].strip.to_sym] = row[1].to_i
-  end
-
-  @@taxes = {}
-  CSV.parse(File.read('services/commerce/taxes.csv'), headers: true).each do |row|
-    @@taxes[row[0].strip.to_sym] = row[1].to_i
-  end
-
-  def self.taxes
-    @@taxes
-  end
 
   def initialize(variant, reduced)
     @variant = variant
-    @tax_rate = reduced ? @@taxes[:de_reduced_vat].to_i : @@taxes[:de_vat].to_i # TODO woanders speichern
+    @tax_rate = reduced ? get_taxrate(:de_reduced_vat) : get_taxrate(:de_vat)
   end
 
   def gross
@@ -42,8 +29,9 @@ class GraphicPriceCalculator
     unless graphic_only
       price += @variant[:braille_no_of_pages] * @@prices["emboss_#{@variant[:braille_format]}".to_sym]
     end
-    unless net_only
-      price += @tax_rate / 100.0 * price
+    if net_only
+      # Bruttobetrag / (1 + Mehrwertsteuersatz) = Nettobetrag
+      price /= 1 + @tax_rate / 100.0
     end
     return price.round
   end
