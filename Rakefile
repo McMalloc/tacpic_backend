@@ -99,7 +99,7 @@ end
 
 namespace 'run' do
   task :main do
-    system 'rackup -s webrick'
+    system 'rackup'
   end
 
   desc 'Runs the main script with automatic restarting'
