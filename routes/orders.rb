@@ -1,15 +1,14 @@
-Tacpic.hash_branch "orders" do |r|
-
+Tacpic.hash_branch 'orders' do |r|
   # GET /orders/:id/finalise?hash=xyz
-  r.get Integer, "finalise" do |id|
-    if Order[id].get_hash == request["hash"]
+  r.get Integer, 'finalise' do |id|
+    if Order[id].get_hash == request['hash']
       Order[id].update(status: 2)
       SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoice)
 
-      return "Produktionsauftrag bestaetigt."
+      return 'Produktionsauftrag bestaetigt.'
     else
       response.status = 406
-      return "406: Ungültiger Hash. Bitte Link überprüfen"
+      return '406: Ungültiger Hash. Bitte Link überprüfen'
     end
   end
 
@@ -19,34 +18,34 @@ Tacpic.hash_branch "orders" do |r|
   end
 
   # GET /orders/:id/invoice_link
-  r.get Integer, "invoice_link" do |id|
+  r.get Integer, 'invoice_link' do |_id|
     rodauth.require_authentication
     user_id = rodauth.logged_in?
-    return "hey"
+    return 'hey'
   end
 
   # GET /orders/:id
   r.get Integer do |id|
     rodauth.require_authentication
     user_id = rodauth.logged_in?
-    if User[user_id][:role] == 3 or Orders[id][:user_id] == user_id
+    if (User[user_id][:role] == 3) || (Orders[id][:user_id] == user_id)
       Orders[id].values
     else
       response.status = 403 # Forbidden
-      response.write "not authorized" # TODO systematic error messages
+      response.write 'not authorized' # TODO: systematic error messages
       request.halt
     end
   end
 
   def get_quote(items)
-    content_ids = items.map { |item| item["contentId"] }
-    Quote.new(items.map { |item|
+    content_ids = items.map { |item| item['contentId'] }
+    Quote.new(items.map do |item|
       OrderItem.new(
-        content_id: item["contentId"],
-        product_id: item["productId"],
-        quantity: item["quantity"],
+        content_id: item['contentId'],
+        product_id: item['productId'],
+        quantity: item['quantity']
       )
-    }, Variant
+    end, Variant
       .where(id: content_ids) # .order_by(Sequel.lit("array_position(array#{content_ids.to_s}, id)")) # order result like the requested content_ids
       .all
       .map(&:values))
@@ -65,80 +64,80 @@ Tacpic.hash_branch "orders" do |r|
 
     if Order.where(idempotency_key: request[:idempotencyKey]).all.count > 0
       response.status = 409
-      return "duplicate order"
+      return 'duplicate order'
     end
 
     # set shipping address id, depending on the fields in the request either from db or directly from the request
     begin
       shipping_address_id = nil
-      if request[:shippingAddress]["id"].nil?
+      if request[:shippingAddress]['id'].nil?
         fields = request[:shippingAddress]
         shipping_address_id = Address.create(
           is_invoice_addr: false,
-          street: fields["street"],
-          house_number: fields["house_number"],
-          company_name: fields["company_name"],
-          first_name: fields["first_name"],
-          last_name: fields["last_name"],
-          additional: fields["additional"],
-          city: fields["city"],
-          zip: fields["zip"],
-          state: fields["state"],
-          country: fields["country"],
-          user_id: user_id,
+          street: fields['street'],
+          house_number: fields['house_number'],
+          company_name: fields['company_name'],
+          first_name: fields['first_name'],
+          last_name: fields['last_name'],
+          additional: fields['additional'],
+          city: fields['city'],
+          zip: fields['zip'],
+          state: fields['state'],
+          country: fields['country'],
+          user_id: user_id
         ).id
       else
-        shipping_address_id = request[:shippingAddress]["id"]
+        shipping_address_id = request[:shippingAddress]['id']
       end
-    rescue
+    rescue StandardError
       response.status = 400
-      return "invalid shipping address"
+      return 'invalid shipping address'
     end
 
     begin
       invoice_address_id = nil
       if request[:invoiceAddress].nil? # no talk about the invoice address, so it is the same as shipping
         invoice_address_id = shipping_address_id
-      elsif request[:invoiceAddress]["id"].nil?
+      elsif request[:invoiceAddress]['id'].nil?
         fields = request[:invoiceAddress]
         invoice_address_id = Address.create(
           is_invoice_addr: true,
-          street: fields["street"],
-          house_number: fields["house_number"],
-          company_name: fields["company_name"],
-          first_name: fields["first_name"],
-          last_name: fields["last_name"],
-          additional: fields["additional"],
-          city: fields["city"],
-          zip: fields["zip"],
-          state: fields["state"],
-          country: fields["country"],
-          user_id: user_id,
+          street: fields['street'],
+          house_number: fields['house_number'],
+          company_name: fields['company_name'],
+          first_name: fields['first_name'],
+          last_name: fields['last_name'],
+          additional: fields['additional'],
+          city: fields['city'],
+          zip: fields['zip'],
+          state: fields['state'],
+          country: fields['country'],
+          user_id: user_id
         ).id
       else
-        invoice_address_id = request[:invoiceAddress]["id"]
+        invoice_address_id = request[:invoiceAddress]['id']
       end
-    rescue
+    rescue StandardError
       response.status = 400
-      return "invalid invoice address"
+      return 'invalid invoice address'
     end
 
     if request[:basket].count == 0
       response.status = 400
-      return "empty order"
+      return 'empty order'
     end
 
     final_quote = get_quote request[:basket]
 
     order = Order.create(
       user_id: user_id,
-      comment: "TODO",
+      comment: 'TODO',
       payment_method: request[:paymentMethod],
       total_gross: final_quote.gross,
       idempotency_key: request[:idempotencyKey],
       total_net: final_quote.net,
       weight: final_quote.weight,
-      test: ENV["RACK_ENV"] != "production",
+      test: ENV['RACK_ENV'] != 'production'
     )
 
     final_quote.order_items.each do |item|
@@ -150,15 +149,15 @@ Tacpic.hash_branch "orders" do |r|
 
     invoice = Invoice.create(
       address_id: invoice_address_id,
-      order_id: order.id,
+      order_id: order.id
     )
 
     shipment = Shipment.create(
       order_id: order.id,
-      address_id: shipping_address_id,
+      address_id: shipping_address_id
     )
 
-    # TODO Zahlung anlegen
+    # TODO: Zahlung anlegen
     # the shipping voucher will be put on the invoice if it's the same address
     begin
       voucher_shipping = Internetmarke::Voucher.new(
@@ -171,7 +170,7 @@ Tacpic.hash_branch "orders" do |r|
 
       shipment.update(
         voucher_id: voucher_shipping.shop_order_id,
-        voucher_filename: voucher_shipping.file_name,
+        voucher_filename: voucher_shipping.file_name
       )
 
       # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
@@ -186,28 +185,29 @@ Tacpic.hash_branch "orders" do |r|
 
         invoice.update(
           voucher_id: voucher_invoice.shop_order_id,
-          voucher_filename: voucher_invoice.file_name,
+          voucher_filename: voucher_invoice.file_name
         )
         shipment.generate_shipping_pdf
       end
-    rescue
+    rescue StandardError
       response.status = 500
-      return {type: 'service error', message: "Fehler beim Lösen der Internetmarke"}
+      return { type: 'service error', message: 'Fehler beim Lösen der Internetmarke' }
     end
 
     if voucher_shipping.error || (!voucher_invoice.nil? && voucher_invoice.error)
       response.status = 500
       order.update status: -1
-      return { type: "Serverfehler", message: "Es ist ein Fehler bei der automatischen Abwicklung aufgetreten. Wir werden uns mit Ihnen in Verbindung setzen." }
+      return { type: 'Serverfehler',
+               message: 'Es ist ein Fehler bei der automatischen Abwicklung aufgetreten. Wir werden uns mit Ihnen in Verbindung setzen.' }
     else
       invoice.generate_invoice_pdf
 
       job = nil
       begin
         job = Job.new(order)
-      rescue StandardError => error
+      rescue StandardError => e
         response.status = 500
-        raise error
+        raise e
       end
 
       job.send_mail

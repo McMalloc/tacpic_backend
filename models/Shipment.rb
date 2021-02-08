@@ -1,4 +1,5 @@
 class Shipment < Sequel::Model
+  include CommerceData
   many_to_one :address
   one_to_many :shipped_items
 
@@ -37,7 +38,7 @@ class Shipment < Sequel::Model
               Helper.format_currency(item.net_price / item.quantity),
               item.description,
               Helper.format_currency(item.net_price),
-              PriceCalculator.taxes[:de_reduced_vat].to_s + '%' #todo lookup for product_id
+              get_taxrate(:de_reduced_vat).to_s + '%' #todo lookup for product_id
           ]
       )
     end

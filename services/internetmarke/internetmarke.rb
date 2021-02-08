@@ -1,30 +1,29 @@
 require 'savon'
 require 'digest/md5'
-# require 'singleton'
 
 def transform_address(address)
   formatted_address = {}
-  if address[:company_name].nil?
-    formatted_address[:name] = {
-        personName: {
-            firstname: address[:first_name],
-            lastname: address[:last_name]
-        },
-    }
-  else
-    formatted_address[:name] = {
-        companyName: {
-            company: address[:company_name]
-        },
-    }
-  end
+  formatted_address[:name] = if address[:company_name].nil? || address[:company_name].strip.empty?
+                               {
+                                 personName: {
+                                   firstname: address[:first_name],
+                                   lastname: address[:last_name]
+                                 }
+                               }
+                             else
+                               {
+                                 companyName: {
+                                   company: address[:company_name]
+                                 }
+                               }
+                             end
 
   formatted_address[:address] = {
-      street: address[:street],
-      houseNo: address[:house_number],
-      zip: address[:zip],
-      city: address[:city],
-      country: address[:country],
+    street: address[:street],
+    houseNo: address[:house_number],
+    zip: address[:zip],
+    city: address[:city],
+    country: address[:country]
   }
 
   pp formatted_address
@@ -32,10 +31,9 @@ def transform_address(address)
 end
 
 module Internetmarke
-
   class Client
     include Singleton
-    TIMEFORMAT = "%d%m%Y-%H%M%S"
+    TIMEFORMAT = '%d%m%Y-%H%M%S'.freeze
     AUTH_TIMEOUT = ENV['INTERNETMARKE_AUTH_TIMEOUT'].to_i
     PARTNER_ID = ENV['PARTNER_ID']
     KEY_PHASE = ENV['KEY_PHASE']
@@ -43,8 +41,7 @@ module Internetmarke
     INTERNETMARKE_USERNAME = ENV['INTERNETMARKE_USERNAME']
     INTERNETMARKE_PASSWORD = ENV.delete('INTERNETMARKE_PASSWORD')
 
-    attr_accessor :wallet_balance
-    attr_accessor :client
+    attr_accessor :wallet_balance, :client
 
     def initialize
       @client = Savon.client(wsdl: ENV['INTERNETMARKE_WSDL_URL'])
@@ -60,27 +57,28 @@ module Internetmarke
     def create_header
       request_time = Time.now.strftime(TIMEFORMAT)
       {
-          "PARTNER_ID" => PARTNER_ID,
-          "PARTNER_SIGNATURE" => get_hash(request_time)[0..7],
-          "REQUEST_TIMESTAMP" => request_time,
-          "KEY_PHASE" => KEY_PHASE,
-          "SCHLUESSEL_DPWN_MARKTPLATZ" => SCHLUESSEL_DPWN_MARKTPLATZ
+        'PARTNER_ID' => PARTNER_ID,
+        'PARTNER_SIGNATURE' => get_hash(request_time)[0..7],
+        'REQUEST_TIMESTAMP' => request_time,
+        'KEY_PHASE' => KEY_PHASE,
+        'SCHLUESSEL_DPWN_MARKTPLATZ' => SCHLUESSEL_DPWN_MARKTPLATZ
       }
     end
 
-    # TODO Fehlerbehandlung
+    # TODO: Fehlerbehandlung
     def authenticate
-      puts "[SOAP] INFO Authenticating..."
+      puts '[SOAP] INFO Authenticating...'
       request_time = Time.now.to_f.round
       if @time_of_last_request.nil? || request_time - @time_of_last_request > AUTH_TIMEOUT
         @time_of_last_request = request_time
         response_auth = @client.call(
-            :authenticate_user,
-            soap_header: create_header,
-            message: {
-                username: INTERNETMARKE_USERNAME,
-                password: INTERNETMARKE_PASSWORD
-            })
+          :authenticate_user,
+          soap_header: create_header,
+          message: {
+            username: INTERNETMARKE_USERNAME,
+            password: INTERNETMARKE_PASSWORD
+          }
+        )
         @token = response_auth.body[:authenticate_user_response][:user_token]
         @wallet_balance = response_auth.body[:authenticate_user_response][:wallet_balance]
         # if @wallet_balance < 200
@@ -88,35 +86,31 @@ module Internetmarke
         # end
       end
 
-      puts "[SOAP] OK   Authenticated: " + @token.to_s
+      puts '[SOAP] OK   Authenticated: ' + @token.to_s
 
       @token
     end
   end
 
   class Voucher
-    @@valid_pplsIds = CSV.parse(File.read('services/commerce/postage.csv'), headers: true).map { |row| {pplId: row[0].to_i, price: row[2].to_i} }
-    attr_accessor :shop_order_id
-    attr_accessor :file_url
-    attr_accessor :file_name
-    attr_accessor :sender_address
-    attr_accessor :receiver_address
-    attr_accessor :wallet_balance
-    attr_accessor :error
+    @@valid_pplsIds = CSV.parse(File.read('services/commerce/postage.csv'), headers: true).map do |row|
+      { pplId: row[0].to_i, price: row[2].to_i }
+    end
+    attr_accessor :shop_order_id, :file_url, :file_name, :sender_address, :receiver_address, :wallet_balance, :error
 
     def initialize(product, receiver_address, sender_address = {
-            company_name: "tacpic UG (haftungsbeschränkt)",
-            street: "Breitscheidtr.",
-            house_number: "51",
-            zip: "39114",
-            city: "Magdeburg",
-            country: "DEU",
-        })
-      if @@valid_pplsIds.map { |row| row[:pplId] }.include? product
-        @product = product
-      else
-        @product = nil # not a valid product
-      end
+      company_name: 'tacpic UG (haftungsbeschränkt)',
+      street: 'Breitscheidtr.',
+      house_number: '51',
+      zip: '39114',
+      city: 'Magdeburg',
+      country: 'DEU'
+    })
+      @product = if @@valid_pplsIds.map { |row| row[:pplId] }.include? product
+                   product
+                 else
+                   nil # not a valid product
+                 end
 
       @sender_address = sender_address
       @receiver_address = receiver_address
@@ -125,13 +119,13 @@ module Internetmarke
 
     def save_voucher
       puts "Get from #{@file_link}"
-      @file_name = "voucher_#{Time.now.strftime("%Y-%m-%d")}_#{@voucher_id}"
-      file_path = File.join(ENV["APPLICATION_BASE"], 'files/vouchers', @file_name)
+      @file_name = "voucher_#{Time.now.strftime('%Y-%m-%d')}_#{@voucher_id}"
+      file_path = File.join(ENV['APPLICATION_BASE'], 'files/vouchers', @file_name)
       system "wget '#{@file_link}' -O #{file_path}.zip"
       system "unzip #{file_path}.zip -d #{file_path}"
     end
 
-    # TODO eventuell mehrere Marken pro Checkout?
+    # TODO: eventuell mehrere Marken pro Checkout?
     def checkout
       token = Client.instance.authenticate
       sender = transform_address(@sender_address)
@@ -144,12 +138,12 @@ module Internetmarke
           soap_header Client.instance.create_header
           message userToken: token,
                   positions: {
-                      productCode: product,
-                      address: {
-                          sender: sender,
-                          receiver: receiver
-                      },
-                      voucherLayout: "AddressZone"
+                    productCode: product,
+                    address: {
+                      sender: sender,
+                      receiver: receiver
+                    },
+                    voucherLayout: 'AddressZone'
                   },
                   Total: total
         end
@@ -163,7 +157,6 @@ module Internetmarke
         @error = true
         puts "Error in SOAP call: #{e.inspect}"
       end
-
     end
   end
 end
