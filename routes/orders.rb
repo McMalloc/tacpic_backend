@@ -4,7 +4,6 @@ Tacpic.hash_branch 'orders' do |r|
     if Order[id].get_hash == request['hash']
       Order[id].update(status: 2)
       SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoice)
-
       return 'Produktionsauftrag bestaetigt.'
     else
       response.status = 406

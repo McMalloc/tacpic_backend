@@ -112,8 +112,8 @@ module SMTP
       mail = Mail.new do
         from 'auftrag@tacpic.de'
         to ENV['ACCOUNTING_ADDRESS']
-        subject "Rechnung \##{invoice.id}"
-        body '-'
+        subject "[Buchhaltung] Rechnung \##{invoice.id}"
+        body 'Für die Buchhaltung.'
 
         add_file invoice.get_pdf_path
       end
