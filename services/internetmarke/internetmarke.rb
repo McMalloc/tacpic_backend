@@ -133,30 +133,26 @@ module Internetmarke
       product = @product
       total = @@valid_pplsIds.find { |row| row[:pplId] == product }[:price]
 
-      begin
-        response = Client.instance.client.call :checkout_shopping_cart_png do
-          soap_header Client.instance.create_header
-          message userToken: token,
-                  positions: {
-                    productCode: product,
-                    address: {
-                      sender: sender,
-                      receiver: receiver
-                    },
-                    voucherLayout: 'AddressZone'
+      response = Client.instance.client.call :checkout_shopping_cart_png do
+        soap_header Client.instance.create_header
+        message userToken: token,
+                positions: {
+                  productCode: product,
+                  address: {
+                    sender: sender,
+                    receiver: receiver
                   },
-                  Total: total
-        end
-
-        @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]
-        @file_link = response.body[:checkout_shopping_cart_png_response][:link]
-        @order_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:shop_order_id]
-        @voucher_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:voucher_list][:voucher][:voucher_id]
-        save_voucher
-      rescue StandardError => e
-        @error = true
-        puts "Error in SOAP call: #{e.inspect}"
+                  voucherLayout: 'INVALID'
+                  # voucherLayout: 'AddressZone'
+                },
+                Total: total
       end
+
+      @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]
+      @file_link = response.body[:checkout_shopping_cart_png_response][:link]
+      @order_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:shop_order_id]
+      @voucher_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:voucher_list][:voucher][:voucher_id]
+      save_voucher
     end
   end
 end

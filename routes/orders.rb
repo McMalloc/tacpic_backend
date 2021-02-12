@@ -61,70 +61,59 @@ Tacpic.hash_branch 'orders' do |r|
     rodauth.require_authentication
     user_id = rodauth.logged_in?
 
-    if Order.where(idempotency_key: request[:idempotencyKey]).all.count > 0
+    if Order.where(idempotency_key: request[:idempotencyKey]).all.count.positive?
       response.status = 409
       return 'duplicate order'
     end
 
     # set shipping address id, depending on the fields in the request either from db or directly from the request
-    begin
-      shipping_address_id = nil
-      if request[:shippingAddress]['id'].nil?
-        fields = request[:shippingAddress]
-        shipping_address_id = Address.create(
-          is_invoice_addr: false,
-          street: fields['street'],
-          house_number: fields['house_number'],
-          company_name: fields['company_name'],
-          first_name: fields['first_name'],
-          last_name: fields['last_name'],
-          additional: fields['additional'],
-          city: fields['city'],
-          zip: fields['zip'],
-          state: fields['state'],
-          country: fields['country'],
-          user_id: user_id
-        ).id
-      else
-        shipping_address_id = request[:shippingAddress]['id']
-      end
-    rescue StandardError
-      response.status = 400
-      return 'invalid shipping address'
+    shipping_address_id = nil
+    if request[:shippingAddress]['id'].nil?
+      fields = request[:shippingAddress]
+      shipping_address_id = Address.create(
+        is_invoice_addr: false,
+        street: fields['street'],
+        house_number: fields['house_number'],
+        company_name: fields['company_name'],
+        first_name: fields['first_name'],
+        last_name: fields['last_name'],
+        additional: fields['additional'],
+        city: fields['city'],
+        zip: fields['zip'],
+        state: fields['state'],
+        country: fields['country'],
+        user_id: user_id
+      ).id
+    else
+      shipping_address_id = request[:shippingAddress]['id']
+      raise UnknownAddressError unless Address[shipping_address_id]
     end
 
-    begin
-      invoice_address_id = nil
-      if request[:invoiceAddress].nil? # no talk about the invoice address, so it is the same as shipping
-        invoice_address_id = shipping_address_id
-      elsif request[:invoiceAddress]['id'].nil?
-        fields = request[:invoiceAddress]
-        invoice_address_id = Address.create(
-          is_invoice_addr: true,
-          street: fields['street'],
-          house_number: fields['house_number'],
-          company_name: fields['company_name'],
-          first_name: fields['first_name'],
-          last_name: fields['last_name'],
-          additional: fields['additional'],
-          city: fields['city'],
-          zip: fields['zip'],
-          state: fields['state'],
-          country: fields['country'],
-          user_id: user_id
-        ).id
-      else
-        invoice_address_id = request[:invoiceAddress]['id']
-      end
-    rescue StandardError
-      response.status = 400
-      return 'invalid invoice address'
+    invoice_address_id = nil
+    if request[:invoiceAddress].nil? # no talk about the invoice address, so it is the same as shipping
+      invoice_address_id = shipping_address_id
+    elsif request[:invoiceAddress]['id'].nil?
+      fields = request[:invoiceAddress]
+      invoice_address_id = Address.create(
+        is_invoice_addr: true,
+        street: fields['street'],
+        house_number: fields['house_number'],
+        company_name: fields['company_name'],
+        first_name: fields['first_name'],
+        last_name: fields['last_name'],
+        additional: fields['additional'],
+        city: fields['city'],
+        zip: fields['zip'],
+        state: fields['state'],
+        country: fields['country'],
+        user_id: user_id
+      ).id
+    else
+      invoice_address_id = request[:invoiceAddress]['id']
+      raise UnknownAddressError unless Address[invoice_address_id]
     end
 
-    if request[:basket].count == 0
-      response.status = 400
-      return 'empty order'
-    end
+    raise EmptyOrderException unless request[:basket].count.positive?
 
     final_quote = get_quote request[:basket]
 
@@ -158,68 +147,58 @@ Tacpic.hash_branch 'orders' do |r|
 
     # TODO: Zahlung anlegen
     # the shipping voucher will be put on the invoice if it's the same address
-    begin
-      voucher_shipping = Internetmarke::Voucher.new(
-        final_quote.postage_item[:content_id],
-        Address[shipping_address_id].values
+    # begin
+    voucher_shipping = Internetmarke::Voucher.new(
+      final_quote.postage_item[:content_id],
+      Address[shipping_address_id].values
+    )
+    # unless ENV['RACK_ENV'] == 'test'
+    voucher_shipping.checkout
+    # end
+
+    shipment.update(
+      voucher_id: voucher_shipping.shop_order_id,
+      voucher_filename: voucher_shipping.file_name
+    )
+
+    # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
+    if shipping_address_id != invoice_address_id
+      voucher_invoice = Internetmarke::Voucher.new(
+        1,
+        Address[invoice_address_id].values
       )
       # unless ENV['RACK_ENV'] == 'test'
-      voucher_shipping.checkout
+      voucher_invoice.checkout
       # end
 
-      shipment.update(
-        voucher_id: voucher_shipping.shop_order_id,
-        voucher_filename: voucher_shipping.file_name
+      invoice.update(
+        voucher_id: voucher_invoice.shop_order_id,
+        voucher_filename: voucher_invoice.file_name
       )
-
-      # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
-      if shipping_address_id != invoice_address_id
-        voucher_invoice = Internetmarke::Voucher.new(
-          1,
-          Address[invoice_address_id].values
-        )
-        # unless ENV['RACK_ENV'] == 'test'
-        voucher_invoice.checkout
-        # end
-
-        invoice.update(
-          voucher_id: voucher_invoice.shop_order_id,
-          voucher_filename: voucher_invoice.file_name
-        )
-        shipment.generate_shipping_pdf
-      end
-    rescue StandardError
-      response.status = 500
-      return { type: 'service error', message: 'Fehler beim Lösen der Internetmarke' }
+      shipment.generate_shipping_pdf
     end
 
-    if voucher_shipping.error || (!voucher_invoice.nil? && voucher_invoice.error)
-      response.status = 500
-      order.update status: -1
-      return { type: 'Serverfehler',
-               message: 'Es ist ein Fehler bei der automatischen Abwicklung aufgetreten. Wir werden uns mit Ihnen in Verbindung setzen.' }
-    else
-      invoice.generate_invoice_pdf
+    invoice.generate_invoice_pdf
 
-      job = nil
-      begin
-        job = Job.new(order)
-      rescue StandardError => e
-        response.status = 500
-        raise e
-      end
+    # job = nil
+    # begin
+    job = Job.new(order)
+    # rescue StandardError => e
+    #   response.status = 500
+    #   raise e
+    # end
 
-      job.send_mail
+    job.send_mail
 
-      SMTP::SendMail.instance.send_order_confirmation(
-        User[user_id].email,
-        invoice
-      )
+    SMTP::SendMail.instance.send_order_confirmation(
+      User[user_id].email,
+      invoice
+    )
 
-      order.update(status: 1)
+    order.update(status: 1)
 
-      response.status = 201
-      return order.values
-    end
+    response.status = 201
+    return order.values
+    # end
   end
 end

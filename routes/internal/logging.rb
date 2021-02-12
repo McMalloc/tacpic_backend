@@ -1,7 +1,7 @@
 Tacpic.hash_branch :internal, 'logging' do |r|
   r.is do
     r.get do
-      return "get logging"
+      $_db[:backend_errors].all
     end
 
     r.post do
