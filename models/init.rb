@@ -5,36 +5,36 @@ Sequel::Model.plugin :validation_helpers
 module Store
   def self.init
     %w[User
-    Product
-    Graphic
-    Variant
-    Version
-    Tag
-    List
-    Fav
-    Download
-    Address
-    Order
-    OrderItem
-    Shipment
-    ShippedItem
-    Invoice
-    InvoiceItem
-    Payment
-    Tagging
-    Taxonomy
-    UserLayout
-    Annotation
-    Comment
-    Post
-    QuoteRequest
-    Vote
-    Request
-    Proposal
-    RequestTagging
-    Approval
-    RequestVote
-    Captcha].each { |file| require_relative "./#{file}" }
+       Product
+       Graphic
+       Variant
+       Version
+       Tag
+       List
+       Fav
+       Download
+       Address
+       Order
+       OrderItem
+       Shipment
+       ShippedItem
+       Invoice
+       InvoiceItem
+       Payment
+       Tagging
+       Taxonomy
+       UserLayout
+       Annotation
+       Comment
+       Post
+       QuoteRequest
+       Vote
+       Request
+       Proposal
+       RequestTagging
+       Approval
+       RequestVote
+       Captcha].each { |file| require_relative "./#{file}" }
   end
 end
 

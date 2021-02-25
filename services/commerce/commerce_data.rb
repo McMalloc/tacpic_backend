@@ -1,3 +1,5 @@
+require 'csv'
+
 module CommerceData
   @@weights = {}
   CSV.parse(File.read('services/commerce/weights.csv'), headers: true).each do |row|
