@@ -180,13 +180,7 @@ Tacpic.hash_branch 'orders' do |r|
 
     invoice.generate_invoice_pdf
 
-    # job = nil
-    # begin
     job = Job.new(order)
-    # rescue StandardError => e
-    #   response.status = 500
-    #   raise e
-    # end
 
     job.send_mail
 
