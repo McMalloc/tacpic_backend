@@ -2,6 +2,7 @@ require_relative '../db/config'
 require_relative '../models/init'
 require_relative '../env.rb'
 require_relative '../helper/functions'
+require_relative '../services/commerce/commerce_data'
 
 # require 'mail'
 

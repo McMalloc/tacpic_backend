@@ -16,8 +16,9 @@ class CreateOrders < Sequel::Migration
       Integer :status, null: false, default: 0
       # 0: eingenagen
       # 1: übermittelt an Produktionspartner
-      # 2: produziert, wird dem Versand übergeben
-      # 3? versendet und bezahlt
+      # 2: übermittelt an Produktionspartner
+      # 3: produziert, wird dem Versand übergeben
+      # 4? versendet und bezahlt
 
       String :comment, text: true
       String :idempotency_key, null: false, unique: true # todo sollte primary key sein

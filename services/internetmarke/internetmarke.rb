@@ -96,9 +96,9 @@ module Internetmarke
     @@valid_pplsIds = CSV.parse(File.read('services/commerce/postage.csv'), headers: true).map do |row|
       { pplId: row[0].to_i, price: row[2].to_i }
     end
-    attr_accessor :shop_order_id, :file_url, :file_name, :sender_address, :receiver_address, :wallet_balance, :error
+    attr_accessor :shop_order_id, :file_url, :file_name, :sender_address, :receiver_address, :wallet_balance, :error, :order_id
 
-    def initialize(product, receiver_address, sender_address = {
+    def initialize(product, order_id, receiver_address, sender_address = {
       company_name: 'tacpic UG (haftungsbeschränkt)',
       street: 'Breitscheidtr.',
       house_number: '51',
@@ -113,6 +113,7 @@ module Internetmarke
                  end
 
       @sender_address = sender_address
+      @order_id = order_id
       @receiver_address = receiver_address
       @error = false
     end
@@ -133,26 +134,43 @@ module Internetmarke
       product = @product
       total = @@valid_pplsIds.find { |row| row[:pplId] == product }[:price]
 
-      response = Client.instance.client.call :checkout_shopping_cart_png do
-        soap_header Client.instance.create_header
-        message userToken: token,
-                positions: {
-                  productCode: product,
-                  address: {
-                    sender: sender,
-                    receiver: receiver
+      begin
+        response = Client.instance.client.call :checkout_shopping_cart_png do
+          soap_header Client.instance.create_header
+          message userToken: token,
+                  positions: {
+                    productCode: product,
+                    address: {
+                      sender: sender,
+                      receiver: receiver
+                    },
+                    voucherLayout: 'INVALID'
+                    # voucherLayout: 'AddressZone'
                   },
-                  voucherLayout: 'INVALID'
-                  # voucherLayout: 'AddressZone'
-                },
-                Total: total
-      end
+                  Total: total
+        end
 
-      @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]
-      @file_link = response.body[:checkout_shopping_cart_png_response][:link]
-      @order_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:shop_order_id]
-      @voucher_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:voucher_list][:voucher][:voucher_id]
-      save_voucher
+        @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]
+        @file_link = response.body[:checkout_shopping_cart_png_response][:link]
+        @order_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:shop_order_id]
+        @voucher_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:voucher_list][:voucher][:voucher_id]
+        save_voucher
+      rescue StandardError => e
+        logs = $_db[:backend_errors]
+
+        logs.insert(
+          method: 'Internetmarke',
+          path: 'na',
+          params: order_id,
+          frontend_version: 'na',
+          backend_version: $_version,
+          type: e.class.name,
+          backtrace: e.backtrace,
+          message: e.message,
+          created_at: Time.now
+        )
+        @error = true
+      end
     end
   end
 end

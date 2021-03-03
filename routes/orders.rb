@@ -150,46 +150,52 @@ Tacpic.hash_branch 'orders' do |r|
     # begin
     voucher_shipping = Internetmarke::Voucher.new(
       final_quote.postage_item[:content_id],
+      order.id,
       Address[shipping_address_id].values
     )
-    # unless ENV['RACK_ENV'] == 'test'
-    voucher_shipping.checkout
-    # end
+    # may not be checked out, but neccessary for error inspection
+    voucher_invoice = Internetmarke::Voucher.new(
+        1,
+        order.id,
+        Address[invoice_address_id].values
+      )
 
-    shipment.update(
-      voucher_id: voucher_shipping.shop_order_id,
-      voucher_filename: voucher_shipping.file_name
-    )
+    order.update(status: 1)
+    voucher_shipping.checkout
+
+    unless voucher_shipping.error
+      shipment.update(
+        voucher_id: voucher_shipping.shop_order_id,
+        voucher_filename: voucher_shipping.file_name
+      )
+    end
 
     # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
     if shipping_address_id != invoice_address_id
-      voucher_invoice = Internetmarke::Voucher.new(
-        1,
-        Address[invoice_address_id].values
-      )
-      # unless ENV['RACK_ENV'] == 'test'
       voucher_invoice.checkout
-      # end
 
-      invoice.update(
-        voucher_id: voucher_invoice.shop_order_id,
-        voucher_filename: voucher_invoice.file_name
-      )
-      shipment.generate_shipping_pdf
+      unless voucher_invoice.error
+        invoice.update(
+          voucher_id: voucher_invoice.shop_order_id,
+          voucher_filename: voucher_invoice.file_name
+        )
+      end
+      unless voucher_shipping.error
+        shipment.generate_shipping_pdf
+      end
     end
 
-    invoice.generate_invoice_pdf
-
-    job = Job.new(order)
-
-    job.send_mail
+    unless voucher_shipping.error || voucher_invoice.error
+      invoice.generate_invoice_pdf
+      job = Job.new(order)
+      job.send_mail
+      order.update(status: 2)
+    end
 
     SMTP::SendMail.instance.send_order_confirmation(
       User[user_id].email,
       invoice
     )
-
-    order.update(status: 1)
 
     response.status = 201
     return order.values
