@@ -31,7 +31,7 @@ svg {
     font-family: tacpic_swell_braille;
     position: absolute;
     width: 100%;
-    top: 5mm;
+    top: 3mm;
     /*half font size*/
     white-space: pre-wrap;
     color: black;
