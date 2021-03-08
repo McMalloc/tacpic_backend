@@ -1,16 +1,12 @@
-@font-face {
-    font-family: Braille;
-    /*TODO automatisches einfügen des Fonts als base64 */
-    src: url(data:application/x-font-woff;charset=utf-8;base64,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) format('woff');
-    /*src: url(../processing/BrailleDEComputer.woff);*/
-}
-
 /*force exact colors when printing PDF in chrome*/
+
 /*also force correct rasterization by setting opacity, this is a bug*/
+
 /*https://stackoverflow.com/questions/9562330/svg-pixelation-in-chrome/45911373#45911373*/
+
 svg {
     -webkit-print-color-adjust: exact;
-    opacity: 0.99;
+    opacity: 0.99999;
 }
 
 .label-container {
@@ -18,17 +14,25 @@ svg {
     height: 100%;
     padding: 2mm;
     box-sizing: border-box;
-    /*border: ${props => props.border ? '1mm black solid' : '1mm transparent solid'};*/
-    background-color: transparent;
+    border: 1mm transparent solid;
+    background-color: white!important;
+}
+
+.editor-ui {
+    display: none;
+}
+
+.label-container.bordered {
+    border: 1mm black solid;
 }
 
 .label-braille {
-    line-height: 12mm;
-    font-family: Braille;
+    line-height: 14mm;
+    font-family: tacpic_swell_braille;
     position: absolute;
-    z-index: -1;
     width: 100%;
-    top: 5mm; /*half font size*/
+    top: 5mm;
+    /*half font size*/
     white-space: pre-wrap;
     color: black;
     font-size: 10mm;
@@ -37,9 +41,9 @@ svg {
 }
 
 .label-black {
-    line-height: 12mm;
+    line-height: 14mm;
     font-size: 14pt;
-    margin-top: -4mm;
+    margin-top: -6mm;
     font-family: Arial, Helvetica, sans-serif;
     width: 100%;
     border: none;
@@ -49,4 +53,34 @@ svg {
     box-sizing: border-box;
     color: blue;
     background-color: transparent;
+}
+
+.key-label-braille {
+    font-family: tacpic_swell_braille;
+    white-space: pre-wrap;
+    font-size: 10mm;
+    display: block;
+    user-select: none;
+    overflow: visible;
+    color: black;
+    line-height: 12mm;
+}
+
+.key-label-black {
+    font-size: 14pt;
+    user-select: none;
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    color: blue;
+}
+
+.label-black.page-numbers {
+    position: absolute;
+    top: -2mm;
+    margin: 0;
+}
+
+.version-label {
+    font-size: 3mm;
+    fill: blue;
 }
