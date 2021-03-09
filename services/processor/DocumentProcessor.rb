@@ -82,7 +82,7 @@ class DocumentProcessor
       'bold' => true
     ) << graphic_title + "\\line\nVariante: " + variant_title
 
-    unless description['type'].length == 0
+    unless description['type'].length.zero?
       document.paragraph(
         'font-size' => 12,
         'space_after' => 12

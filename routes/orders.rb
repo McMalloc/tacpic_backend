@@ -155,10 +155,10 @@ Tacpic.hash_branch 'orders' do |r|
     )
     # may not be checked out, but neccessary for error inspection
     voucher_invoice = Internetmarke::Voucher.new(
-        1,
-        order.id,
-        Address[invoice_address_id].values
-      )
+      1,
+      order.id,
+      Address[invoice_address_id].values
+    )
 
     order.update(status: 1)
     voucher_shipping.checkout
@@ -180,9 +180,7 @@ Tacpic.hash_branch 'orders' do |r|
           voucher_filename: voucher_invoice.file_name
         )
       end
-      unless voucher_shipping.error
-        shipment.generate_shipping_pdf
-      end
+      shipment.generate_shipping_pdf unless voucher_shipping.error
     end
 
     unless voucher_shipping.error || voucher_invoice.error
@@ -192,9 +190,13 @@ Tacpic.hash_branch 'orders' do |r|
       order.update(status: 2)
     end
 
+    attached_files = order.order_items
+                          .filter { |item| item.product_id == 'graphic_nobraille' }
+                          .map { |item| Variant[item.content_id].get_rtf(path_only: true) }
+
     SMTP::SendMail.instance.send_order_confirmation(
       User[user_id].email,
-      invoice
+      invoice, attached_files
     )
 
     response.status = 201

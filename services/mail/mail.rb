@@ -63,7 +63,7 @@ module SMTP
       end
     end
 
-    def send_order_confirmation(recipient, invoice)
+    def send_order_confirmation(recipient, invoice, filepaths)
       order = Order[invoice.order_id]
 
       mail = Mail.new do
@@ -80,6 +80,7 @@ module SMTP
                                   })
         end
 
+        filepaths.each { |path| add_file path }
         add_file "#{ENV['APPLICATION_BASE']}/assets/AGB_tacpic.pdf"
       end
 
