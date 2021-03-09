@@ -82,6 +82,7 @@ module SMTP
 
         filepaths.each { |path| add_file path }
         add_file "#{ENV['APPLICATION_BASE']}/assets/AGB_tacpic.pdf"
+        add_file "#{ENV['APPLICATION_BASE']}/assets/Muster-Widerrufsformular.pdf"
       end
 
       process_mail(mail)
