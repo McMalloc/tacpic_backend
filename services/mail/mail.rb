@@ -35,6 +35,7 @@ module SMTP
   end
 
   def self.render(template, params)
+    # invoke method from above with ruby's send
     send(template, params)
   rescue StandardError => e
     puts e.message
@@ -43,7 +44,6 @@ module SMTP
 
   class SendMail
     include Singleton
-
     def initialize; end
 
     def process_mail(mail)

@@ -1,4 +1,4 @@
-Tacpic.hash_branch "users" do |r|
+Tacpic.hash_branch 'users' do |r|
   # @request = JSON.parse r.body.read
 
   r.on 'addresses' do
@@ -18,14 +18,14 @@ Tacpic.hash_branch "users" do |r|
         address = Address[id]
         if address.nil?
           response.status = 404
-          "Error: Ressource address does not exist"
+          'Error: Ressource address does not exist'
         elsif address.user_id == rodauth.logged_in?
           address.update active: false
           response.status = 204
           nil
         else
           response.status = 403
-          "Error: User ID of address to delete does not match authenticated user ID."
+          'Error: User ID of address to delete does not match authenticated user ID.'
         end
       rescue StandardError
         response.status = 500
@@ -54,7 +54,7 @@ Tacpic.hash_branch "users" do |r|
           values = User[rodauth.logged_in?].add_address(r.params).values
           response.status = 201
           return values
-            # end
+        # end
         rescue Sequel::Error
           response.status = 401
           pp $!
@@ -75,7 +75,7 @@ Tacpic.hash_branch "users" do |r|
     user_id = rodauth.logged_in?
     if requested_id != user_id
       response.status = 403
-      return "tried to change another user"
+      return 'tried to change another user'
     end
 
     User[user_id].update(display_name: request['displayName'], newsletter_active: request['newsletterActive'])
@@ -89,21 +89,20 @@ Tacpic.hash_branch "users" do |r|
     user_id = rodauth.logged_in?
 
     r.is do
-
       where_clause = {
-          user_id: user_id
+        user_id: user_id
       }
 
       selection_clause = [
-          Sequel[:versions][:id].as(:id),
-          Sequel[:graphics][:title].as(:graphic_title),
-          Sequel[:variants][:title].as(:variant_title),
-          Sequel[:graphics][:id].as(:graphic_id),
-          Sequel[:variants][:id].as(:variant_id),
-          Sequel[:variants][:description].as(:variant_description),
-          Sequel[:graphics][:description].as(:graphic_description),
-          Sequel[:variants][:created_at].as(:created_at),
-          Sequel[:versions][:created_at].as(:updated_at)
+        Sequel[:versions][:id].as(:id),
+        Sequel[:graphics][:title].as(:graphic_title),
+        Sequel[:variants][:title].as(:variant_title),
+        Sequel[:graphics][:id].as(:graphic_id),
+        Sequel[:variants][:id].as(:variant_id),
+        Sequel[:variants][:description].as(:variant_description),
+        Sequel[:graphics][:description].as(:graphic_description),
+        Sequel[:variants][:created_at].as(:created_at),
+        Sequel[:versions][:created_at].as(:updated_at)
       ]
 
       order_clause = Sequel.desc(:created_at)
@@ -112,47 +111,44 @@ Tacpic.hash_branch "users" do |r|
         tag_ids = r.params['tags'].split(',').map(&:to_i)
 
         where_clause[:variant_id] = Variant
-                                        .select(
-                                            Sequel[:variants][:id],
-                                            Sequel[:taggings][:id].as(:tagging_id),
-                                            Sequel[:taggings][:tag_id]
-                                        )
-                                        .join(:taggings, variant_id: :id)
-                                        .where(tag_id: tag_ids)
-                                        .all.map { |v| v[:id] }
+                                    .select(
+                                      Sequel[:variants][:id],
+                                      Sequel[:taggings][:id].as(:tagging_id),
+                                      Sequel[:taggings][:tag_id]
+                                    )
+                                    .join(:taggings, variant_id: :id)
+                                    .where(tag_id: tag_ids)
+                                    .all.map { |v| v[:id] }
       end
 
-      unless r.params['search'].nil?
+      if r.params['search'].nil?
+        Version
+          .select(*selection_clause)
+          .join(:variants, id: :variant_id)
+          .join(:graphics, id: :graphic_id)
+          .order(order_clause)
+          .where(where_clause)
+          .all.map(&:values)
+      else
         term = r.params['search']
-        match_string = %Q{
+        match_string = %(
           variants.title LIKE '%#{term}%' OR
           variants.description LIKE '%#{term}%' OR
           graphics.title LIKE '%#{term}%' OR
           graphics.description LIKE '%#{term}%'
-        }
+        )
         # selection_clause.push Sequel.lit(match_string + " AS score")
         # order_clause = Sequel.desc(:score)
 
         Version
-            .select(*selection_clause)
-            .join(:variants, id: :variant_id)
-            .join(:graphics, id: :graphic_id)
-            .order(order_clause)
-            .where(Sequel.lit(match_string))
-            .where(where_clause)
-            .all.map(&:values)
-      else
-        Version
-            .select(*selection_clause)
-            .join(:variants, id: :variant_id)
-            .join(:graphics, id: :graphic_id)
-            .order(order_clause)
-            .where(where_clause)
-            .all.map(&:values)
+          .select(*selection_clause)
+          .join(:variants, id: :variant_id)
+          .join(:graphics, id: :graphic_id)
+          .order(order_clause)
+          .where(Sequel.lit(match_string))
+          .where(where_clause)
+          .all.map(&:values)
       end
-
-
     end
-
   end
 end

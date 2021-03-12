@@ -1,0 +1,14 @@
+de:
+  hello: "Hallo"
+  claim: "Taktile Medien für blinde und sehbehinderte Menschen"
+  signature: "Mit freundlichen Grüßen<br />Das tacpic Team"
+  verify_account:
+    from: 'Kontoverwaltung'
+    subject: 'Bestätigung Ihrer E-Mail-Adresse'
+    body:  'vielen Dank für Ihr Interesse an tacpic. Bitte klicken Sie zum Fortfahren auf den unten stehenden Link. Wenn Sie kein Konto auf tacpic.de erstellt haben, ignorieren Sie diese E-Mail bitte.'
+    link_text:    'Benutzerkonto bestätigen'
+  reset:
+    from: 'Kontoverwaltung'
+    subject: 'Zurücksetzen Ihres Passworts'
+    body:  'Sie möchten Ihr Passwort zurücksetzen. Bitte folgen Sie dem Link am Ende dieser E-Mail. <br /> Sollten Sie nicht wissen, warum Sie diese E-Mail bekommen haben, ignorieren Sie sie bitte.'
+    link_text:    'Passwort zurücksetzen'

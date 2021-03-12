@@ -5,8 +5,10 @@ require 'mail'
 require 'rrtf'
 require 'singleton'
 require 'json'
+require 'i18n'
 
 # require_relative './helper/auth'
+require_relative 'constants'
 require_relative 'models/init' # gets Store
 require_relative 'db/config' # gets Database
 require_relative 'env' # gets Config
@@ -24,7 +26,10 @@ class Tacpic < Roda
   $_version = JSON.parse(File.read('public/BACKEND.json'))['tag']
   # $_db.extension :pg_array
   Store.init
-  LegalAPI.instance.init
+  # LegalAPI.instance.init
+
+  I18n.load_path << Dir[File.expand_path("i18n") + "/*.yml"]
+  I18n.default_locale = :de
 
   Mail.defaults do
     delivery_method :smtp, { address: ENV['SMTP_SERVER'],

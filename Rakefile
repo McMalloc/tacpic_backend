@@ -33,20 +33,6 @@ namespace 'db' do
     sh 'sequel -C postgres://tacpic-dev:tacpic@localhost/tacpic-template postgres://tacpic-dev:tacpic@localhost/tacpic-test'
   end
 
-  # TODO: deprecated, now part of app migrations
-  # desc 'Setting up database tables for authentication provided by rodauth'
-  # task :migrate_auth do |t, args|
-  #   Sequel::Migrator.run(_db, './db/auth_migrations', table: 'schema_info_password')
-  # end
-  #
-  # desc 'Zapping database tables for authentication provided by rodauth'
-  # task :zap_auth do |t, args|
-  #   Sequel::Migrator.run(_db, './db/auth_migrations', target: 0, table: 'schema_info_password')
-  # end
-  #
-  # desc 'Reset authentication database'
-  # task :reset_auth => [:zap_auth, :migrate_auth]
-
   desc 'Zaps the database then run the app_migrations'
   task purge: %i[zap migrate]
 

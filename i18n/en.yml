@@ -1,0 +1,5 @@
+en:
+  hello: 'Hello'
+  verify_account:
+    from: 'accounts'
+    subject: 'Verification of your e-mail address'

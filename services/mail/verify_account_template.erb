@@ -1,6 +1,5 @@
-<p>Hallo,</p>
+<p><%= I18n.t 'hello' %>,</p>
 
-<p>vielen Dank für Ihr Interesse an tacpic. Bitte klicken Sie zum Fortfahren auf den unten stehenden Link. Wenn Sie kein Konto auf tacpic.de erstellt haben, ignorieren Sie diese E-Mail bitte.
-</p>
+<p><%= I18n.t 'verify_account.body' %></p>
 
-<p><a href="<%= url %>">Benutzerkonto bestätigen</a></p>
+<p><a href="<%= url %>"><%= I18n.t 'verify_account.link_text' %></a></p>

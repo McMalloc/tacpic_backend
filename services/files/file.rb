@@ -55,8 +55,8 @@ class TpFile
     graphic
   end
 
-  def update_graphic
-    if Variant[@variant_id].derived_from.nil?
+  def update_graphic(is_admin)
+    if Variant[@variant_id].derived_from.nil? || is_admin
       Graphic[@graphic_id]
         .update(title: @request['graphicTitle'])
     end
@@ -143,7 +143,7 @@ class TpFile
           name: tag['name'],
           user_id: @user_id,
           taxonomy_id: 1
-        )
+        ) 
 
         tag['tag_id'] = created_tag.id
       end
