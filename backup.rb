@@ -7,7 +7,8 @@ def backup
   Dir.mkdir 'backups' unless Dir.exist? 'backups'
   `pg_dump #{ENV['TACPIC_DATABASE_URL']} -f ./backups/#{timestamp}__#{ENV['RACK_ENV']}-dump.sql`
 
-  Zip::File.open("./backups/#{timestamp}__files.zip", Zip::File::CREATE) do |zipfile|
+  files_name = "./backups/#{timestamp}__files.zip"
+  Zip::File.open(files_name, Zip::File::CREATE) do |zipfile|
     Dir['./files/*'].each do |file|
       unless File.directory? file
         zipfile.add "#{File.basename(file)}.#{File.extname(file)}", file
@@ -15,7 +16,8 @@ def backup
     end
   end
 
-  Zip::File.open("./backups/#{timestamp}__thumbnails.zip", Zip::File::CREATE) do |zipfile|
+  thumbnails_name = "./backups/#{timestamp}__thumbnails.zip"
+  Zip::File.open(thumbnails_name, Zip::File::CREATE) do |zipfile|
     Dir['./files/thumbnails/*'].each do |file|
       unless File.directory? file
         zipfile.add "#{File.basename(file)}.#{File.extname(file)}", file
@@ -29,5 +31,7 @@ def backup
     end
 
     sftp.upload!("./backups/#{timestamp}__#{ENV['RACK_ENV']}-dump.sql", "/#{timestamp}__#{ENV['RACK_ENV']}-dump.sql")
+    sftp.upload!("./backups/#{files_name}", "/#{files_name}")
+    sftp.upload!("./backups/#{thumbnails_name}", "/#{thumbnails_name}")
   end
 end
