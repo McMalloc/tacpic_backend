@@ -18,7 +18,7 @@ def backup
 
   thumbnails_name = "./backups/#{timestamp}__thumbnails.zip"
   Zip::File.open(thumbnails_name, Zip::File::CREATE) do |zipfile|
-    Dir['./files/thumbnails/*'].each do |file|
+    Dir['./public/thumbnails/*'].each do |file|
       unless File.directory? file
         zipfile.add "#{File.basename(file)}.#{File.extname(file)}", file
       end
