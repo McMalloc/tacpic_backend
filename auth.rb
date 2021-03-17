@@ -4,10 +4,10 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
   login_required_error_status 401
   enable :login, :logout, :jwt, :create_account, :reset_password # , :jwt_cors#, :session_expiration
 
-  # translate do |key|
-  #   # send the keys to client without default translation, frontend is doing i18n work
-  #   return key.to_s
-  # end
+  translate do |key, default|
+    # send the keys to client without default translation, frontend is doing i18n work
+    key.to_s || default
+  end
 
   # AUTH EMAIL CONFIG
   unless ENV['RACK_ENV'] == 'test'

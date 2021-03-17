@@ -83,7 +83,7 @@ Tacpic.hash_branch 'graphics' do |r|
     end
 
     subquery = ''
-    unless r.params['tags'].nil? || r.params['tags'].length == 0
+    unless r.params['tags'].nil? || r.params['tags'].length.zero?
       tag_ids = r.params['tags'].split(',').map(&:to_i)
       subquery = %{(SELECT v.*
                     FROM variants v,
@@ -96,13 +96,15 @@ Tacpic.hash_branch 'graphics' do |r|
                     HAVING COUNT(v.id) = #{tag_ids.count}) as }
     end
 
-    where_clause = 'WHERE (variants.public = true)'
+    where_clause = %{
+      WHERE (variants.public = true)
+    }
 
     # where_clause = "WHERE (graphics.user_id = #{user_id})"
-    unless r.params['search'].nil? || r.params['search'].length == 0
+    unless r.params['search'].nil? || r.params['search'].length.zero?
       term = r.params['search'].strip
       where_clause += %{
-        WHERE (variants.title       ILIKE '%#{term}%' OR
+        AND (variants.title       ILIKE '%#{term}%' OR
               variants.description ILIKE '%#{term}%' OR
               graphics.title       ILIKE '%#{term}%' OR
               "tags"."name"        ILIKE '%#{term}%')
@@ -110,19 +112,19 @@ Tacpic.hash_branch 'graphics' do |r|
     end
 
     # specific variants requested
-    unless r.params['variants'].nil? || r.params['variants'].length == 0
+    unless r.params['variants'].nil? || r.params['variants'].length.zero?
       where_clause += %{
         WHERE (variants.id IN (#{r.params['variants']}))
       }
     end
 
     # paper format
-    unless r.params['format'].nil? || r.params['format'].length == 0
+    unless r.params['format'].nil? || r.params['format'].length.zero?
       formats = r.params['format'].split ','
-      where_clause += (where_clause.length == 0 ? 'WHERE (' : 'AND (').to_s
+      where_clause += (where_clause.length.zero? ? 'WHERE (' : 'AND (').to_s
 
       formats.each_with_index do |format, index|
-        where_clause += %{#{index == 0 ? '' : 'OR'}
+        where_clause += %{#{index.zero? ? '' : 'OR'}
           (variants.graphic_format = '#{format}')
         }
       end
@@ -131,12 +133,12 @@ Tacpic.hash_branch 'graphics' do |r|
 
     # braille system
     # TODO make mapping independent from liblouis filenames
-    unless r.params['system'].nil? || r.params['system'].length == 0
+    unless r.params['system'].nil? || r.params['system'].length.zero?
       systems = r.params['system'].split ','
-      where_clause += (where_clause.length == 0 ? 'WHERE (' : 'AND (').to_s
+      where_clause += (where_clause.length.zero? ? 'WHERE (' : 'AND (').to_s
 
       systems.each_with_index do |system, index|
-        where_clause += %{#{index == 0 ? '' : 'OR'}
+        where_clause += %{#{index.zero? ? '' : 'OR'}
           (variants.braille_system = '#{system}')
         }
       end
@@ -146,10 +148,12 @@ Tacpic.hash_branch 'graphics' do |r|
 
     # bezieht sich auf auf die join table, genaue anzahl nicht bestimmbar
     limit_clause = 'LIMIT 50'
-    limit_clause = "LIMIT #{r.params['limit'].to_i}" unless r.params['limit'].nil? || r.params['limit'].length == 0
+    limit_clause = "LIMIT #{r.params['limit'].to_i}" unless r.params['limit'].nil? || r.params['limit'].length.zero?
 
     offset_clause = 'OFFSET 0'
-    offset_clause = "OFFSET #{r.params['offset'].to_i}" unless r.params['offset'].nil? || r.params['offset'].length == 0
+    offset_clause = "OFFSET #{r.params['offset'].to_i}" unless r.params['offset'].nil? || r.params['offset'].length.zero?
+
+    puts where_clause 
 
     # TODO: wird nicht mehr alles gebraucht, kann entschlackt werden
     begin
@@ -184,8 +188,9 @@ Tacpic.hash_branch 'graphics' do |r|
           #{offset_clause}
           }
       ).all
-    rescue Sequel::Error
+    rescue Sequel::Error => e
       pp $!.message
+      raise e
     end
   end
 

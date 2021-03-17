@@ -1,5 +1,15 @@
 en:
-  hello: 'Hello'
+  hello: "Hello"
+  claim: "Tactile media for the blind and visually impaired"
+  signature: "Kind regards<br />The tacpic team"
   verify_account:
-    from: 'accounts'
-    subject: 'Verification of your e-mail address'
+    from: 'Accounts'
+    subject: 'Verification of your email address'
+    body:  'vielen Dank für Ihr Interesse an tacpic. Bitte klicken Sie zum Fortfahren auf den unten stehenden Link. Wenn Sie kein Konto auf tacpic.de erstellt haben, ignorieren Sie diese E-Mail bitte.'
+    'thank you for your interest in tacpic. Please follow the link below to continue. If you didn't create an account on tacpic.de, please ignore this email.
+    link_text:    'Verify account'
+  reset:
+    from: 'Accounts'
+    subject: 'Reset your password'
+    body:  'You want to reset your password, please follow the link below. <br /> If you do not know why you might have gotten this email, please ignore it.'
+    link_text:    'Reset password'

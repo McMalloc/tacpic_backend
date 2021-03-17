@@ -8,6 +8,7 @@ logs
 public/*
 views/legal/*.inc
 /files
+/backups
 /test/results
 /assets/*.ttf
 node_modules

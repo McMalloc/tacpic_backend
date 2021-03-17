@@ -5,6 +5,7 @@ require 'digest'
 require_relative 'db/config'
 require_relative 'env'
 require_relative 'terminal_colors'
+require_relative 'backup'
 
 Sequel.extension :migration
 # currently, the user, url and database in general needs to be the same per machine/env
@@ -81,6 +82,12 @@ namespace 'test' do
 
   # task :reset_and_routes, [:mode] => ['db:reset', :routes]
   # task :all_routes, [:mode] => [:routes]
+end
+
+namespace 'backup' do
+  task :create do
+    backup
+  end
 end
 
 namespace 'run' do
