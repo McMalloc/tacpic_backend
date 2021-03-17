@@ -31,7 +31,7 @@ def backup
     end
 
     sftp.upload!("./backups/#{timestamp}__#{ENV['RACK_ENV']}-dump.sql", "/#{timestamp}__#{ENV['RACK_ENV']}-dump.sql")
-    sftp.upload!("./backups/#{files_name}", "/#{files_name}")
-    sftp.upload!("./backups/#{thumbnails_name}", "/#{thumbnails_name}")
+    sftp.upload!(files_name, "/#{timestamp}__files.zip")
+    sftp.upload!(thumbnails_name, "/#{timestamp}__thumbnails.zip")
   end
 end
