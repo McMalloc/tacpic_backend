@@ -114,14 +114,14 @@ Tacpic.hash_branch 'graphics' do |r|
     # specific variants requested
     unless r.params['variants'].nil? || r.params['variants'].length.zero?
       where_clause += %{
-        WHERE (variants.id IN (#{r.params['variants']}))
+        AND (variants.id IN (#{r.params['variants']}))
       }
     end
 
     # paper format
     unless r.params['format'].nil? || r.params['format'].length.zero?
       formats = r.params['format'].split ','
-      where_clause += (where_clause.length.zero? ? 'WHERE (' : 'AND (').to_s
+      where_clause += 'AND ('
 
       formats.each_with_index do |format, index|
         where_clause += %{#{index.zero? ? '' : 'OR'}
@@ -135,11 +135,11 @@ Tacpic.hash_branch 'graphics' do |r|
     # TODO make mapping independent from liblouis filenames
     unless r.params['system'].nil? || r.params['system'].length.zero?
       systems = r.params['system'].split ','
-      where_clause += (where_clause.length.zero? ? 'WHERE (' : 'AND (').to_s
+      where_clause += 'AND ('
 
-      systems.each_with_index do |system, index|
+      systems.each_with_index do |sys, index|
         where_clause += %{#{index.zero? ? '' : 'OR'}
-          (variants.braille_system = '#{system}')
+          (variants.braille_system = '#{sys}')
         }
       end
 
@@ -153,7 +153,7 @@ Tacpic.hash_branch 'graphics' do |r|
     offset_clause = 'OFFSET 0'
     offset_clause = "OFFSET #{r.params['offset'].to_i}" unless r.params['offset'].nil? || r.params['offset'].length.zero?
 
-    puts where_clause 
+    puts where_clause
 
     # TODO: wird nicht mehr alles gebraucht, kann entschlackt werden
     begin

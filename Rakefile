@@ -2,6 +2,7 @@ require 'rake/testtask'
 require 'yard'
 require 'sequel'
 require 'digest'
+require 'rufus-scheduler'
 require_relative 'db/config'
 require_relative 'env'
 require_relative 'terminal_colors'
@@ -91,7 +92,12 @@ namespace 'backup' do
 end
 
 namespace 'run' do
+  desc 'Runs the main script with scheduled backups'
   task :main do
+    scheduler = Rufus::Scheduler.new
+    scheduler.cron ENV['BACKUP_INTERVAL'] do
+      Rake::Task['backup:create'].invoke
+    end
     system 'rackup'
   end
 

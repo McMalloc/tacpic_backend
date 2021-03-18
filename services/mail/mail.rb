@@ -1,7 +1,20 @@
 require 'mail'
+require_relative '../../helper/functions'
 # require 'singleton'
 
 module SMTP
+  def self.init
+    Mail.defaults do
+      delivery_method :smtp, { address: ENV['SMTP_SERVER'],
+                               port: ENV['SMTP_PORT'],
+                               domain: ENV['SMTP_HELOHOST'],
+                               user_name: ENV['SMTP_USER'],
+                               password: ENV.delete('SMTP_PASSWORD'),
+                               authentication: 'login',
+                               enable_starttls_auto: true }
+    end
+  end
+
   MAIL_PATH = "#{ENV['APPLICATION_BASE']}/services/mail/".freeze
   LAYOUT = Helper.load_template(MAIL_PATH + 'layout.html.erb')
 

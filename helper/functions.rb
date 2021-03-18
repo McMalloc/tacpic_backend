@@ -1,3 +1,5 @@
+require 'erb'
+
 module Helper
   def self.table_print(rows)
     rows.first.keys.each { |key| print trunc(key.to_s, 8) + "\t" }
