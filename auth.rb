@@ -17,11 +17,11 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
       response.write @account.to_json
     end
 
-    verify_account_email_subject { "tacpic: #{I18n.t('verify_account.subject')}" }
+    verify_account_email_subject { "#{I18n.t('verify_account.subject')}" }
     verify_account_email_body { SMTP.render(:verify_account, { url: verify_account_email_link }) }
   end
 
-  reset_password_email_subject { "tacpic: #{I18n.t('reset.subject')}" }
+  reset_password_email_subject { "#{I18n.t('reset.subject')}" }
   reset_password_email_body { SMTP.render(:reset_password, { url: reset_password_email_link }) }
 
   before_reset_password { I18n.locale = request.headers['Accept-Language'].to_sym }
@@ -31,6 +31,7 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
     super email
   end
   email_from { "#{I18n.t('verify_account.from')}@tacpic.de" }
+  email_subject_prefix { 'tacpic: ' }
 
   accounts_table :users
   jwt_secret ENV.delete('TACPIC_SESSION_SECRET')

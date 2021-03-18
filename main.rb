@@ -35,7 +35,6 @@ class Tacpic < Roda
   # $_db.extension :pg_array
   Store.init
   SMTP.init
-  # LegalAPI.instance.init
 
   I18n.load_path << Dir[File.expand_path("i18n") + "/*.yml"]
   I18n.default_locale = :de
