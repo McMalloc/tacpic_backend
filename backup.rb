@@ -61,6 +61,7 @@ def backup
     sftp.upload!(dump_file, "/#{timestamp}__#{ENV['RACK_ENV']}-dump.sql")
     sftp.upload!(files_name, "/#{timestamp}__files.zip")
     sftp.upload!(thumbnails_name, "/#{timestamp}__thumbnails.zip")
+    sftp.upload!(log_file, "/#{timestamp}.log")
     logger.info '  Done!'
     logger.info "  time: #{Time.now - before_upload}s"
   end
