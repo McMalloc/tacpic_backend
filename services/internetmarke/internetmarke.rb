@@ -144,8 +144,7 @@ module Internetmarke
                       sender: sender,
                       receiver: receiver
                     },
-                    voucherLayout: 'INVALID'
-                    # voucherLayout: 'AddressZone'
+                    voucherLayout: 'AddressZone'
                   },
                   Total: total
         end
