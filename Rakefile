@@ -94,8 +94,7 @@ end
 namespace 'run' do
   desc 'Runs the main script with scheduled backups'
   task :main do
-    scheduler = Rufus::Scheduler.new
-    scheduler.cron ENV['BACKUP_INTERVAL'] do
+    Rufus::Scheduler.singleton.cron ENV['BACKUP_INTERVAL'] do
       Rake::Task['backup:create'].invoke
     end
     system 'rackup'

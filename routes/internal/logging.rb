@@ -1,4 +1,5 @@
-Tacpic.hash_branch :internal, 'logging' do |r|
+
+Tacpic.hash_branch '', 'logging' do |r|
   r.is do
     r.get do
       $_db[:backend_errors].all
