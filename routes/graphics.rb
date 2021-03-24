@@ -153,8 +153,6 @@ Tacpic.hash_branch 'graphics' do |r|
     offset_clause = 'OFFSET 0'
     offset_clause = "OFFSET #{r.params['offset'].to_i}" unless r.params['offset'].nil? || r.params['offset'].length.zero?
 
-    puts where_clause
-
     # TODO: wird nicht mehr alles gebraucht, kann entschlackt werden
     begin
       $_db.fetch(
