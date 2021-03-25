@@ -19,3 +19,4 @@ end
 require_relative './logging'
 require_relative './users'
 require_relative './variants'
+require_relative './errors'

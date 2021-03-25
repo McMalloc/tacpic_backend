@@ -1,27 +1,3 @@
-GET https://cms.tacpic.de/index.php/wp-json/wp/v2/categories HTTP/1.1
+GET http://localhost:9292/internal/users HTTP/1.1
 
 
-# POST http://localhost:3000/api/orders HTTP/1.1
-# content-type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhY2NvdW50X2lkIjoxLCJhdXRoZW50aWNhdGVkX2J5IjpbInBhc3N3b3JkIl19.JGSEJlGfNoZgt8UQSucK7oWAy0zKVGw1LEh-ARRjp9w
-
-# {
-#     "shippingAddress":{"house_number": 15},
-#     "invoiceAddress":null,
-#     "paymentMethod":"invoice",
-#     "idempotencyKey":"16c5c91-a5b6-4cf0-a69d-fb000aa74b6a",
-#     "basket":[{"contentId":1,"productId":"graphic","quantity":1}]
-# }
-
-
-
-# POST http://localhost:3000/api/login HTTP/1.1
-# content-type: application/json
-
-# {
-#     "login": "robert@tacpic.de",
-#     "password": "dsasadsadsada"
-# }
-
-# GET http://localhost:9292/internal/logging HTTP/1.1
-# content-type: application/json
