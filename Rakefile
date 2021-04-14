@@ -95,7 +95,11 @@ namespace 'run' do
   desc 'Runs the main script with scheduled backups'
   task :main do
     Rufus::Scheduler.singleton.cron ENV['BACKUP_INTERVAL'] do
-      Rake::Task['backup:create'].invoke
+      begin
+        Rake::Task['backup:create'].invoke
+      rescue StandardError => e
+        File.open('./logs/backup_error.log', 'w') { |f| f.write(e.inspect) }
+      end
     end
     system 'rackup'
   end

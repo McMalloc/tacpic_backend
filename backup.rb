@@ -10,12 +10,15 @@ def getSizeinKB(path)
 end
 
 def backup
+
+  # Prepae filesystem
   timestamp = DateTime.now.strftime '%Y-%m-%d_%H-%M-%S'
   log_file = File.join ENV['APPLICATION_BASE'], "backups/#{timestamp}_backup.log"
   logger = Logger.new log_file
   logger.info "Starting backup at #{timestamp} in #{ENV['RACK_ENV']}"
   Dir.mkdir 'backups' unless Dir.exist? 'backups'
 
+  # make a dump of the database
   dump_file = File.join ENV['APPLICATION_BASE'], "/backups/#{timestamp}__#{ENV['RACK_ENV']}-dump.sql"
   system "pg_dump #{ENV['TACPIC_DATABASE_URL']} -f #{dump_file}",
          exception: true
@@ -24,6 +27,7 @@ def backup
   logger.info "  file size: #{getSizeinKB dump_file}"
   logger.info "  file hash: #{Digest::MD5.hexdigest File.open(dump_file).read}"
 
+  # put all documents into a zip
   files_name = File.join ENV['APPLICATION_BASE'], "./backups/#{timestamp}__files.zip"
   logger.info "Creating archive #{files_name} ..."
   before_files_zip = Time.now
@@ -38,6 +42,7 @@ def backup
   logger.info "  size: #{getSizeinKB files_name}"
   logger.info "  time: #{Time.now - before_files_zip}s"
 
+  # put all thumbnails into a zip
   thumbnails_name = File.join ENV['APPLICATION_BASE'], "./backups/#{timestamp}__thumbnails.zip"
   logger.info "Creating archive #{thumbnails_name} ..."
   before_thumbnails_zip = Time.now
@@ -54,6 +59,7 @@ def backup
 
   logger.info "Attempting SFTP connection to #{ENV['BACKUP_HOST']}:#{ENV['BACKUP_PORT']}"
 
+  # log into backup server and copy the files
   Net::SFTP.start(ENV['BACKUP_HOST'], ENV['BACKUP_USER'], password: ENV['BACKUP_PWD'],
                                                           port: ENV['BACKUP_PORT']) do |sftp|
     logger.info 'Connection established. Uploading files ...'
@@ -66,6 +72,8 @@ def backup
     logger.info "  time: #{Time.now - before_upload}s"
   end
 rescue StandardError
+
+  # send an email if something went wrong
   logger.error $!
 
   SMTP.init

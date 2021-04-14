@@ -201,7 +201,7 @@ class Invoice < Sequel::Model
       text_box "<b>Bankverbindung</b>\nPostbank\nIBAN: DE 6910 0100 1009 3662 5102\nBIC: PBNKDEFF",
                at: [0, footer_height], width: 65.mm, height: footer_height, valign: :bottom, inline_format: true
 
-      text_box "\nUSt-IdNr.: DE328130974 | St.-Nr.: 102/117/03623\nAmtsgericht Stendal, HRB 27976\nGeschäftsführende: Laura Evers, Robert Wlcek, Florentin Förschler",
+      text_box "\nUSt-IdNr.: DE328130974 | St.-Nr.: 102/117/03623\nAmtsgericht Stendal, HRB 27976\nGeschäftsführende: Robert Wlcek, Florentin Förschler",
                at: [70.mm, footer_height], width: 90.mm, height: footer_height, valign: :bottom
 
       number_pages 'Seite <b><page> von <total></b>', at: [0, 0], width: bounds.width, align: :right,
