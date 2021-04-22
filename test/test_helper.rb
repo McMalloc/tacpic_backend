@@ -31,6 +31,12 @@ def read_test_data(name)
   File.open('./test/test_data/' + name + '.json').read
 end
 
+def replace_test_data(json, key, value)
+  parsed = JSON.parse(json)
+  parsed[key] = value
+  parsed.to_json
+end
+
 def compare_images(image, ref, margin = 1, algorithm = 'ae')
   command =
     "compare -metric #{algorithm} #{ENV['APPLICATION_BASE']}/test/references/#{ref}.png -fuzz #{margin}% #{ENV['APPLICATION_BASE']}/test/results/#{image}.png #{ENV['APPLICATION_BASE']}/test/results/DIFF_#{image}.png"

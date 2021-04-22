@@ -56,6 +56,15 @@ namespace 'test' do
   end
 
   Rake::TestTask.new do |t|
+    t.name = 'lotsofgraphics'
+    t.libs << '.'
+    t.test_files = ['test/more_graphic_tests.rb']
+    # t.test_files = FileList['test/*_tests.rb']
+    t.verbose = false
+    t.warning = false
+  end
+
+  Rake::TestTask.new do |t|
     t.name = 'orders'
     t.libs << '.'
     t.test_files = ['test/order_tests.rb']
