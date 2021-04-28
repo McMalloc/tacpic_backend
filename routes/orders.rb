@@ -2,12 +2,12 @@ Tacpic.hash_branch 'orders' do |r|
   # GET /orders/:id/finalise?hash=xyz
   r.get Integer, 'finalise' do |id|
     if Order[id].get_hash == request['hash']
-      Order[id].update(status: 2)
+      Order[id].update(status: CONSTANTS::ORDER_STATUS::PRODUCED)
       SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoice)
       return 'Produktionsauftrag bestaetigt.'
     else
-      response.status = 406
-      return '406: Ungültiger Hash. Bitte Link überprüfen'
+      response.status = CONSTANTS::HTTP::NOT_ACCEPTABLE
+      return '406: Ungültig. Bitte Link überprüfen.'
     end
   end
 
@@ -27,10 +27,10 @@ Tacpic.hash_branch 'orders' do |r|
   r.get Integer do |id|
     rodauth.require_authentication
     user_id = rodauth.logged_in?
-    if (User[user_id][:role] == 3) || (Orders[id][:user_id] == user_id)
+    if (User[user_id][:role] == CONSTANTS::ROLE::ADMIN) || (Orders[id][:user_id] == user_id)
       Orders[id].values
     else
-      response.status = 403 # Forbidden
+      response.status = CONSTANTS::HTTP::FORBIDDEN # Forbidden
       response.write 'not authorized' # TODO: systematic error messages
       request.halt
     end
@@ -62,7 +62,7 @@ Tacpic.hash_branch 'orders' do |r|
     user_id = rodauth.logged_in?
 
     if Order.where(idempotency_key: request[:idempotencyKey]).all.count.positive?
-      response.status = 409
+      response.status = CONSTANTS::HTTP::CONFLICT
       return 'duplicate order'
     end
 
@@ -187,7 +187,7 @@ Tacpic.hash_branch 'orders' do |r|
       invoice.generate_invoice_pdf
       job = Job.new(order)
       job.send_mail
-      order.update(status: 2)
+      order.update(status: CONSTANTS::ORDER_STATUS::TRANSFERED)
     end
 
     attached_files = order.order_items
@@ -199,7 +199,7 @@ Tacpic.hash_branch 'orders' do |r|
       invoice, attached_files
     )
 
-    response.status = 201
+    response.status = CONSTANTS::HTTP::CREATED
     return order.values
     # end
   end

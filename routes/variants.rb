@@ -85,10 +85,10 @@ Tacpic.hash_branch 'variants' do |r|
       file = TpFile.new request, user_id
       file.update_taggings
       file.update_variant
-      file.update_graphic User[user_id].role == ROLE::ADMIN
+      file.update_graphic User[user_id].role == CONSTANTS::ROLE::ADMIN
       version = file.create_version
 
-      response.status = 201
+      response.status = CONSTANTS::HTTP::CREATED
       version.values
     end
   end

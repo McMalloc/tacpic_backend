@@ -13,9 +13,9 @@ class CreateOrders < Sequel::Migration
       String :payment_method, default: 'invoice'
       Integer :weight
 
-      Integer :status, null: false, default: 0
-      # 0: eingenagen
-      # 1: übermittelt an Produktionspartner
+      Integer :status, null: false, default: CONSTANTS::ORDER_STATUS::RECEIVED
+      # 0: ---
+      # 1: eingenagen
       # 2: übermittelt an Produktionspartner
       # 3: produziert, wird dem Versand übergeben
       # 4? versendet und bezahlt
