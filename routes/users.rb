@@ -39,7 +39,7 @@ Tacpic.hash_branch 'users' do |r|
           rodauth.require_authentication
           Address.where(user_id: rodauth.logged_in?, active: true).map(&:values)
         rescue Sequel::Error
-          response.status = 401
+          response.status = CONSTANTS::HTTP::UNAUTHORIZED
           $!.to_json
         end
       end
@@ -51,12 +51,13 @@ Tacpic.hash_branch 'users' do |r|
           #   raise "at least one name needs to be present"
           # else
           r.params.delete 'id'
+          r.params['country'] = 'DEU'
           values = User[rodauth.logged_in?].add_address(r.params).values
-          response.status = 201
+          response.status = CONSTANTS::HTTP::CREATED
           return values
         # end
         rescue Sequel::Error
-          response.status = 401
+          response.status = CONSTANTS::HTTP::UNAUTHORIZED
           pp $!
         end
       end
