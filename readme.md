@@ -145,6 +145,28 @@ postgres=# grant all privileges on DATABASE "tacpic-production" to tacpic;
 rake db:migrate RACK_ENV=production
 ```
 
+## Sicherungen via Cron einrichten
+Einen Scheduler zusammen mit dem Anwendungsserver zu starten, hat sich leider als unzuverlässig herausgestellt.
+
+Damit rake gestartet bzw. gefunden werden kann, müssen in der Cron-Datei die Ruby-relevanten Path-Variablen definiert werden. Sie können mit `printenv` eingesehen werden.
+```
+sudo crontab -e
+```
+
+Folgender Eintrag führt dann den Backup-Task jeden tag um 00:05 Uhr aus.
+```
+GEM_HOME=/usr/local/rvm/gems/ruby-2.6.3
+GEM_PATH=/usr/local/rvm/gems/ruby-2.6.3:/usr/local/rvm/gems/ruby-2.6.3@global
+MY_RUBY_HOME=/usr/local/rvm/rubies/ruby-2.6.3
+PATH=/usr/local/rvm/gems/ruby-2.6.3/bin:/usr/local/rvm/gems/ruby-2.6.3@global/bin:/usr/local/rvm/rubies/ruby-2.6.3/bin:$
+RUBY_VERSION=ruby-2.6.3
+rvm_bin_path=/usr/local/rvm/bin
+rvm_path=/usr/local/rvm
+rvm_prefix=/usr/local
+rvm_version=1.29.9 (latest)
+5 0 * * * cd {APPLICATION_BASE from env}; rake backup:create RACK_ENV=production 1> ./backups/cronjob.log 2> ./backups/$
+```
+
 ## Anwendungsserver starten
 
 ```

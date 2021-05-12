@@ -17,7 +17,7 @@ class CreateAddresses < Sequel::Migration
       String :city, null: false
       String :zip, null: false
       String :state
-      String :country, size: 3, null: false # ISO 3166-1 alpha-3
+      String :country, size: 3, default: 'DEU' # ISO 3166-1 alpha-3
       DateTime :created_at, null: false
     end
   end

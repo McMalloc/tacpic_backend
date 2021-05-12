@@ -1,3 +1,5 @@
+require_relative '../../constants'
+
 class CreateOrders < Sequel::Migration
   def up
     create_table :orders do
@@ -27,6 +29,8 @@ class CreateOrders < Sequel::Migration
   end
 
   def down
-    drop_table :orders
+    if @db.table_exists?(:drop_table)
+      drop_table :drop_table
+    end
   end
 end

@@ -9,9 +9,10 @@ module SMTP
                                port: ENV['SMTP_PORT'],
                                domain: ENV['SMTP_HELOHOST'],
                                user_name: ENV['SMTP_USER'],
+                              #  password: ENV['SMTP_PASSWORD'],
                                password: ENV.delete('SMTP_PASSWORD'),
-                               authentication: 'login',
-                               enable_starttls_auto: true }
+                               authentication: 'plain',
+                               ssl: true }
     end
   end
 
