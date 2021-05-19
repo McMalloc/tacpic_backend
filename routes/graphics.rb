@@ -1,8 +1,15 @@
 Tacpic.hash_branch 'graphics' do |r|
+
+  is_admin = !User[rodauth.logged_in?].nil? && (User[rodauth.logged_in?].role == CONSTANTS::ROLE::ADMIN)
   # GET /graphics/:id
   # Gets single Graphic with requested ID
   # @argument requested_id Integer
   r.get Integer do |requested_id|
+    where_params = { graphic_id: requested_id }
+    if (!is_admin) 
+      where_params[:public] = true
+    end
+
     variants = Graphic
                .select(
                  Sequel[:graphics][:title].as(:graphic_title),
@@ -20,7 +27,7 @@ Tacpic.hash_branch 'graphics' do |r|
                  :graphic_landscape, :braille_no_of_pages, :braille_format, :current_file_name,
                  Sequel.lit('array_agg(taggings.tag_id) AS tags')
                )
-               .where(graphic_id: requested_id, public: true)
+               .where(where_params)
                .join(:variants, graphic_id: :id)
                .left_join(:taggings, variant_id: :id)
                .group_by(:graphic_title,
@@ -61,6 +68,7 @@ Tacpic.hash_branch 'graphics' do |r|
                     title: variant[:variant_title],
                     created_at: variant[:variant_created_at],
                     description: variant[:description],
+                    public: variant[:public],
                     system: variant[:braille_system],
                     tags: variant[:tags].scan(/[0-9]+/).map { |match| match.to_i } # TODO: funktioniert mit ID 10+ ?
                   }
@@ -96,7 +104,9 @@ Tacpic.hash_branch 'graphics' do |r|
                     HAVING COUNT(v.id) = #{tag_ids.count}) as }
     end
 
-    where_clause = %{
+    where_clause = is_admin ? %{
+      WHERE (true)
+    } : %{
       WHERE (variants.public = true)
     }
 

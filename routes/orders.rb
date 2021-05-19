@@ -7,7 +7,18 @@ Tacpic.hash_branch 'orders' do |r|
       return 'Produktionsauftrag bestaetigt.'
     else
       response.status = CONSTANTS::HTTP::NOT_ACCEPTABLE
-      return '406: Ungültig. Bitte Link überprüfen.'
+      logs = $_db[:backend_errors]
+          logs.insert(
+            method: 'PRODUCTION',
+            path: "/orders/#{id.to_s}/finalise",
+            params: request['hash'],
+            frontend_version: 'na',
+            backend_version: $_version,
+            type: 'HTTP 406',
+            message: 'finalisation failed: wrong or missing hash',
+            created_at: Time.now
+          )
+      return CONSTANTS::HTTP::NOT_ACCEPTABLE.to_s + ': Ungueltig. Bitte Link ueberpruefen.'
     end
   end
 
@@ -163,7 +174,7 @@ Tacpic.hash_branch 'orders' do |r|
     order.update(status: 1)
     voucher_shipping.checkout
 
-    unless voucher_shipping.error
+    if voucher_shipping.error.nil?
       shipment.update(
         voucher_id: voucher_shipping.shop_order_id,
         voucher_filename: voucher_shipping.file_name
@@ -174,22 +185,37 @@ Tacpic.hash_branch 'orders' do |r|
     if shipping_address_id != invoice_address_id
       voucher_invoice.checkout
 
-      unless voucher_invoice.error
+      if voucher_invoice.error.nil?
         invoice.update(
           voucher_id: voucher_invoice.shop_order_id,
           voucher_filename: voucher_invoice.file_name
         )
       end
-      shipment.generate_shipping_pdf unless voucher_shipping.error
+      shipment.generate_shipping_pdf if voucher_shipping.error.nil?
     end
 
-    unless voucher_shipping.error || voucher_invoice.error
+    # send out production job
+    # send out error report if aquiring the postage failed so
+    # we can still handle the order manually in time and/or inform the costumer
+    if voucher_shipping.error.nil? && voucher_invoice.error.nil?
       invoice.generate_invoice_pdf
       job = Job.new(order)
       job.send_mail
       order.update(status: CONSTANTS::ORDER_STATUS::TRANSFERED)
+    else
+      unless voucher_shipping.error.nil?
+        SMTP::SendMail.instance.send_error_report(
+          'Internetmarke', voucher_shipping.error, "in /orders \n #{order.values.to_yaml}", nil
+        )
+      end
+      unless voucher_invoice.error.nil?
+        SMTP::SendMail.instance.send_error_report(
+          'Internetmarke', voucher_invoice.error, "in /orders \n #{order.values.to_yaml}", nil
+        )
+      end
     end
 
+    # send out order confirmation
     attached_files = order.order_items
                           .filter { |item| item.product_id == 'graphic_nobraille' }
                           .map { |item| Variant[item.content_id].get_rtf(path_only: true) }

@@ -26,7 +26,6 @@ def transform_address(address)
     country: address[:country]
   }
 
-  pp formatted_address
   formatted_address
 end
 
@@ -67,26 +66,43 @@ module Internetmarke
 
     # TODO: Fehlerbehandlung
     def authenticate
-      puts '[SOAP] INFO Authenticating...'
+      $_logger.info '[INTERNETMARKE] INFO Authenticating...'
       request_time = Time.now.to_f.round
-      if @time_of_last_request.nil? || request_time - @time_of_last_request > AUTH_TIMEOUT
-        @time_of_last_request = request_time
-        response_auth = @client.call(
-          :authenticate_user,
-          soap_header: create_header,
-          message: {
-            username: INTERNETMARKE_USERNAME,
-            password: INTERNETMARKE_PASSWORD
-          }
-        )
-        @token = response_auth.body[:authenticate_user_response][:user_token]
-        @wallet_balance = response_auth.body[:authenticate_user_response][:wallet_balance]
-        # if @wallet_balance < 200
-        #   # TODO tu was, wenn die Portokasse unter einen Wert von XY€ rutscht
-        # end
-      end
+      if @token.nil? || @time_of_last_request.nil? || request_time - @time_of_last_request > AUTH_TIMEOUT
+        begin
+          @time_of_last_request = request_time
+          response_auth = @client.call(
+            :authenticate_user,
+            soap_header: create_header,
+            message: {
+              username: INTERNETMARKE_USERNAME,
+              password: INTERNETMARKE_PASSWORD
+            }
+          )
+          @token = response_auth.body[:authenticate_user_response][:user_token]
+          @wallet_balance = response_auth.body[:authenticate_user_response][:wallet_balance]
+          # if @wallet_balance < 200
+          #   # TODO tu was, wenn die Portokasse unter einen Wert von XY€ rutscht
+          # end
+          $_logger.info '[INTERNETMARKE] OK   Authenticated: ' + @token.to_s
+        rescue StandardError => e
+          logs = $_db[:backend_errors]
+          $_logger.error "[INTERNETMARKE] #{e.class.name}: #{e.message}"
 
-      puts '[SOAP] OK   Authenticated: ' + @token.to_s
+          logs.insert(
+            method: 'Internetmarke',
+            path: 'na',
+            params: 'authenticate',
+            frontend_version: 'na',
+            backend_version: $_version,
+            type: e.class.name,
+            backtrace: e.backtrace,
+            message: e.message,
+            created_at: Time.now
+          )
+          @error = e
+        end
+      end
 
       @token
     end
@@ -96,7 +112,8 @@ module Internetmarke
     @@valid_pplsIds = CSV.parse(File.read('services/commerce/postage.csv'), headers: true).map do |row|
       { pplId: row[0].to_i, price: row[2].to_i }
     end
-    attr_accessor :shop_order_id, :file_url, :file_name, :sender_address, :receiver_address, :wallet_balance, :error, :order_id
+    attr_accessor :shop_order_id, :file_url, :file_name, :sender_address, :receiver_address, :wallet_balance, :error,
+                  :order_id
 
     def initialize(product, order_id, receiver_address, sender_address = {
       company_name: 'tacpic UG (haftungsbeschränkt)',
@@ -115,11 +132,11 @@ module Internetmarke
       @sender_address = sender_address
       @order_id = order_id
       @receiver_address = receiver_address
-      @error = false
+      @error = nil
     end
 
     def save_voucher
-      puts "Get from #{@file_link}"
+      $_logger.info "[INTERNETMARKE] Get from #{@file_link}"
       @file_name = "voucher_#{Time.now.strftime('%Y-%m-%d')}_#{@voucher_id}"
       file_path = File.join(ENV['APPLICATION_BASE'], 'files/vouchers', @file_name)
       system "wget '#{@file_link}' -O #{file_path}.zip"
@@ -156,11 +173,12 @@ module Internetmarke
         save_voucher
       rescue StandardError => e
         logs = $_db[:backend_errors]
+        $_logger.error "[INTERNETMARKE] #{e.class.name}: #{e.message}"
 
         logs.insert(
           method: 'Internetmarke',
           path: 'na',
-          params: order_id,
+          params: 'order_id: ' + order_id.to_s,
           frontend_version: 'na',
           backend_version: $_version,
           type: e.class.name,
@@ -168,7 +186,7 @@ module Internetmarke
           message: e.message,
           created_at: Time.now
         )
-        @error = true
+        @error = e
       end
     end
   end

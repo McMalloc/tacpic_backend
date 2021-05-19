@@ -18,31 +18,32 @@ module SMTP
 
   MAIL_PATH = "#{ENV['APPLICATION_BASE']}/services/mail/".freeze
   LAYOUT = Helper.load_template(MAIL_PATH + 'layout.html.erb')
+  PRODUCTION_JOB_TEMPLATE = Helper.load_template(MAIL_PATH + 'production_job_template.erb')
+  ORDER_CONFIRM_TEMPLATE = Helper.load_template(MAIL_PATH + 'order_confirmation_template.erb')
+  QUOTE_CONFIRM_TEMPLATE = Helper.load_template(MAIL_PATH + 'quote_confirmation_template.erb')
+  VERIFY_ACCOUNT_TEMPLATE = Helper.load_template(MAIL_PATH + 'verify_account_template.erb')
+  RESET_PASSWORD_TEMPLATE = Helper.load_template(MAIL_PATH + 'reset_password_template.erb')
+  ERROR_REPORT_TEMPLATE = Helper.load_template(MAIL_PATH + 'error_report_template.erb')
 
   def self.layout(params)
     LAYOUT.result_with_hash(params)
   end
 
-  ORDER_CONFIRM_TEMPLATE = Helper.load_template(MAIL_PATH + 'order_confirmation_template.erb')
-
   def self.order_confirm(params)
     LAYOUT.result_with_hash({ body: ORDER_CONFIRM_TEMPLATE.result_with_hash(params) })
   end
 
-  QUOTE_CONFIRM_TEMPLATE = Helper.load_template(MAIL_PATH + 'quote_confirmation_template.erb')
-  VERIFY_ACCOUNT_TEMPLATE = Helper.load_template(MAIL_PATH + 'verify_account_template.erb')
+  def self.error_report(params)
+    LAYOUT.result_with_hash({ body: ERROR_REPORT_TEMPLATE.result_with_hash(params) })
+  end
 
   def self.verify_account(params)
     LAYOUT.result_with_hash({ body: VERIFY_ACCOUNT_TEMPLATE.result_with_hash(params) })
   end
 
-  RESET_PASSWORD_TEMPLATE = Helper.load_template(MAIL_PATH + 'reset_password_template.erb')
-
   def self.reset_password(params)
     LAYOUT.result_with_hash({ body: RESET_PASSWORD_TEMPLATE.result_with_hash(params) })
   end
-
-  PRODUCTION_JOB_TEMPLATE = Helper.load_template(MAIL_PATH + 'production_job_template.erb')
 
   def self.production_job(params)
     LAYOUT.result_with_hash({ body: PRODUCTION_JOB_TEMPLATE.result_with_hash(params) })
@@ -70,8 +71,21 @@ module SMTP
           Thread.new do
             mail.deliver!
           end
-        rescue StandardError
-          puts 'Error'
+        rescue StandardError => e
+          logs = $_db[:backend_errors]
+          logs.insert(
+            method: 'SMTP',
+            path: 'na',
+            params: mail.inspect,
+            frontend_version: 'na',
+            backend_version: $_version,
+            type: e.class.name,
+            backtrace: e.backtrace,
+            message: e.message,
+            created_at: Time.now
+          )
+
+          $_logger.error "[SMTP] #{e.class.name}: #{e.message}"
           # TODO: error handling
         end
       end
@@ -120,6 +134,29 @@ module SMTP
         add_file content: File.read(zipfile_name),
                  filename: "#{order.created_at.strftime('%Y-%m-%d')} Dateien für Bestellung Nr. #{order.id}.zip"
       end
+
+      process_mail(mail)
+    end
+
+    def send_error_report(component, error, context, attachment)
+      return if ENV['RACK_ENV'] == 'test'
+      mail = Mail.new do
+        from 'appserver@tacpic.de'
+        to ENV['WEBMASTER_MAIL']
+        subject "Error in #{component}: #{error.message}"
+        html_part do
+          content_type 'text/html; charset=UTF-8'
+          body SMTP.error_report({
+                                     component: component,
+                                     type: error.class.name,
+                                     message: error.message,
+                                     backtrace: error.backtrace.join("\n"),
+                                     context: context
+                                   })
+        end
+      end
+
+      add_file content: File.read(attachment) unless attachment.nil?
 
       process_mail(mail)
     end

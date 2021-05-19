@@ -26,4 +26,7 @@ module CONSTANTS
     PRODUCED = 3
     COMPLETED = 4
   end
+  module EWR_ISO
+    GERMANY = 'DEU'
+  end
 end

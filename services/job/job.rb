@@ -12,6 +12,7 @@ end
 class Job
   @@root = "#{ENV['APPLICATION_BASE']}/files/jobs/"
   # @@fm_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/processor/brf_frontmatter_template.brf.erb")
+  attr_accessor :zipfile_name
 
   def initialize(order)
     uuid_gen = UUID.new

@@ -3,6 +3,11 @@ class Address < Sequel::Model
   one_to_many :invoice
   one_to_many :shipment
 
+  def before_save
+    super
+    self.country = CONSTANTS::EWR_ISO::GERMANY if country.nil?
+  end
+
   def validate
     super
     if (!company_name || company_name.empty?) && (!last_name || last_name.empty?)

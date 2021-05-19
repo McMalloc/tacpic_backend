@@ -6,6 +6,7 @@ require 'rrtf'
 require 'singleton'
 require 'json'
 require 'i18n'
+require 'yaml'
 
 # require_relative './helper/auth'
 require_relative 'constants'
@@ -33,10 +34,11 @@ class Tacpic < Roda
   $_db.extension :pg_trgm # https://github.com/mitchellhenke/sequel-pg-trgm
   $_version = JSON.parse(File.read('public/BACKEND.json'))['tag']
   # $_db.extension :pg_array
+
   Store.init
   SMTP.init
 
-  I18n.load_path << Dir[File.expand_path("i18n") + "/*.yml"]
+  I18n.load_path << Dir[File.expand_path('i18n') + '/*.yml']
   I18n.default_locale = :de
 
   plugin :route_csrf
@@ -50,7 +52,8 @@ class Tacpic < Roda
   plugin :sinatra_helpers
 
   Dir.mkdir('logs') unless Dir.exist?('logs')
-  plugin :common_logger, Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
+  $_logger = Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
+  plugin :common_logger, $_logger
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
@@ -82,5 +85,4 @@ require_relative 'routes/quotes'
 require_relative 'routes/trace'
 require_relative 'routes/legal'
 require_relative 'routes/internal/index'
-#
 require_relative 'routes/internal/index'
