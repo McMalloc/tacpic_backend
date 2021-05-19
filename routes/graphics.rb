@@ -180,6 +180,7 @@ Tacpic.hash_branch 'graphics' do |r|
                  "variants"."braille_no_of_pages"         AS "braille_no_of_pages",
                  "variants"."braille_format"              AS "braille_format",
                  "variants"."current_file_name"           AS "current_file_name",
+                 "variants"."public"                      AS "public",
                  "variants"."created_at"                  AS "created_at",
                   array_agg(taggings.tag_id)              AS tags,
                   array_agg("tags"."name")                AS tag_names
@@ -188,7 +189,7 @@ Tacpic.hash_branch 'graphics' do |r|
           LEFT JOIN "taggings" ON ("taggings"."variant_id" = "variants"."id")
           LEFT JOIN "tags" ON ("taggings"."tag_id" = "tags"."id")
           #{where_clause}
-          GROUP BY "graphics"."title", "variants"."title", "graphics"."id", "variants"."id", "variants"."description",
+          GROUP BY "graphics"."title", "variants"."title", "graphics"."id", "variants"."id", "variants"."description", "variants"."public",
                    "variants"."created_at", "variants"."braille_system", "variants"."graphic_no_of_pages", "variants"."graphic_format",
                    "variants"."graphic_landscape", "variants"."braille_no_of_pages", "variants"."braille_format", "variants"."current_file_name"
           ORDER BY "variants"."created_at" DESC
