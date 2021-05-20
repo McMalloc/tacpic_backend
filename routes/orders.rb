@@ -49,16 +49,16 @@ Tacpic.hash_branch 'orders' do |r|
 
   def get_quote(items)
     content_ids = items.map { |item| item['contentId'] }
-    Quote.new(items.map do |item|
+    variants = Variant.where(id: content_ids).all
+    missing_variants = content_ids - variants.map(&:id)
+
+    Quote.new(items.filter_map { |item|
+      !missing_variants.include?(item['contentId']) &&
       OrderItem.new(
         content_id: item['contentId'],
         product_id: item['productId'],
-        quantity: item['quantity']
-      )
-    end, Variant
-      .where(id: content_ids) # .order_by(Sequel.lit("array_position(array#{content_ids.to_s}, id)")) # order result like the requested content_ids
-      .all
-      .map(&:values))
+        quantity: item['quantity'] || 0
+      )}, variants.map(&:values))
   end
 
   # POST /orders
@@ -74,7 +74,10 @@ Tacpic.hash_branch 'orders' do |r|
 
     if Order.where(idempotency_key: request[:idempotencyKey]).all.count.positive?
       response.status = CONSTANTS::HTTP::CONFLICT
-      return 'duplicate order'
+      return {
+        type: 'duplicate_order',
+        message: 'duplicate_order_message'
+      }
     end
 
     # set shipping address id, depending on the fields in the request either from db or directly from the request

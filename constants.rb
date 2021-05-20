@@ -19,6 +19,12 @@ module CONSTANTS
     INTERNAL = 500
   end
 
+  # BESTELLSTATUSNUMMERN
+  # ATTENTION_NEEDED: reserviert, falls wir eine gesonderte Problembehandlung implementieren
+  # RECEIVED: Im System eingegangen, noch nciht an Produktionspartner rausgeschickt
+  # TRANSFERED: An Produktionspartnerin samt Frankierung per Mail geschickt
+  # PRODUCED: Produktionspartnerin hat die Produktion bestätigt und abgeschickt
+  # COMPLETED: Mit der Bestellung verknüpfte Rechnung ist beglichen, und der Status war vorher PRODUCED, oder anders herum
   module ORDER_STATUS
     ATTENTION_NEEDED = 0
     RECEIVED = 1

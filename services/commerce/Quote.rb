@@ -10,7 +10,7 @@ class Quote
     @order_items.each_with_index do |item, _index|
       corresponding_variant = @variants.find { |variant| variant[:id] == item.content_id }
       corresponding_variant.nil? && next
-
+      
       case item.product_id
       when 'graphic'
         price = PriceCalculator.new(corresponding_variant, get_product(item.product_id)[:reduced_vat] == 'true')

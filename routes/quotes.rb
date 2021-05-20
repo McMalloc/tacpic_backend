@@ -2,15 +2,16 @@ Tacpic.hash_branch 'quotes' do |r|
   # TODO: Funktion ist so auch in orders.rb definiert
   def get_quote(items)
     content_ids = items.map { |item| item['contentId'] }
-    Quote.new(items.map { |item|
+    variants = Variant.where(id: content_ids).all
+    missing_variants = content_ids - variants.map(&:id)
+
+    Quote.new(items.filter_map { |item|
+      !missing_variants.include?(item['contentId']) &&
       OrderItem.new(
         content_id: item['contentId'],
         product_id: item['productId'],
         quantity: item['quantity'] || 0
-      )}, Variant
-           .where(id: content_ids) # .order_by(Sequel.lit("array_position(array#{content_ids.to_s}, id)")) # order result like the requested content_ids
-           .all
-           .map(&:values))
+      )}, variants.map(&:values))
   end
 
   r.post 'request' do
