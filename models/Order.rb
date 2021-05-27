@@ -10,6 +10,6 @@ class Order < Sequel::Model
   end
 
   def get_finalise_link
-    return "#{ENV['API_HOST']}/orders/#{self.id}/finalise?hash=#{self.get_hash}"
+    "#{ENV['API_HOST']}/orders/#{self.id}/finalise?hash=#{self.get_hash}"
   end
 end

@@ -85,6 +85,7 @@ sudo apt-get install -y nodejs
 ```
 
 # RVM installieren
+TODO: Chruby würde vermutlich reichen.
 ```
 curl -sSL https://get.rvm.io | sudo bash -s stable # wird fehlschlagen
 sudo gpg --keyserver hkp://keys.gnupg.net --recv-keys HIER_DEN_HASH_AUS_DER_MELDUNG_VON_OBEN_EINTRAGEN

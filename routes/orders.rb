@@ -2,22 +2,26 @@ Tacpic.hash_branch 'orders' do |r|
   # GET /orders/:id/finalise?hash=xyz
   r.get Integer, 'finalise' do |id|
     if Order[id].get_hash == request['hash']
-      Order[id].update(status: CONSTANTS::ORDER_STATUS::PRODUCED)
-      SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoice)
-      return 'Produktionsauftrag bestaetigt.'
+      if Order[id].status >= CONSTANTS::ORDER_STATUS::PRODUCED
+        return "Produktionsauftrag wurde bereits bestaetigt.<br /><p>Technische Informationen</p><pre>#{Order[id].values.to_yaml}</pre>"
+      else
+        Order[id].update(status: CONSTANTS::ORDER_STATUS::PRODUCED)
+        SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoice)
+        return 'Produktionsauftrag bestaetigt.'
+      end
     else
       response.status = CONSTANTS::HTTP::NOT_ACCEPTABLE
       logs = $_db[:backend_errors]
-          logs.insert(
-            method: 'PRODUCTION',
-            path: "/orders/#{id.to_s}/finalise",
-            params: request['hash'],
-            frontend_version: 'na',
-            backend_version: $_version,
-            type: 'HTTP 406',
-            message: 'finalisation failed: wrong or missing hash',
-            created_at: Time.now
-          )
+      logs.insert(
+        method: 'PRODUCTION',
+        path: "/orders/#{id}/finalise",
+        params: request['hash'],
+        frontend_version: 'na',
+        backend_version: $_version,
+        type: 'HTTP 406',
+        message: 'finalisation failed: wrong or missing hash',
+        created_at: Time.now
+      )
       return CONSTANTS::HTTP::NOT_ACCEPTABLE.to_s + ': Ungueltig. Bitte Link ueberpruefen.'
     end
   end
@@ -52,13 +56,14 @@ Tacpic.hash_branch 'orders' do |r|
     variants = Variant.where(id: content_ids).all
     missing_variants = content_ids - variants.map(&:id)
 
-    Quote.new(items.filter_map { |item|
-      !missing_variants.include?(item['contentId']) &&
-      OrderItem.new(
-        content_id: item['contentId'],
-        product_id: item['productId'],
-        quantity: item['quantity'] || 0
-      )}, variants.map(&:values))
+    Quote.new(items.filter_map do |item|
+                !missing_variants.include?(item['contentId']) &&
+                OrderItem.new(
+                  content_id: item['contentId'],
+                  product_id: item['productId'],
+                  quantity: item['quantity'] || 0
+                )
+              end, variants.map(&:values))
   end
 
   # POST /orders
@@ -133,7 +138,7 @@ Tacpic.hash_branch 'orders' do |r|
 
     order = Order.create(
       user_id: user_id,
-      comment: 'TODO',
+      comment: request[:comment] || 'n/a',
       payment_method: request[:paymentMethod],
       total_gross: final_quote.gross,
       idempotency_key: request[:idempotencyKey],
