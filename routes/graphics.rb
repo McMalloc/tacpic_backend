@@ -44,7 +44,6 @@ Tacpic.hash_branch 'graphics' do |r|
                          Sequel[:graphics][:id],
                          Sequel[:variants][:id])
                .all
-
     {
       id: variants[0][:graphic_id],
       title: variants[0][:graphic_title],

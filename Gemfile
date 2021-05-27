@@ -21,6 +21,7 @@ gem 'savon'
 gem 'sequel'
 gem 'sequel-pg-trgm'
 gem 'tilt'
+gem 'zlib'
 
 # Test requirements
 group :test, :development do

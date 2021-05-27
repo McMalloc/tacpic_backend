@@ -1,6 +1,5 @@
 require 'digest'
-require "zlib"
-require "base64"
+require 'zlib'
 require_relative '../services/processor/DocumentProcessor'
 
 class Version < Sequel::Model
@@ -11,19 +10,65 @@ class Version < Sequel::Model
 
   def before_save
     super
-    # self.document = Base64.encode64 Zlib::Deflate.deflate(self.document)
-    # TODO compress serialised document
+    begin
+      encoded = Base64.encode64 Zlib::Deflate.deflate(document)
+    rescue Zlib::DataError => e
+      logs = $_db[:backend_errors]
+      $_logger.error "[MODEL] #{e.class.name}: #{e.message}"
+
+      logs.insert(
+        method: 'deflate document data',
+        path: 'na',
+        params: self.id,
+        frontend_version: 'na',
+        backend_version: $_version,
+        type: e.class.name,
+        backtrace: e.backtrace,
+        message: e.message + ' (tried deflating non deflated document)',
+        created_at: Time.now
+      )
+    else
+      self.document = encoded
+    end
+
+    # TODO: compress serialised document
   end
 
-  def inflate_document
-    return Zlib::Inflate.inflate(Base64.decode64 self.document)
+  def values
+    vals = super
+    vals[:document] = self.document
+    vals
+  end
+
+  def document
+    begin
+      decoded = Zlib::Inflate.inflate Base64.decode64(self[:document])
+    rescue Zlib::DataError => e
+      logs = $_db[:backend_errors]
+      $_logger.error "[MODEL] #{e.class.name}: #{e.message}"
+
+      logs.insert(
+        method: 'inflate document data',
+        path: 'na',
+        params: self.id,
+        frontend_version: 'na',
+        backend_version: $_version,
+        type: e.class.name,
+        backtrace: e.backtrace,
+        message: e.message + ' (tried inflating non inflated document)',
+        created_at: Time.now
+      )
+      super
+    else
+      decoded
+    end
   end
 
   def after_save
     super
-    if (self.file_name.nil?)
-      self.update(file_name: DocumentProcessor.new(self).save_files)
-      self.variant.update(current_file_name: self.file_name)
+    if file_name.nil?
+      update(file_name: DocumentProcessor.new(self).save_files)
+      variant.update(current_file_name: file_name)
     end
   end
 end

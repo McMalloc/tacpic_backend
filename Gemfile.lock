@@ -157,6 +157,7 @@ GEM
     yard-minitest-spec (0.1.6)
       yard
     zeitwerk (2.4.2)
+    zlib (1.1.0)
 
 PLATFORMS
   x86_64-linux
@@ -202,6 +203,7 @@ DEPENDENCIES
   yard-appendix
   yard-doctest
   yard-minitest-spec
+  zlib
 
 BUNDLED WITH
    2.2.3
