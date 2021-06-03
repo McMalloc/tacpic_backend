@@ -117,6 +117,11 @@ namespace 'run' do
   task :rerun do
     system 'rerun --background rackup'
   end
+
+  desc 'Runs the main script with as debugger'
+  task :debug do
+    system 'rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 /usr/local/bin/rackup'
+  end
 end
 
 namespace 'stage' do

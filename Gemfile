@@ -25,6 +25,7 @@ gem 'zlib'
 
 # Test requirements
 group :test, :development do
+  gem 'debase'
   gem 'factory_bot'
   gem 'faker'
   gem 'gem-licenses'
@@ -42,6 +43,7 @@ group :test, :development do
   gem 'prmd'
   gem 'pry'
   gem 'rerun'
+  gem 'ruby-debug-ide'
   gem 'yard-appendix'
   gem 'yard-doctest'
   gem 'yard-minitest-spec'

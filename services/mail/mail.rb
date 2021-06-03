@@ -163,7 +163,7 @@ module SMTP
 
     def send_invoice_to_accounting(invoice)
       mail = Mail.new do
-        from 'auftrag@tacpic.de'
+        from 'buchhaltung@tacpic.de'
         to ENV['ACCOUNTING_ADDRESS']
         subject "[Buchhaltung] Rechnung \##{invoice.id}"
         body 'Für die Buchhaltung.'

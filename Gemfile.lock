@@ -17,6 +17,9 @@ GEM
     builder (3.2.4)
     coderay (1.1.3)
     concurrent-ruby (1.1.8)
+    debase (0.2.4.1)
+      debase-ruby_core_source (>= 0.10.2)
+    debase-ruby_core_source (0.10.12)
     ecma-re-validator (0.3.0)
       regexp_parser (~> 2.0)
     erubis (2.7.0)
@@ -116,6 +119,8 @@ GEM
       fastimage
       nokogiri
       tidy
+    ruby-debug-ide (0.7.2)
+      rake (>= 0.8.1)
     ruby-progressbar (1.11.0)
     rubyzip (2.3.0)
     rufus-scheduler (3.7.0)
@@ -164,6 +169,7 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt
+  debase
   factory_bot
   faker
   gem-licenses
@@ -191,6 +197,7 @@ DEPENDENCIES
   roda-route_list
   rodauth
   rrtf
+  ruby-debug-ide
   rubyzip
   rufus-scheduler
   savon
