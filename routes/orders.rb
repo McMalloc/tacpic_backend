@@ -225,8 +225,8 @@ Tacpic.hash_branch 'orders' do |r|
 
     # send out order confirmation
     attached_files = order.order_items
-                          .filter { |item| item.product_id == 'graphic_nobraille' }
-                          .map { |item| Variant[item.content_id].get_rtf(path_only: true) }
+                          .filter{ |item| item.product_id == 'graphic_nobraille' || item.product_id == 'graphic' }
+                          .map{ |item| Variant[item.content_id].get_rtf(path_only: true) }
 
     SMTP::SendMail.instance.send_order_confirmation(
       User[user_id].email,

@@ -120,6 +120,7 @@ namespace 'run' do
 
   desc 'Runs the main script with as debugger'
   task :debug do
+    # system 'rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 /usr/local/bin/rerun /usr/local/bin/rackup'
     system 'rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 /usr/local/bin/rackup'
   end
 end
