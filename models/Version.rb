@@ -16,17 +16,17 @@ class Version < Sequel::Model
       logs = $_db[:backend_errors]
       $_logger.error "[MODEL] #{e.class.name}: #{e.message}"
 
-      logs.insert(
-        method: 'deflate document data',
-        path: 'na',
-        params: self.id,
-        frontend_version: 'na',
-        backend_version: $_version,
-        type: e.class.name,
-        backtrace: e.backtrace,
-        message: e.message + ' (tried deflating non deflated document)',
-        created_at: Time.now
-      )
+      # logs.insert(
+      #   method: 'deflate document data',
+      #   path: 'na',
+      #   params: self.id,
+      #   frontend_version: 'na',
+      #   backend_version: $_version,
+      #   type: e.class.name,
+      #   backtrace: e.backtrace,
+      #   message: e.message + ' (tried deflating non deflated document)',
+      #   created_at: Time.now
+      # )
     else
       self.document = encoded
     end
@@ -47,17 +47,17 @@ class Version < Sequel::Model
       logs = $_db[:backend_errors]
       $_logger.error "[MODEL] #{e.class.name}: #{e.message}"
 
-      logs.insert(
-        method: 'inflate document data',
-        path: 'na',
-        params: self.id,
-        frontend_version: 'na',
-        backend_version: $_version,
-        type: e.class.name,
-        backtrace: e.backtrace,
-        message: e.message + ' (tried inflating non inflated document)',
-        created_at: Time.now
-      )
+      # logs.insert(
+      #   method: 'inflate document data',
+      #   path: 'na',
+      #   params: self.id,
+      #   frontend_version: 'na',
+      #   backend_version: $_version,
+      #   type: e.class.name,
+      #   backtrace: e.backtrace,
+      #   message: e.message + ' (tried inflating non inflated document)',
+      #   created_at: Time.now
+      # )
       super
     else
       decoded

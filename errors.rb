@@ -29,6 +29,7 @@ Tacpic.error do |e|
   logs = $_db[:backend_errors]
   request.body.rewind
 
+  binding.pry
   logs.insert(
     method: request.request_method,
     path: request.path,
@@ -36,7 +37,7 @@ Tacpic.error do |e|
     frontend_version: request.headers['TACPIC_VERSION'],
     backend_version: $_version,
     type: e.class.name,
-    backtrace: e.backtrace,
+    backtrace: e.backtrace.backtrace.select{|codepoint| codepoint.include?(ENV['APPLICATION_BASE'])}.first, # only select the upmost codepoint in the app code
     message: e.message,
     created_at: Time.now
   )
