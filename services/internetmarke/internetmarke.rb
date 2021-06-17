@@ -165,6 +165,7 @@ module Internetmarke
                   },
                   Total: total
         end
+        $_logger.info "[INTERNETMARKE] Transaction successfull #{response.body.to_json}"
 
         @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]
         @file_link = response.body[:checkout_shopping_cart_png_response][:link]
