@@ -29,7 +29,6 @@ Tacpic.error do |e|
   logs = $_db[:backend_errors]
   request.body.rewind
 
-  binding.pry
   logs.insert(
     method: request.request_method,
     path: request.path,
