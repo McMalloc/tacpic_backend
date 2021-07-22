@@ -49,6 +49,10 @@ module SMTP
     LAYOUT.result_with_hash({ body: PRODUCTION_JOB_TEMPLATE.result_with_hash(params) })
   end
 
+  def self.info(content)
+    LAYOUT.result_with_hash({ body: content })
+  end
+
   def self.render(template, params)
     # invoke method from above with ruby's send
     send(template, params)
@@ -168,6 +172,27 @@ module SMTP
       end
 
       process_mail(mail)
+    end
+
+    def send_info(subject, mail_body)
+      mail = Mail.new do
+        from 'buchhaltung@tacpic.de'
+        to ENV['REPORTING_ADDRESS']
+        subject "Info tacpic: #{subject}"
+        html_part do
+          content_type 'text/html; charset=UTF-8'
+          body SMTP.info(mail_body)
+        end
+
+        latest_logfile = nil
+        Dir.chdir(File.join(ENV['APPLICATION_BASE'], 'logs')) do
+          latest_logfile = Dir.glob("*").max_by {|f| File.mtime(f)}
+        end
+
+        add_file File.join(ENV['APPLICATION_BASE'], 'logs', latest_logfile) unless latest_logfile.nil?
+      end
+
+      mail.deliver!
     end
 
     def send_quote_confirmation(recipient, quote_id, items)

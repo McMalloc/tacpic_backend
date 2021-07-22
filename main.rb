@@ -76,6 +76,8 @@ class Tacpic < Roda
     r.public
     r.hash_routes
   end
+
+  SMTP::SendMail.instance.send_info('Backend hochgefahren', 'Logfile siehe Anhang')
 end
 
 at_exit do
