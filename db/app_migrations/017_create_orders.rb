@@ -23,14 +23,12 @@ class CreateOrders < Sequel::Migration
       # 4? versendet und bezahlt
 
       String :comment, text: true
-      String :idempotency_key, null: false, unique: true # todo sollte primary key sein
+      String :idempotency_key, null: false, unique: true # TODO: sollte primary key sein
       DateTime :created_at
     end
   end
 
   def down
-    if @db.table_exists?(:drop_table)
-      drop_table :drop_table
-    end
+    drop_table? :orders, cascade: true
   end
 end

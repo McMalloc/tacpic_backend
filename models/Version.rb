@@ -36,7 +36,7 @@ class Version < Sequel::Model
 
   def values
     vals = super
-    vals[:document] = self.document
+    vals[:document] = self.document.force_encoding("UTF-8") # TODO war das nur für den Test notwendig??
     vals
   end
 

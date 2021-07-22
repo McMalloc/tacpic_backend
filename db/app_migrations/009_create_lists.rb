@@ -9,6 +9,6 @@ class CreateLists < Sequel::Migration
   end
 
   def down
-    drop_table :lists
+    drop_table? :lists
   end
 end

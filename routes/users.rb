@@ -5,11 +5,13 @@ Tacpic.hash_branch 'users' do |r|
     r.post Integer do |id|
       rodauth.require_authentication
       if Address[id].user_id != rodauth.logged_in?
-        response.status = 403 # forbidden
+        response.status = CONSTANTS::HTTP::FORBIDDEN
         return 'unauthorized to update address'
       end
       r.params.delete 'id'
       Address[id].update(r.params)
+      response.status = CONSTANTS::HTTP::OK
+      Address[id]
     end
 
     r.post 'inactivate', Integer do |id|
@@ -17,18 +19,18 @@ Tacpic.hash_branch 'users' do |r|
       begin
         address = Address[id]
         if address.nil?
-          response.status = 404
+          response.status = CONSTANTS::HTTP::NOT_FOUND
           'Error: Ressource address does not exist'
         elsif address.user_id == rodauth.logged_in?
           address.update active: false
-          response.status = 204
+          response.status = CONSTANTS::HTTP::NO_CONTENT
           nil
         else
-          response.status = 403
+          response.status = CONSTANTS::HTTP::FORBIDDEN
           'Error: User ID of address to delete does not match authenticated user ID.'
         end
       rescue StandardError
-        response.status = 500
+        response.status = CONSTANTS::HTTP::INTERNAL
         $!.to_json
       end
     end

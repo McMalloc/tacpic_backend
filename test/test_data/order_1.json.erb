@@ -1,0 +1,13 @@
+{
+    "shippingAddress": <%= shipping_address %>,
+    "invoiceAddress": <%= invoice_address %>,
+    "paymentMethod": "invoice",
+    "idempotencyKey": "<%= key %>",
+    "basket": [
+        {
+            "contentId": 4,
+            "productId": "graphic",
+            "quantity": 1
+        }
+    ]
+}

@@ -1,4 +1,5 @@
 require 'sequel'
+require_relative '../constants'
 Sequel.extension :symbol_as
 Sequel::Model.plugin :validation_helpers
 # https://github.com/jeremyevans/sequel-annotate
@@ -20,6 +21,7 @@ module Store
        ShippedItem
        Invoice
        InvoiceItem
+       InternetmarkeTransaction
        Payment
        Tagging
        Taxonomy
@@ -40,7 +42,7 @@ end
 
 class Sequel::Model
   def before_create
-    self.created_at ||= Time.now
+    self.created_at ||= Time.now.strftime(CONSTANTS::ISO_DATETIME)
     super
   end
 end

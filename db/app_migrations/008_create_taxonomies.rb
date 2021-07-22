@@ -9,8 +9,6 @@ class CreateTaxonomies < Sequel::Migration
   end
 
   def down
-    if @db.table_exists?(:taxonomies)
-      drop_table :taxonomies
-    end
+    drop_table? :taxonomies
   end
 end

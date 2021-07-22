@@ -11,6 +11,6 @@ class CreateApprovals < Sequel::Migration
   end
 
   def down
-    drop_table :approvals
+    drop_table? :approvals
   end
 end

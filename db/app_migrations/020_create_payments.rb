@@ -13,6 +13,6 @@ class CreatePayments < Sequel::Migration
   end
 
   def down
-    drop_table :payments
+    drop_table? :payments
   end
 end

@@ -14,6 +14,6 @@ class CreateVersions < Sequel::Migration
   end
 
   def down
-    drop_table :versions
+    drop_table? :versions
   end
 end

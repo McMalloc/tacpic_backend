@@ -13,6 +13,6 @@ class CreateAnnotations < Sequel::Migration
   end
 
   def down
-    drop_table :annotations
+    drop_table? :annotations
   end
 end

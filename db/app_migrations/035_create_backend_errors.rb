@@ -16,6 +16,6 @@ class CreateBackendErrors < Sequel::Migration
   end
 
   def down
-    drop_table :backend_errors if @db.table_exists?(:backend_errors)
+    drop_table? :backend_errors
   end
 end

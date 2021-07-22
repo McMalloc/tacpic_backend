@@ -13,6 +13,6 @@ class CreateDownloads < Sequel::Migration
   end
 
   def down
-    drop_table :downloads
+    drop_table? :downloads
   end
 end

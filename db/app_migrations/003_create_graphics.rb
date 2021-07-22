@@ -14,8 +14,6 @@ class CreateGraphics < Sequel::Migration
   end
 
   def down
-    if @db.table_exists?(:graphics)
-      drop_table :graphics
-    end
+    drop_table? :graphics
   end
 end

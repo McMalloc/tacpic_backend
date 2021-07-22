@@ -10,6 +10,6 @@ class CreateProposals < Sequel::Migration
   end
 
   def down
-    drop_table :proposals
+    drop_table? :proposals
   end
 end

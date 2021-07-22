@@ -19,6 +19,6 @@ class CreateOrderItems < Sequel::Migration
   end
 
   def down
-    drop_table :order_items
+    drop_table? :order_items
   end
 end

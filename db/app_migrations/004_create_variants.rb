@@ -27,6 +27,6 @@ class CreateVariants < Sequel::Migration
   end
 
   def down
-    drop_table :variants
+    drop_table? :variants
   end
 end

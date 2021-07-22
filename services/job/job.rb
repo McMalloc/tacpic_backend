@@ -18,7 +18,7 @@ class Job
     uuid_gen = UUID.new
     uuid = uuid_gen.generate
     @order = order
-    @zipfile_name = File.join(@@root, order.id.to_s + "-" +  uuid + ".zip");
+    @zipfile_name = File.join(@@root, order.id.to_s + "-" +  uuid + ".zip")
     Zip::File.open(@zipfile_name, Zip::File::CREATE) do |zipfile|
       order.order_items.each do |order_item|
         if order_item.product_id != 'graphic' && order_item.product_id != 'graphic_nobraille'
@@ -39,7 +39,7 @@ class Job
         end
       end
 
-      zipfile.add("Rechnung.pdf", order.invoice.get_pdf_path)
+      zipfile.add("Rechnung.pdf", order.invoices.last.get_pdf_path)
       shipment = Shipment.find order_id: order.id
       #TODO eventuell gibt es mehrere Lieferungen pro Bestellung. Abfangen
       if File.exists? shipment.get_pdf_path

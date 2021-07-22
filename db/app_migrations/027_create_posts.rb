@@ -11,6 +11,6 @@ class CreatePosts < Sequel::Migration
   end
 
   def down
-    drop_table :posts
+    drop_table? :posts
   end
 end

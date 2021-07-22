@@ -12,6 +12,6 @@ class CreateRequestTaggings < Sequel::Migration
   end
 
   def down
-    drop_table :request_taggings
+    drop_table? :request_taggings
   end
 end

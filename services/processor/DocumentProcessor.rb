@@ -9,7 +9,7 @@ class DocumentProcessor
   @@font_data = Base64.strict_encode64 File.read("#{ENV['APPLICATION_BASE']}/services/processor/tacpic_swellbraille_euro6f.woff")
   @@style = File.read("#{ENV['APPLICATION_BASE']}/services/processor/style.css")
   # @@root = "#{ENV["APPLICATION_BASE"]}/files"
-  @@root = ENV['RACK_ENV'] == 'test' ? "#{ENV['APPLICATION_BASE']}/test/results" : "#{ENV['APPLICATION_BASE']}/files"
+  @@root = "#{ENV['APPLICATION_BASE']}/files"
 
   def initialize(version)
     @version = version.values

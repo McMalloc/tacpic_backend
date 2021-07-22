@@ -12,6 +12,6 @@ class CreateRequestVotes < Sequel::Migration
   end
 
   def down
-    drop_table :request_votes
+    drop_table? :request_votes
   end
 end

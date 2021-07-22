@@ -224,7 +224,7 @@ Tacpic.hash_branch 'graphics' do |r|
       }
     rescue StandardError => e
       response.status = 500
-      e.to_json
+      e
     end
   end
 end

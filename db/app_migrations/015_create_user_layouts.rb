@@ -14,6 +14,6 @@ class CreateUserLayouts < Sequel::Migration
 
   def down
     # You can use raw SQL if you need to
-    self << 'DROP TABLE user_layouts'
+    drop_table? :user_layouts
   end
 end

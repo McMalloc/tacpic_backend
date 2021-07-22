@@ -16,8 +16,6 @@ class CreateTags < Sequel::Migration
   end
 
   def down
-    if @db.table_exists?(:tags)
-      drop_table :tags
-    end
+    drop_table? :tags
   end
 end

@@ -13,6 +13,6 @@ class CreateCaptchas < Sequel::Migration
   end
 
   def down
-    drop_table :captchas
+    drop_table? :captchas
   end
 end

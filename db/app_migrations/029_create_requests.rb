@@ -13,6 +13,6 @@ class CreateRequests < Sequel::Migration
   end
 
   def down
-    drop_table :requests
+    drop_table? :requests
   end
 end

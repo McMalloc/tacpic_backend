@@ -13,8 +13,6 @@ class CreateQuoteRequests < Sequel::Migration
   end
 
   def down
-    if @db.table_exists?(:quote_requests)
-      drop_table :quote_requests
-    end
+    drop_table? :quote_requests
   end
 end

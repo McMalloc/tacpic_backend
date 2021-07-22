@@ -1,4 +1,4 @@
-require_relative 'constants'
+require_relative '../constants'
 require_relative '../db/config'
 require_relative '../models/init'
 require_relative '../env.rb'

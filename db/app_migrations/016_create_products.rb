@@ -11,6 +11,6 @@ class CreateProducts < Sequel::Migration
   end
 
   def down
-    drop_table :products
+    drop_table? :products
   end
 end

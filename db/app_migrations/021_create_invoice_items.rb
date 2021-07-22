@@ -12,6 +12,6 @@ class CreateInvoiceItems < Sequel::Migration
   end
 
   def down
-    drop_table :invoice_items
+    drop_table? :invoice_items
   end
 end

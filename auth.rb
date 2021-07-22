@@ -44,11 +44,11 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
     @account[:display_name] = request.params['display_name'] unless request.params['display_name'].empty?
     @account[:newsletter_active] = request.params['newsletter_active']
 
-    I18n.locale = request.headers['Accept-Language'].to_sym
+    I18n.locale = request.headers['Accept-Language'].to_sym unless request.headers['Accept-Language'].nil?
 
     raise AccountError, 'not whitelisted' unless
         File.open(File.join(ENV['APPLICATION_BASE'], 'config/whitelist.txt'))
-            .read.split("\n").include? @account[:email]
+            .read.split("\n").include?(@account[:email]) || ENV['RACK_ENV'] == 'test'
 
     raise AccountError, 'display name already in use' unless
         User.find(display_name: request[:display_name]).nil?

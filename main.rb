@@ -52,26 +52,24 @@ class Tacpic < Roda
   plugin :sinatra_helpers
 
   %w[logs
-  public/thumbnails
-  files/invoices
-  files/shipment_receipts
-  files/temp
-  files/vouchers
-  files/jobs
-  ].each { |dir| Dir.mkdir(dir) unless Dir.exist?(dir) }
+     public/thumbnails
+     files/invoices
+     files/thumbnails
+     files/shipment_receipts
+     files/temp
+     files/vouchers
+     files/jobs].each { |dir| Dir.mkdir(dir) unless Dir.exist?(dir) }
 
-  $_logger = Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z')) # ISO 8601 time format
+  $_logger = Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z') + '.log') # ISO 8601 time format
   plugin :common_logger, $_logger
-
-  $_logger.error "error test"
-  $_logger.info "info test"
-
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
   # secret = ENV.delete('TACPIC_SESSION_SECRET') || SecureRandom.random_bytes(64)
   plugin :sessions, secret: secret, key: 'rodauth.session'
   plugin :error_handler
+
+  $_logger.info 'Started app in env ' + ENV['RACK_ENV']
 
   route do |r|
     r.rodauth

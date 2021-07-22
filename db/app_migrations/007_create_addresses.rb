@@ -23,6 +23,6 @@ class CreateAddresses < Sequel::Migration
   end
 
   def down
-    drop_table :addresses
+    drop_table? :addresses
   end
 end

@@ -1,6 +1,7 @@
 require 'prawn'
 require 'prawn/table'
 require 'prawn/measurement_extensions'
+require_relative '../services/internetmarke/internetmarke'
 
 class Invoice < Sequel::Model
   include CommerceData
@@ -9,18 +10,58 @@ class Invoice < Sequel::Model
   one_to_many :payments
   one_to_one :order
 
-  # def after_create
-  #   super
-  #   self.generate_invoice_pdf
-  # end
-
-  def before_save
+  def before_create
+    super
     now = Time.now
-    self.invoice_number = "RE-TS#{now.year}-#{now.month}-#{now.day}-2#{Invoice.all.count.to_s.rjust(5, '0')}"
+    self.invoice_number = "RE-TS#{now.year}-#{now.month}-#{now.day}-2#{(Invoice.all.count + 1).to_s.rjust(5, '0')}"
+  end
+
+  def finalise
+    generate_invoice_pdf
+  end
+
+  def invoice_date
+    created_at + (5*24*60*60)
+  end
+
+  def get_voucher(force_checkout: false, ppl_id: nil)
+    # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
+    raise UnknownAddressError if address_id.nil?
+
+    if voucher_filename.nil? || force_checkout
+      ppl_id = ppl_id || Shipment.find(order_id: order_id).address_id != address_id ? 1 : Order[order_id].get_postage_item.content_id
+
+      voucher = Internetmarke::Voucher.new(
+        ppl_id,
+        id,
+        address.values
+      )
+
+      voucher.checkout
+
+      if voucher.error.nil?
+        update(
+          voucher_id: voucher.voucher_id,
+          voucher_filename: voucher.file_name
+        )
+        puts voucher.wallet_balance
+        InternetmarkeTransaction.create(
+          invoice_id: id,
+          shop_order_id: voucher.shop_order_id,
+          voucher_id: voucher.voucher_id,
+          balance: voucher.wallet_balance,
+          ppl_id: voucher.product,
+          amount: voucher.total
+        )
+        File.join(ENV['APPLICATION_BASE'], '/files/vouchers/', voucher_filename, '0.png')
+      else
+        raise voucher.error
+      end
+    end
   end
 
   def get_pdf_path
-    File.join(ENV['APPLICATION_BASE'], '/files/invoices/', invoice_number + '.pdf')
+    File.join(ENV['APPLICATION_BASE'], "/files/invoices/#{invoice_number}.pdf")
   end
 
   def get_item_listing
@@ -48,23 +89,16 @@ class Invoice < Sequel::Model
     order = Order[order_id]
     user = order.user
     payment_method = order.payment_method
-    logo_path = "#{ENV['APPLICATION_BASE']}/assets/tacpic_logo.png"
+    logo_path = File.join ENV['APPLICATION_BASE'], '/assets/tacpic_logo.png'
     shipment = Shipment.find(order_id: order_id)
     shipment_address = Address[shipment.address_id]
-    invoice_address = Address[address_id]
     invoice_number = self.invoice_number
+    invoice_address = Address[address_id]
     invoice_date = created_at
     # due_date = Helper.add_working_days(self.created_at, 20)
     shipment_date = Helper.add_working_days(created_at, 3) # TODO: Zeiten zentraler speichern
-    voucher_filename = ''
 
-    voucher_filename = if voucher_id.nil?
-                         ENV['RACK_ENV'] == 'production' ? shipment.voucher_filename : 'placeholder'
-                       else
-                         ENV['RACK_ENV'] == 'production' ? self.voucher_filename : 'placeholder'
-                       end
-
-    voucher_path = File.join(ENV['APPLICATION_BASE'], '/files/vouchers/', voucher_filename, '0.png')
+    voucher_path = get_voucher
 
     item_table_data = [
       ['Pos.', 'Stck.', 'Art.-Nr.', 'Netto p. Stck.', 'Artikel', 'Netto', 'USt.-Satz']

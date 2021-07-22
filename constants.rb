@@ -13,6 +13,7 @@ module CONSTANTS
     BAD_REQUEST = 400
     UNAUTHORIZED = 401
     FORBIDDEN = 403
+    NOT_FOUND = 404
     NOT_ACCEPTABLE = 406
     PROXY_AUTHENTICATE_REQUIRED = 407
     CONFLICT = 409
@@ -25,14 +26,25 @@ module CONSTANTS
   # TRANSFERED: An Produktionspartnerin samt Frankierung per Mail geschickt
   # PRODUCED: Produktionspartnerin hat die Produktion bestätigt und abgeschickt
   # COMPLETED: Mit der Bestellung verknüpfte Rechnung ist beglichen, und der Status war vorher PRODUCED, oder anders herum
+  # CANCELED: Storniert
   module ORDER_STATUS
     ATTENTION_NEEDED = 0
     RECEIVED = 1
     TRANSFERED = 2
     PRODUCED = 3
     COMPLETED = 4
+    CANCELED = 5
+  end
+  module INVOICE_STATUS
+    RESERVED = 0
+    UNPAID = 1
+    PAID = 2
+    PARTIALLY = 3
+    CANCELED = 4
   end
   module EWR_ISO
     GERMANY = 'DEU'
   end
+
+  ISO_DATETIME = '%Y-%m-%dT%H:%M:%S%z'.freeze
 end

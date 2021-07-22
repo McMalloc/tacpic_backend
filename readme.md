@@ -16,7 +16,7 @@ SSH-Login via Keypair einrichten, Passwort-Login via SSH deaktivieren.
 # Pakete installieren
 ```
 # notwendige binaries
-sudo apt-get install git nano unrtf postgresql postgresql-client postgresql-contrib netpbm ghostscript potrace tesseract-ocr
+sudo apt-get install git nano unrtf postgresql postgresql-client postgresql-contrib netpbm ghostscript potrace tesseract-ocr pdfgrep
 # notwendig zum Kompilieren der Ruby native extensions
 sudo apt-get install libpq-dev ruby-dev build-essentials zlibc zlib1g zlib1g-dev
 # Packages für headless Chrome
@@ -92,7 +92,8 @@ sudo gpg --keyserver hkp://keys.gnupg.net --recv-keys HIER_DEN_HASH_AUS_DER_MELD
 curl -sSL https://get.rvm.io | sudo bash -s stable # wird gelingen
 sudo usermod -a -G rvm robert ; oder sudo usermod -a -G rvm `whoami`
 
-rvm install ruby-x.y.z
+rvm install ruby-2.7.0
+rvm use 2.7.0
 ```
 Anleitung für sudo befolgen: https://rvm.io/integration/sudo
 
@@ -123,7 +124,7 @@ mv env.rb.template env.rb
 ```
 Und Login-URLs eintragen: postgres://tacpic:password@localhost/tacpic-production
 
-Dateiverzeichnisse anlegen:
+Dateiverzeichnisse anlegen (eventuell nicht mehr notwendig, da die App dies beim Starten tun sollte):
 ```
 mkdir tacpic_backend/files
 mkdir tacpic_backend/files/vouchers
@@ -167,6 +168,21 @@ rvm_prefix=/usr/local
 rvm_version=1.29.9 (latest)
 5 0 * * * cd {APPLICATION_BASE from env}; rake backup:create RACK_ENV=production 1> ./backups/cronjob.log 2> ./backups/$
 ```
+
+## ssh pwdauth deaktivieren
+
+## fail2ban einrichten
+
+```
+sudo apt install fail2ban
+```
+Die Datei `/etc/fail2ban/jail.conf` kopieren nach `/etc/fail2ban/jail.local` und die Bannzeit auf z.B. 120 Minuten erhöhen.
+```
+sudo systemctl start fail2ban
+sudo systemctl enable fail2ban
+```
+
+Das Log ist einsehbar mit `/var/log/fail2ban.log`.
 
 ## Anwendungsserver starten
 

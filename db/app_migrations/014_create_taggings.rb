@@ -13,6 +13,6 @@ class CreateTaggings < Sequel::Migration
   end
 
   def down
-    drop_table :taggings
+    drop_table? :taggings
   end
 end

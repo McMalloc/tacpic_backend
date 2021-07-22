@@ -15,6 +15,6 @@ class CreateInvoices < Sequel::Migration
   end
 
   def down
-    drop_table :invoices
+    drop_table? :invoices
   end
 end

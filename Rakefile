@@ -20,6 +20,25 @@ namespace 'db' do
     sh 'ruby db/seed.rb'
   end
 
+  desc 'Run specific migration, e.g. rake db:migrate_from_to[35,36]'
+  task :migrate_from_to, [:current, :target] do |_t, args|
+    Sequel::Migrator.run(_db, './db/app_migrations', current: args[:current].to_i, target: args[:target].to_i)
+  end
+
+  desc 'Start interactive psql session'
+  task :session do
+    if ENV['RACK_ENV'] == 'production'
+      puts '▶ This will start a session attached to the live database. Are you sure?'.magenta.bold + ' (type yes to continue)'.magenta
+      answer = STDIN.gets.chomp
+      unless answer == 'yes'
+        puts 'Bye!'
+        exit
+      end
+    else
+      exec "psql #{ENV['TACPIC_DATABASE_URL']}"
+    end
+  end
+
   desc 'Zap the database by running all the down app_migrations'
   task :zap do |_t, _args|
     Sequel::Migrator.run(_db, './db/app_migrations', target: 0)
@@ -57,6 +76,7 @@ namespace 'test' do
 
   Rake::TestTask.new do |t|
     t.name = 'lotsofgraphics'
+    t.description = 'Populates app with graphics'
     t.libs << '.'
     t.test_files = ['test/more_graphic_tests.rb']
     # t.test_files = FileList['test/*_tests.rb']
@@ -74,6 +94,14 @@ namespace 'test' do
   end
 
   Rake::TestTask.new do |t|
+    t.name = 'users'
+    t.libs << '.'
+    t.test_files = ['test/user_tests.rb']
+    t.verbose = false
+    t.warning = false
+  end
+
+  Rake::TestTask.new do |t|
     t.name = 'unit'
     t.libs << '.'
     t.test_files = FileList['test/*_unit_tests.rb']
@@ -82,13 +110,17 @@ namespace 'test' do
   end
 
   task :cleanup do
+    unless ENV['SAFE_FOR_DELETE'] == 'true'
+      raise 'You probably don\'t want to run this task on this machine: It will delete all contents in /files'
+    end
+
     `rm -rf ./test/results/*`
+    `rm -rf ./files/*`
     `mkdir ./test/results/thumbnails`
   end
 
-  desc 'Purges test db and runs model tests'
-  # task :purge_and_all, [:mode] => ['db:purge', :routes, :orders]
-  task :all, [:mode] => [:cleanup, 'db:purge', :graphics]
+  desc 'Purges test db and runs tests'
+  task :all, [:mode] => [:cleanup, 'db:purge', :users, :graphics, :orders]
 
   # task :reset_and_routes, [:mode] => ['db:reset', :routes]
   # task :all_routes, [:mode] => [:routes]
@@ -103,13 +135,6 @@ end
 namespace 'run' do
   desc 'Runs the main script'
   task :main do
-    # Rufus::Scheduler.singleton.cron ENV['BACKUP_INTERVAL'] do
-    #   begin
-    #     Rake::Task['backup:create'].invoke
-    #   rescue StandardError => e
-    #     File.open('./logs/backup_error.log', 'w') { |f| f.write(e.inspect) }
-    #   end
-    # end
     system 'rackup'
   end
 
@@ -120,7 +145,6 @@ namespace 'run' do
 
   desc 'Runs the main script with as debugger'
   task :debug do
-    # system 'rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 /usr/local/bin/rerun /usr/local/bin/rackup'
     system 'rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 /usr/local/bin/rackup'
   end
 end

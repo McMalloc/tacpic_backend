@@ -6,7 +6,7 @@ Tacpic.hash_branch 'orders' do |r|
         return "Produktionsauftrag wurde bereits bestaetigt.<br /><p>Technische Informationen</p><pre>#{Order[id].values.to_yaml}</pre>"
       else
         Order[id].update(status: CONSTANTS::ORDER_STATUS::PRODUCED)
-        SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoice)
+        SMTP::SendMail.instance.send_invoice_to_accounting(Order[id].invoices.last)
         return 'Produktionsauftrag bestaetigt.'
       end
     else
@@ -141,10 +141,12 @@ Tacpic.hash_branch 'orders' do |r|
       comment: request[:comment] || 'n/a',
       payment_method: request[:paymentMethod],
       total_gross: final_quote.gross,
+      # idempotency_key: ('a'..'z').to_a.sample(32).join,
       idempotency_key: request[:idempotencyKey],
       total_net: final_quote.net,
       weight: final_quote.weight,
-      test: ENV['RACK_ENV'] != 'production'
+      test: ENV['RACK_ENV'] != 'production',
+      status: CONSTANTS::ORDER_STATUS::ATTENTION_NEEDED
     )
 
     final_quote.order_items.each do |item|
@@ -152,89 +154,28 @@ Tacpic.hash_branch 'orders' do |r|
     end
 
     order.add_order_item(final_quote.postage_item)
-    # order.add_order_item(final_quote.packaging_item)
 
-    invoice = Invoice.create(
+    Invoice.create(
       address_id: invoice_address_id,
       order_id: order.id
     )
 
-    shipment = Shipment.create(
+    Shipment.create(
       order_id: order.id,
       address_id: shipping_address_id
     )
 
-    # TODO: Zahlung anlegen
-    # the shipping voucher will be put on the invoice if it's the same address
-    # begin
-    voucher_shipping = Internetmarke::Voucher.new(
-      final_quote.postage_item[:content_id],
-      order.id,
-      Address[shipping_address_id].values
-    )
-    # may not be checked out, but neccessary for error inspection
-    voucher_invoice = Internetmarke::Voucher.new(
-      1,
-      order.id,
-      Address[invoice_address_id].values
-    )
+    # both are depending on each other for PDF generation
+    # keep statement order for tests (Savon bug, see order_tests.rb)
+    order.update(status: CONSTANTS::ORDER_STATUS::RECEIVED)
 
-    order.update(status: 1)
-    voucher_shipping.checkout
-
-    if voucher_shipping.error.nil?
-      shipment.update(
-        voucher_id: voucher_shipping.shop_order_id,
-        voucher_filename: voucher_shipping.file_name
-      )
-    end
-
-    # if the invoice address differs, purchase a letter voucher and generate separate shipping receipt
-    if shipping_address_id != invoice_address_id
-      voucher_invoice.checkout
-
-      if voucher_invoice.error.nil?
-        invoice.update(
-          voucher_id: voucher_invoice.shop_order_id,
-          voucher_filename: voucher_invoice.file_name
-        )
-      end
-      shipment.generate_shipping_pdf if voucher_shipping.error.nil?
-    end
-
-    # send out production job
-    # send out error report if aquiring the postage failed so
-    # we can still handle the order manually in time and/or inform the costumer
-    if voucher_shipping.error.nil? && voucher_invoice.error.nil?
-      invoice.generate_invoice_pdf
-      job = Job.new(order)
-      job.send_mail
-      order.update(status: CONSTANTS::ORDER_STATUS::TRANSFERED)
-    else
-      unless voucher_shipping.error.nil?
-        SMTP::SendMail.instance.send_error_report(
-          'Internetmarke', voucher_shipping.error, "in /orders \n #{order.values.to_yaml}", nil
-        )
-      end
-      unless voucher_invoice.error.nil?
-        SMTP::SendMail.instance.send_error_report(
-          'Internetmarke', voucher_invoice.error, "in /orders \n #{order.values.to_yaml}", nil
-        )
-      end
-    end
-
-    # send out order confirmation
-    attached_files = order.order_items
-                          .filter{ |item| item.product_id == 'graphic_nobraille' || item.product_id == 'graphic' }
-                          .map{ |item| Variant[item.content_id].get_rtf(path_only: true) }
-
-    SMTP::SendMail.instance.send_order_confirmation(
-      User[user_id].email,
-      invoice, attached_files
-    )
+    order.generate_documents
+    order.send_job
+    order.send_order_confirmation
 
     response.status = CONSTANTS::HTTP::CREATED
-    return order.values
+
     # end
+    return order.values
   end
 end

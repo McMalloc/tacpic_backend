@@ -65,7 +65,7 @@ module SMTP
       func_name = /`(.*?)'/.match(caller[0]).captures[0]
 
       if ENV['RACK_ENV'] == 'test'
-        File.write("#{ENV['APPLICATION_BASE']}/tests/results/#{func_name}.txt", mail.to_s)
+        File.write("#{ENV['APPLICATION_BASE']}/test/results/#{mail.subject}.txt", mail.to_s)
       else
         begin
           Thread.new do
@@ -91,9 +91,7 @@ module SMTP
       end
     end
 
-    def send_order_confirmation(recipient, invoice, filepaths)
-      order = Order[invoice.order_id]
-
+    def send_order_confirmation(recipient, invoice, order, filepaths)
       mail = Mail.new do
         from 'bestellung@tacpic.de'
         to recipient
@@ -117,8 +115,6 @@ module SMTP
     end
 
     def send_production_job(order, zipfile_name)
-      return if ENV['RACK_ENV'] == 'test'
-
       mail = Mail.new do
         from 'auftrag@tacpic.de'
         to ENV['PRODUCTION_ADDRESS']

@@ -16,6 +16,6 @@ class CreateFrontendErrors < Sequel::Migration
   end
 
   def down
-    drop_table :frontend_errors if @db.table_exists?(:frontend_errors)
+    drop_table? :frontend_errors
   end
 end

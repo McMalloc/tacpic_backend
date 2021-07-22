@@ -15,6 +15,6 @@ class CreateShipments < Sequel::Migration
   end
 
   def down
-    drop_table :shipments
+    drop_table? :shipments
   end
 end

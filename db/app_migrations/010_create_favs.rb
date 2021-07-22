@@ -10,6 +10,6 @@ class CreateFavs < Sequel::Migration
   end
 
   def down
-    drop_table :favs
+    drop_table? :favs
   end
 end

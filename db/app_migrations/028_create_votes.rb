@@ -11,6 +11,6 @@ class CreateVotes < Sequel::Migration
   end
 
   def down
-    drop_table :votes
+    drop_table? :votes
   end
 end

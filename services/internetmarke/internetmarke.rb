@@ -66,6 +66,11 @@ module Internetmarke
 
     # TODO: Fehlerbehandlung
     def authenticate
+      if ENV['RACK_ENV'] == 'test'
+        @token = 'MOCK_TOKEN'
+        @wallet_balance = 2000
+        return
+      end
       $_logger.info '[INTERNETMARKE] INFO Authenticating...'
       request_time = Time.now.to_f.round
       if @token.nil? || @time_of_last_request.nil? || request_time - @time_of_last_request > AUTH_TIMEOUT
@@ -86,21 +91,7 @@ module Internetmarke
           # end
           $_logger.info '[INTERNETMARKE] OK   Authenticated: ' + @token.to_s
         rescue StandardError => e
-          logs = $_db[:backend_errors]
-          $_logger.error "[INTERNETMARKE] #{e.class.name}: #{e.message}"
-
-          logs.insert(
-            method: 'Internetmarke',
-            path: 'na',
-            params: 'authenticate',
-            frontend_version: 'na',
-            backend_version: $_version,
-            type: e.class.name,
-            backtrace: e.backtrace,
-            message: e.message,
-            created_at: Time.now
-          )
-          @error = e
+          raise e
         end
       end
 
@@ -113,9 +104,9 @@ module Internetmarke
       { pplId: row[0].to_i, price: row[2].to_i }
     end
     attr_accessor :shop_order_id, :file_url, :file_name, :sender_address, :receiver_address, :wallet_balance, :error,
-                  :order_id
+                  :context_id, :total, :voucher_id, :product
 
-    def initialize(product, order_id, receiver_address, sender_address = {
+    def initialize(product, context_id, receiver_address, sender_address = {
       company_name: 'tacpic UG (haftungsbeschränkt)',
       street: 'Breitscheidtr.',
       house_number: '51',
@@ -126,21 +117,29 @@ module Internetmarke
       @product = if @@valid_pplsIds.map { |row| row[:pplId] }.include? product
                    product
                  else
-                   nil # not a valid product
+                   raise 'not a valid product'
                  end
 
       @sender_address = sender_address
-      @order_id = order_id
       @receiver_address = receiver_address
+      @context_id = context_id
       @error = nil
     end
 
     def save_voucher
       $_logger.info "[INTERNETMARKE] Get from #{@file_link}"
-      @file_name = "voucher_#{Time.now.strftime('%Y-%m-%d')}_#{@voucher_id}"
+      @file_name = "voucher_#{@voucher_id}"
       file_path = File.join(ENV['APPLICATION_BASE'], 'files/vouchers', @file_name)
-      system "wget '#{@file_link}' -O #{file_path}.zip"
-      system "unzip #{file_path}.zip -d #{file_path}"
+      curl_cmd = "curl #{@file_link} --output #{file_path}.zip"
+      unzip_cmd = "unzip -o #{file_path}.zip -d #{file_path}"
+
+      stdout, stderr, status = Open3.capture3(curl_cmd) # TODO: refactor into helper function
+      raise "Curl error: #{stderr}" unless status.success?
+
+      stdout, stderr, status = Open3.capture3(unzip_cmd)
+      raise "Unzip error: #{stderr}" unless status.success?
+    rescue StandardError => e
+      $_logger.error "[INTERNETMARKE] Error saving voucher #{e.class.name}: #{e.message}"
     end
 
     # TODO: eventuell mehrere Marken pro Checkout?
@@ -149,7 +148,7 @@ module Internetmarke
       sender = transform_address(@sender_address)
       receiver = transform_address(@receiver_address)
       product = @product
-      total = @@valid_pplsIds.find { |row| row[:pplId] == product }[:price]
+      @total = @@valid_pplsIds.find{ |row| row[:pplId] == product }[:price].to_i
 
       begin
         response = Client.instance.client.call :checkout_shopping_cart_png do
@@ -163,23 +162,27 @@ module Internetmarke
                     },
                     voucherLayout: 'AddressZone'
                   },
-                  Total: total
+                  Total: @total
         end
-        $_logger.info "[INTERNETMARKE] Transaction successfull #{response.body.to_json}"
+        $_logger.info "[INTERNETMARKE] Transaction successfull #{response.to_json}"
 
-        @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance]
+        @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance].to_i
         @file_link = response.body[:checkout_shopping_cart_png_response][:link]
-        @order_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:shop_order_id]
+        @shop_order_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:shop_order_id]
         @voucher_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:voucher_list][:voucher][:voucher_id]
         save_voucher
       rescue StandardError => e
         logs = $_db[:backend_errors]
         $_logger.error "[INTERNETMARKE] #{e.class.name}: #{e.message}"
 
+        SMTP::SendMail.instance.send_error_report(
+          'Internetmarke', e, "for entity #{context_id}", nil
+        )
+
         logs.insert(
           method: 'Internetmarke',
           path: 'na',
-          params: 'order_id: ' + order_id.to_s,
+          params: 'na',
           frontend_version: 'na',
           backend_version: $_version,
           type: e.class.name,
