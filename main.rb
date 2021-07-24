@@ -7,6 +7,7 @@ require 'singleton'
 require 'json'
 require 'i18n'
 require 'yaml'
+require 'open3'
 
 # require_relative './helper/auth'
 require_relative 'constants'
@@ -77,7 +78,7 @@ class Tacpic < Roda
     r.hash_routes
   end
 
-  SMTP::SendMail.instance.send_info('Backend hochgefahren', 'Logfile siehe Anhang')
+  SMTP::SendMail.instance.send_info('Backend hochgefahren', 'Logfile siehe Anhang') if ENV['RACK_ENV'] == 'production'
 end
 
 at_exit do

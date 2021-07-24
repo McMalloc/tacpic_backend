@@ -168,14 +168,18 @@ Tacpic.hash_branch 'orders' do |r|
     # both are depending on each other for PDF generation
     # keep statement order for tests (Savon bug, see order_tests.rb)
     order.update(status: CONSTANTS::ORDER_STATUS::RECEIVED)
-
-    order.generate_documents
-    order.send_job
-    order.send_order_confirmation
-
     response.status = CONSTANTS::HTTP::CREATED
 
-    # end
+    begin
+      order.generate_documents
+      order.send_job
+      order.send_order_confirmation
+
+      response.status = CONSTANTS::HTTP::CREATED
+    rescue StandardError
+      # raise "ERROR WHILE SENDING JOB"
+    end
+
     return order.values
   end
 end

@@ -66,11 +66,11 @@ module Internetmarke
 
     # TODO: Fehlerbehandlung
     def authenticate
-      if ENV['RACK_ENV'] == 'test'
-        @token = 'MOCK_TOKEN'
-        @wallet_balance = 2000
-        return
-      end
+      # if ENV['RACK_ENV'] == 'test'
+      #   @token = 'MOCK_TOKEN'
+      #   @wallet_balance = 2000
+      #   return
+      # end
       $_logger.info '[INTERNETMARKE] INFO Authenticating...'
       request_time = Time.now.to_f.round
       if @token.nil? || @time_of_last_request.nil? || request_time - @time_of_last_request > AUTH_TIMEOUT
@@ -130,16 +130,22 @@ module Internetmarke
       $_logger.info "[INTERNETMARKE] Get from #{@file_link}"
       @file_name = "voucher_#{@voucher_id}"
       file_path = File.join(ENV['APPLICATION_BASE'], 'files/vouchers', @file_name)
-      curl_cmd = "curl #{@file_link} --output #{file_path}.zip"
+      # curl_cmd = "curl -o #{file_path}.zip -s -O #{@file_link}"
+      wget_cmd = "wget '#{@file_link}' -O #{file_path}.zip"
       unzip_cmd = "unzip -o #{file_path}.zip -d #{file_path}"
 
-      stdout, stderr, status = Open3.capture3(curl_cmd) # TODO: refactor into helper function
-      raise "Curl error: #{stderr}" unless status.success?
+      system wget_cmd
+      system unzip_cmd
 
-      stdout, stderr, status = Open3.capture3(unzip_cmd)
-      raise "Unzip error: #{stderr}" unless status.success?
-    rescue StandardError => e
-      $_logger.error "[INTERNETMARKE] Error saving voucher #{e.class.name}: #{e.message}"
+      # TODO das funktioniert hier hinten und vorne nicht, auch ein unerfolgreicher status raised keinen Fehler
+    #   stdout, stderr, status = Open3.capture3(curl_cmd) # TODO: refactor into helper function
+    #   raise "Curl error: #{stderr}" unless status.success?
+
+    #   stdout, stderr, status = Open3.capture3(unzip_cmd)
+    #   raise "Unzip error: #{stderr}" unless status.success?
+    
+    # rescue StandardError => e
+    #   $_logger.error "[INTERNETMARKE] Error saving voucher #{e.class.name}: #{e.message}"
     end
 
     # TODO: eventuell mehrere Marken pro Checkout?
@@ -148,7 +154,8 @@ module Internetmarke
       sender = transform_address(@sender_address)
       receiver = transform_address(@receiver_address)
       product = @product
-      @total = @@valid_pplsIds.find{ |row| row[:pplId] == product }[:price].to_i
+      total = @@valid_pplsIds.find{ |row| row[:pplId] == product }[:price].to_i
+      @total = total
 
       begin
         response = Client.instance.client.call :checkout_shopping_cart_png do
@@ -162,7 +169,7 @@ module Internetmarke
                     },
                     voucherLayout: 'AddressZone'
                   },
-                  Total: @total
+                  Total: total
         end
         $_logger.info "[INTERNETMARKE] Transaction successfull #{response.to_json}"
 

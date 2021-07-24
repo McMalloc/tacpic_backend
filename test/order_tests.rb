@@ -7,16 +7,16 @@ describe 'Creating Orders' do
   before do
     header 'Authorization', 'Bearer ' + $token
     header 'Content-Type', 'application/json'
-    savon.mock!
+    # savon.mock!
 
-    savon.expects(:checkout_shopping_cart_png)
-         .with(message: :any)
-         .returns(File.read(File.join(ENV['APPLICATION_BASE'],
-                                      '/test/mock_wsdl_response_buewa.xml')))
+    # savon.expects(:checkout_shopping_cart_png)
+    #      .with(message: :any)
+    #      .returns(File.read(File.join(ENV['APPLICATION_BASE'],
+    #                                   '/test/mock_wsdl_response_buewa.xml')))
   end
 
   after do
-    savon.unmock!
+    # savon.unmock!
     if last_response.status === 500 then
       puts "\nError:"
       puts get_body(last_response)
@@ -60,10 +60,10 @@ describe 'Creating Orders' do
   it 'should create an invoice and a shipping document with respective vouchers, and a new order' do
     # neccessary because of a Savon bug
     # https://github.com/savonrb/savon/issues/795
-    savon.expects(:checkout_shopping_cart_png)
-         .with(message: :any)
-         .returns(File.read(File.join(ENV['APPLICATION_BASE'],
-                                      '/test/mock_wsdl_response_standard.xml')))
+    # savon.expects(:checkout_shopping_cart_png)
+    #      .with(message: :any)
+    #      .returns(File.read(File.join(ENV['APPLICATION_BASE'],
+    #                                   '/test/mock_wsdl_response_standard.xml')))
 
     random_name = Faker::Name.last_name
     test_data = read_test_data('order_1', {
