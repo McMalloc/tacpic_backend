@@ -176,8 +176,8 @@ Tacpic.hash_branch 'orders' do |r|
       order.send_order_confirmation
 
       response.status = CONSTANTS::HTTP::CREATED
-    rescue StandardError
-      # raise "ERROR WHILE SENDING JOB"
+    rescue StandardError => e
+      raise e
     end
 
     return order.values

@@ -94,9 +94,9 @@ class Invoice < Sequel::Model
     shipment_address = Address[shipment.address_id]
     invoice_number = self.invoice_number
     invoice_address = Address[address_id]
-    invoice_date = created_at
     # due_date = Helper.add_working_days(self.created_at, 20)
     shipment_date = Helper.add_working_days(created_at, 3) # TODO: Zeiten zentraler speichern
+    invoice_date = self.invoice_date
 
     voucher_path = get_voucher
 
