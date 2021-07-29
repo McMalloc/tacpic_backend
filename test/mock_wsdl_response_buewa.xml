@@ -4,7 +4,8 @@
         <CheckoutShoppingCartPNGResponse xmlns="http://oneclickforapp.dpag.de/V3">
 
             <link>file:///home/robert/tacpic_backend/test/test_data/INTERNETMARKEN_BUEWA.zip</link>
-            <walletBalance>560</walletBalance>
+            <walletBallance>560</walletBallance> 
+            <!-- real typo by DPAG -->
             <shoppingCart>
                 <shopOrderId>1061230076</shopOrderId>
                 <voucherList>

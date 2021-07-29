@@ -173,7 +173,7 @@ module Internetmarke
         end
         $_logger.info "[INTERNETMARKE] Transaction successfull #{response.to_json}"
 
-        @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_balance].to_i
+        @wallet_balance = response.body[:checkout_shopping_cart_png_response][:wallet_ballance].to_i
         @file_link = response.body[:checkout_shopping_cart_png_response][:link]
         @shop_order_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:shop_order_id]
         @voucher_id = response.body[:checkout_shopping_cart_png_response][:shopping_cart][:voucher_list][:voucher][:voucher_id]

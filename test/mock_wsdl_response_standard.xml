@@ -4,7 +4,8 @@
         <CheckoutShoppingCartPNGResponse xmlns="http://oneclickforapp.dpag.de/V3">
 
             <link>file:///home/robert/tacpic_backend/test/test_data/INTERNETMARKEN_STANDARD.zip</link>
-            <walletBalance>860</walletBalance>
+            <walletBallance>860</walletBallance> 
+            <!-- real typo by DPAG -->
             <shoppingCart>
                 <shopOrderId>1061233076</shopOrderId>
                 <voucherList>

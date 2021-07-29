@@ -54,7 +54,7 @@ class Shipment < Sequel::Model
     invoice = Invoice.find(order_id: order.id)
     invoice_number = invoice.invoice_number
     invoice_address = Address[invoice.address_id]
-    invoice_date = invoice.created_at
+    invoice_date = invoice.invoice_date
     shipment_date = Helper.add_working_days(created_at, 3) # TODO: no magic numbers
 
     voucher_path = get_voucher

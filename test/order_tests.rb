@@ -80,7 +80,11 @@ describe 'Creating Orders' do
     assert_equal 201, last_response.status
 
     assert present_in_pdf(Order.last.invoices.last.get_pdf_path, random_name)
+    assert_equal Order.last.total_gross, 880
     assert present_in_pdf(Order.last.invoices.last.get_pdf_path, Order.last.invoices.last.invoice_number)
+    assert present_in_pdf(Order.last.invoices.last.get_pdf_path, '8,80€') # gross total
+    assert present_in_pdf(Order.last.invoices.last.get_pdf_path, '6,36€') # net total
+    assert present_in_pdf(Order.last.invoices.last.get_pdf_path, '1,87€') # net single
     # cannot grep the address in the voucher, since it is a placeholder
     # assert present_in_pdf(Shipment.where(order_id: Order.last.id).first.get_pdf_path, $test_user.addresses.first.last_name)
     assert_equal n_addresses + 1, Address.all.count

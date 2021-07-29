@@ -176,7 +176,7 @@ module SMTP
 
     def send_info(subject, mail_body)
       mail = Mail.new do
-        from 'buchhaltung@tacpic.de'
+        from ENV['SMTP_USER']
         to ENV['REPORTING_ADDRESS']
         subject "Info tacpic: #{subject}"
         html_part do

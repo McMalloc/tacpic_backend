@@ -44,7 +44,6 @@ class Invoice < Sequel::Model
           voucher_id: voucher.voucher_id,
           voucher_filename: voucher.file_name
         )
-        puts voucher.wallet_balance
         InternetmarkeTransaction.create(
           invoice_id: id,
           shop_order_id: voucher.shop_order_id,
@@ -75,9 +74,9 @@ class Invoice < Sequel::Model
           index + 1,
           item.quantity,
           art_no,
-          Helper.format_currency(item.net_price / item.quantity),
-          item.description,
           Helper.format_currency(item.net_price),
+          item.description,
+          Helper.format_currency(item.net_price * item.quantity),
           get_taxrate(:de_reduced_vat).to_s + '%' # TODO: lookup for product_id
         ]
       )
