@@ -72,6 +72,9 @@ module SMTP
         File.write("#{ENV['APPLICATION_BASE']}/test/results/#{mail.subject}.txt", mail.to_s)
       else
         begin
+          if ENV['RACK_ENV'] == 'development'
+            mail.subject = "[DEV] #{mail.subject}"
+          end
           Thread.new do
             mail.deliver!
           end
@@ -174,10 +177,10 @@ module SMTP
       process_mail(mail)
     end
 
-    def send_info(subject, mail_body)
+    def send_info(subject, mail_body, attachement = nil, additional_receiver = nil)
       mail = Mail.new do
         from ENV['SMTP_USER']
-        to ENV['REPORTING_ADDRESS']
+        to additional_receiver.nil? ? ENV['REPORTING_ADDRESS'] : "#{ENV['REPORTING_ADDRESS']},#{additional_receiver}"
         subject "Info tacpic: #{subject}"
         html_part do
           content_type 'text/html; charset=UTF-8'
@@ -190,9 +193,10 @@ module SMTP
         end
 
         add_file File.join(ENV['APPLICATION_BASE'], 'logs', latest_logfile) unless latest_logfile.nil?
+        if !attachement.nil? && File.exist?(attachement) then add_file attachement end
       end
 
-      mail.deliver!
+      process_mail(mail)
     end
 
     def send_quote_confirmation(recipient, quote_id, items)

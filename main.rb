@@ -8,6 +8,7 @@ require 'json'
 require 'i18n'
 require 'yaml'
 require 'open3'
+require 'rufus-scheduler'
 
 # require_relative './helper/auth'
 require_relative 'constants'
@@ -76,6 +77,17 @@ class Tacpic < Roda
     r.rodauth
     r.public
     r.hash_routes
+  end
+
+  s = Rufus::Scheduler.new
+  s.cron '0 8 1 * *' do # 1st of month
+    last_transaction = InternetmarkeTransaction.last
+    SMTP::SendMail.instance.send_info(
+      'Kontostand der Portokasse',
+      "Stand mit Transaktions-ID #{last_transaction.id}: #{Helper.format_currency(last_transaction.balance)}",
+      last_transaction.create_report,
+      ENV['ACCOUNTING_ADDRESS']
+    )
   end
 
   SMTP::SendMail.instance.send_info('Backend hochgefahren', 'Logfile siehe Anhang') if ENV['RACK_ENV'] == 'production'
