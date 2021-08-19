@@ -49,21 +49,19 @@
 
 <p>
   Die Rechnung wird ausgestellt an: <br/>
-  <%= !invoice_address.company_name.nil? && invoice_address.company_name + "<br/>"%>
+  <%= invoice_address.company_name.nil? || invoice_address.company_name.empty? ? '' : "#{invoice_address.company_name}<br/>"%>
   <%= invoice_address.first_name %> <%= invoice_address.last_name %><br/>
   <%= invoice_address.street %> <%= invoice_address.house_number %><br/>
-  <%= !invoice_address.additional.nil? && invoice_address.additional + "<br/>" %>
+  <%= invoice_address.additional.nil? || invoice_address.additional.empty? ? '' : invoice_address.additional + "<br/>" %>
   <%= invoice_address.zip %> <%= invoice_address.city %>
-  <%= invoice_address.state %> <%= invoice_address.country %>
 </p>
 <p>
   Die Lieferung erfolgt an: <br/>
-  <%= !shipping_address.company_name.nil? && shipping_address.company_name + "<br/>"%>
+  <%= shipping_address.company_name.nil? || shipping_address.company_name.empty? ? '' : "#{shipping_address.company_name}<br/>"%>
   <%= shipping_address.first_name %> <%= shipping_address.last_name %><br/>
   <%= shipping_address.street %> <%= shipping_address.house_number %><br/>
-  <%= !shipping_address.additional.nil? && shipping_address.additional + "<br/>" %>
+  <%= shipping_address.additional.nil? || shipping_address.additional.empty? ? '' : shipping_address.additional + "<br/>" %>
   <%= shipping_address.zip %> <%= shipping_address.city %>
-  <%= shipping_address.state %> <%= shipping_address.country %>
 </p>
 
 <p>
