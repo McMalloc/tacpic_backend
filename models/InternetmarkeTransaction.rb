@@ -22,10 +22,10 @@ class InternetmarkeTransaction < Sequel::Model
 
   def after_create
     super
-    if balance < 75310
+    if balance < 2000
       SMTP::SendMail.instance.send_info(
         'Kontostand der Portokasse knapp',
-        "Stand mit Transaktions-ID #{id}: #{Helper.format_currency(current_balance)}",
+        "Stand mit Transaktions-ID #{id}: #{Helper.format_currency(balance)}",
         create_report
       )
     end
