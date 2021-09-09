@@ -34,6 +34,7 @@ namespace 'db' do
         puts 'Bye!'
         exit
       end
+      exec "psql #{ENV['TACPIC_DATABASE_URL']}"
     else
       exec "psql #{ENV['TACPIC_DATABASE_URL']}"
     end
