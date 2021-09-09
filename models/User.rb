@@ -8,6 +8,7 @@ class User < Sequel::Model
   one_to_many :comments
   one_to_many :downloads
   one_to_many :lists
+  one_to_one :user_rights
 
   one_to_one :account
 

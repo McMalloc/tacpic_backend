@@ -6,6 +6,7 @@ Sequel::Model.plugin :validation_helpers
 module Store
   def self.init
     %w[User
+       UserRights
        Product
        Graphic
        Variant

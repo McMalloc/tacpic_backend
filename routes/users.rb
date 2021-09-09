@@ -70,7 +70,9 @@ Tacpic.hash_branch 'users' do |r|
   r.get 'validate' do
     rodauth.require_authentication
     user_id = rodauth.logged_in?
-    User[user_id].values
+    response = User[user_id].values.dup
+    response[:user_rights] = UserRights.find(user_id: user_id).values unless UserRights.find(user_id: user_id).nil?
+    return response
   end
 
   r.post Integer do |requested_id|

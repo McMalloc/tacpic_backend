@@ -37,6 +37,7 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
   jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
   # max_session_lifetime 86400
   after_login do
+    @account[:user_rights] = User[@account[:id]].user_rights.values unless User[@account[:id]].user_rights.nil?
     response.write @account.to_json
   end
 
@@ -45,10 +46,6 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
     @account[:newsletter_active] = request.params['newsletter_active']
 
     I18n.locale = request.headers['Accept-Language'].to_sym unless request.headers['Accept-Language'].nil?
-
-    raise AccountError, 'not whitelisted' unless
-        File.open(File.join(ENV['APPLICATION_BASE'], 'config/whitelist.txt'))
-            .read.split("\n").include?(@account[:email]) || ENV['RACK_ENV'] == 'test'
 
     raise AccountError, 'display name already in use' unless
         User.find(display_name: request[:display_name]).nil?
