@@ -1,6 +1,9 @@
+# Class to manage graphic, variant and version generation from a client request.
 class TpFile
   attr_reader :variant, :version
 
+  # @param request [Hash] client request to process
+  # @param user_id [Integer] ID of user who submitted since this is not part of the file request itself
   def initialize(request, user_id)
     @request = request
 

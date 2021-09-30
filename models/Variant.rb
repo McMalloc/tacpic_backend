@@ -23,6 +23,15 @@ class Variant < Sequel::Model
       .map(&:values)
   end
 
+  def rerender
+    last_version = self.versions.last
+    self.add_version(
+      document: last_version.document,
+      change_message: '__rerendered_by_system',
+      user_id: last_version.user_id
+    )
+  end
+
   def get_brf
     File.open("#{ENV['APPLICATION_BASE']}/files/#{current_file_name}-BRAILLE.brf").read
   end

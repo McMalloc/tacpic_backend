@@ -84,3 +84,7 @@ svg {
     font-size: 3mm;
     fill: blue;
 }
+
+#qr-code-container {
+    transform: scale(0.2);
+}

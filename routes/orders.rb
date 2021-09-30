@@ -78,7 +78,7 @@ Tacpic.hash_branch 'orders' do |r|
     user_id = rodauth.logged_in?
 
     raise AccountError, 'not_whitelisted' if
-    UserRights.find(user_id: user_id).nil? || UserRights.find(user_id: user_id).can_order || ENV['RACK_ENV'] == 'test'
+    (UserRights.find(user_id: user_id).nil? || !UserRights.find(user_id: user_id).can_order) && ENV['RACK_ENV'] != 'test'
 
     if Order.where(idempotency_key: request[:idempotencyKey]).all.count.positive?
       response.status = CONSTANTS::HTTP::CONFLICT

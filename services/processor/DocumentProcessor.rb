@@ -1,9 +1,13 @@
 require 'erb'
 require_relative '../../terminal_colors'
 require 'base64'
+require "rqrcode"
+
 
 # TODO: Dateinamenschema templaten
 class DocumentProcessor
+  QR_SIZE = 12 # in mm
+
   @@svg_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/processor/svg_template.svg.erb")
   @@brf_renderer = ERB.new File.read("#{ENV['APPLICATION_BASE']}/services/processor/brf_template.brf.erb")
   @@font_data = Base64.strict_encode64 File.read("#{ENV['APPLICATION_BASE']}/services/processor/tacpic_swellbraille_euro6f.woff")
@@ -27,16 +31,18 @@ class DocumentProcessor
                                                                                         '_') or 'basis'}"
   end
 
-  def save_svg(index)
+  def save_svg(index, qrcode)
     File.open "#{@@root}/#{@file_name}-VECTOR-p#{index}.svg", 'w' do |f|
       binding = {
         content: @pages[index]['rendering'],
         font_data: @@font_data,
         style: @@style,
         version_id: @version[:id],
+        qr_code: Base64.strict_encode64(qrcode),
+        qr_size: QR_SIZE,
         width: @graphic_width,
         height: @graphic_height,
-        title: @variant[:title] + ': ' + @graphic[:title],
+        title: "#{@variant[:title]}: #{@graphic[:title]}",
         contributors: @contributors.map { |c| c[:display_name] }.join(', '),
         description: @variant[:description],
         date: @version[:created_at]
@@ -74,6 +80,21 @@ class DocumentProcessor
     end
   end
 
+  def get_qrcode
+    # filename = File.join(@@root, 'temp') + "/qr_#{@version[:id]}.png"
+    # system "qrencode -o #{filename} \"https://tacpic.de/catalogue/#{@version[:graphic_id]}/variant/#{@version[:variant_id]}\""
+    # system "convert #{filename} -colorspace gray -contrast-stretch 0 +level-colors '#0000FF,' #{filename}"
+    # @qr64 = `base64 -w0 #{filename}`
+    url = "https://tacpic.de/catalogue/#{@version[:graphic_id]}/variant/#{@version[:variant_id]}"
+    RQRCode::QRCode.new(url).as_svg(
+      color: "0000FF",
+      fill: 'ffffff',
+      standalone: true,
+      module_size: 5,
+      use_path: true
+    )
+  end
+
   def save_rtf(graphic_title, variant_title, description)
     document = RRTF::Document.new
     document.paragraph(
@@ -106,7 +127,7 @@ class DocumentProcessor
       save_rtf @graphic.title, @variant[:title], @image_description
       @pages.nil? && return
       @pages.count.times do |index|
-        save_svg index
+        save_svg index, get_qrcode
         save_pdf index
         save_thumbnails index
       end

@@ -13,20 +13,8 @@ class Version < Sequel::Model
     begin
       encoded = Base64.encode64 Zlib::Deflate.deflate(document)
     rescue Zlib::DataError => e
-      logs = $_db[:backend_errors]
+      # logs = $_db[:backend_errors]
       $_logger.error "[MODEL] #{e.class.name}: #{e.message}"
-
-      # logs.insert(
-      #   method: 'deflate document data',
-      #   path: 'na',
-      #   params: self.id,
-      #   frontend_version: 'na',
-      #   backend_version: $_version,
-      #   type: e.class.name,
-      #   backtrace: e.backtrace,
-      #   message: e.message + ' (tried deflating non deflated document)',
-      #   created_at: Time.now
-      # )
     else
       self.document = encoded
     end
@@ -40,24 +28,13 @@ class Version < Sequel::Model
     vals
   end
 
+  # Override to transparently get the dezipped document data since Versions save their documents encoded int he database
   def document
     begin
       decoded = Zlib::Inflate.inflate Base64.decode64(self[:document])
     rescue Zlib::DataError => e
-      logs = $_db[:backend_errors]
+      # logs = $_db[:backend_errors]
       $_logger.error "[MODEL] #{e.class.name}: #{e.message}"
-
-      # logs.insert(
-      #   method: 'inflate document data',
-      #   path: 'na',
-      #   params: self.id,
-      #   frontend_version: 'na',
-      #   backend_version: $_version,
-      #   type: e.class.name,
-      #   backtrace: e.backtrace,
-      #   message: e.message + ' (tried inflating non inflated document)',
-      #   created_at: Time.now
-      # )
       super
     else
       decoded

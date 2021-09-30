@@ -22,6 +22,7 @@ gem 'sequel'
 gem 'sequel-pg-trgm'
 gem 'tilt'
 gem 'zlib'
+gem 'rqrcode'
 
 # Test requirements
 group :test, :development do

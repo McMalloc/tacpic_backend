@@ -69,4 +69,12 @@
   <%= content %>
 
   <text class="version-label" y="<%= height - 2 %>mm" x="<%= width - 6 %>mm">v<%= version_id %></text>
+
+    <image 
+      height="<%= qr_size %>mm" 
+      width="<%= qr_size %>mm" 
+      x="<%= width - qr_size %>mm"
+      y="2mm"
+      href="data:image/svg+xml;base64,<%= qr_code %>">
+    </image>
 </svg>

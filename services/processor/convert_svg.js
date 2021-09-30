@@ -8,19 +8,6 @@ const basePath = process.argv[6].replace(/$\/+/, '');
 
 (async() => {
 
-    // if (landscape) {
-    //     width_sm = 200;
-    //     height_sm = Math.floor(width_sm * ratio);
-    //     width_xl = 400;
-    //     height_xl = Math.floor(width_xl * ratio);
-    // } else {
-    //     height_sm = 200;
-    //     width_sm = Math.floor(height_sm * ratio);
-    //     height_xl = 400;
-    //     width_xl = Math.floor(height_xl * ratio);
-    // }
-    // console.log(landscape, ratio, width_sm, height_sm);
-
     const browser = await puppeteer.launch({
         args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-gpu"], // makes startup faster
     });
@@ -38,27 +25,11 @@ const basePath = process.argv[6].replace(/$\/+/, '');
         }
     });
 
-    // await page.setViewport({
-    //         width: width_xl,
-    //         height: height_xl,
-    //         deviceScaleFactor: 1,
-    //     })
-
     await page.screenshot({
         path: `${basePath}/${title}-RASTER-p${pageIndex}.png`,
         fullPage: true,
         deviceScaleFactor: 2
     })
-
-    // await page.setViewport({
-    //         width: width_sm,
-    //         height: height_sm,
-    //         deviceScaleFactor: 2,
-    //     })
-    //
-    // await page.screenshot({
-    //     path: `${basePath}/public/thumbnails/${title}-sm.png`
-    // })
 
     await browser.close();
 })();

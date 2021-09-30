@@ -5,10 +5,22 @@ require_relative '../env.rb'
 require_relative '../helper/functions'
 require_relative '../services/commerce/commerce_data'
 
-# require 'mail'
+require 'logger'
+require 'pry'
+require 'base64'
+require "rqrcode"
+require 'csv'
+require 'mail'
+require 'rrtf'
+require 'singleton'
+require 'json'
+require 'i18n'
+require 'yaml'
+require 'open3'
 
 
 $_db = Database.init ENV['TACPIC_DATABASE_URL']
+$_logger = Logger.new $stdout
 Store.init
 
 # mail = Mail.new do

@@ -111,12 +111,12 @@ Tacpic.hash_branch 'graphics' do |r|
 
     # where_clause = "WHERE (graphics.user_id = #{user_id})"
     unless r.params['search'].nil? || r.params['search'].length.zero?
-      term = r.params['search'].strip
+      term = r.params['search'].gsub(/[^0-9A-Za-z\sÄÖÜüöäß]/, ' ').split(' ').join('%,%')
       where_clause += %{
-        AND (variants.title       ILIKE '%#{term}%' OR
-              variants.description ILIKE '%#{term}%' OR
-              graphics.title       ILIKE '%#{term}%' OR
-              "tags"."name"        ILIKE '%#{term}%')
+        AND (variants.title        ILIKE ANY('{%#{term}%}') OR
+              variants.description ILIKE ANY('{%#{term}%}') OR
+              graphics.title       ILIKE ANY('{%(#{term}%}') OR
+              "tags"."name"        ILIKE ANY('{%(#{term}%}'))
       }
     end
 
@@ -163,9 +163,7 @@ Tacpic.hash_branch 'graphics' do |r|
     offset_clause = "OFFSET #{r.params['offset'].to_i}" unless r.params['offset'].nil? || r.params['offset'].length.zero?
 
     # TODO: wird nicht mehr alles gebraucht, kann entschlackt werden
-    begin
-      $_db.fetch(
-        %{
+    query = %{
           SELECT "graphics"."title"                       AS "graphic_title",
                  "variants"."title"                       AS "variant_title",
                  "graphics"."id"                          AS "graphic_id",
@@ -195,7 +193,8 @@ Tacpic.hash_branch 'graphics' do |r|
           #{limit_clause}
           #{offset_clause}
           }
-      ).all
+    begin
+      $_db.fetch(query).all
     rescue Sequel::Error => e
       pp $!.message
       raise e
