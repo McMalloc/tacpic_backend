@@ -4,7 +4,7 @@ Tacpic.hash_branch '', 'internal' do |r|
   rodauth.require_authentication
   user_id = rodauth.logged_in?
 
-  unless User[user_id].role == CONSTANTS::ROLE::ADMIN
+  unless User[user_id].user_rights.can_view_admin
     response.status = 403
     return {
       error: 'unauthorised'

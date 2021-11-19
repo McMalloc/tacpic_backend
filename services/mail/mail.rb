@@ -22,6 +22,7 @@ module SMTP
   ORDER_CONFIRM_TEMPLATE = Helper.load_template(MAIL_PATH + 'order_confirmation_template.erb')
   QUOTE_CONFIRM_TEMPLATE = Helper.load_template(MAIL_PATH + 'quote_confirmation_template.erb')
   VERIFY_ACCOUNT_TEMPLATE = Helper.load_template(MAIL_PATH + 'verify_account_template.erb')
+  VERIFY_LOGIN_CHANGE_TEMPLATE = Helper.load_template(MAIL_PATH + 'verify_login_change_template.erb')
   RESET_PASSWORD_TEMPLATE = Helper.load_template(MAIL_PATH + 'reset_password_template.erb')
   ERROR_REPORT_TEMPLATE = Helper.load_template(MAIL_PATH + 'error_report_template.erb')
 
@@ -39,6 +40,10 @@ module SMTP
 
   def self.verify_account(params)
     LAYOUT.result_with_hash({ body: VERIFY_ACCOUNT_TEMPLATE.result_with_hash(params) })
+  end
+
+  def self.verify_login_change(params)
+    LAYOUT.result_with_hash({ body: VERIFY_LOGIN_CHANGE_TEMPLATE.result_with_hash(params) })
   end
 
   def self.reset_password(params)

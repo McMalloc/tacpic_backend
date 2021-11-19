@@ -2,7 +2,14 @@
 
 Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
   login_required_error_status 401
-  enable :login, :logout, :jwt, :create_account, :reset_password # , :jwt_cors#, :session_expiration
+  enable  :login, 
+          :logout, 
+          :jwt,
+          :create_account,
+          :change_login,
+          :change_password,
+          :verify_login_change,
+          :reset_password # , :jwt_cors#, :session_expiration
 
   translate do |key, default|
     # send the keys to client without default translation, frontend is doing i18n work
@@ -20,6 +27,9 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
     verify_account_email_subject { "#{I18n.t('verify_account.subject')}" }
     verify_account_email_body { SMTP.render(:verify_account, { url: verify_account_email_link }) }
   end
+
+  verify_login_change_email_subject { "#{I18n.t('verify_login_change.subject')}" }
+  verify_login_change_email_body { SMTP.render(:verify_login_change, { url: verify_login_change_email_link }) }
 
   reset_password_email_subject { "#{I18n.t('reset.subject')}" }
   reset_password_email_body { SMTP.render(:reset_password, { url: reset_password_email_link }) }

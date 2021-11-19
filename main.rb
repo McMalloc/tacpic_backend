@@ -33,6 +33,7 @@ require 'pry' if ENV['RACK_ENV'] != 'production'
 
 class Tacpic < Roda
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
+
   $_db.extension :pg_trgm # https://github.com/mitchellhenke/sequel-pg-trgm
   $_version = JSON.parse(File.read('public/BACKEND.json'))['tag']
   # $_db.extension :pg_array

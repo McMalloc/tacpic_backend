@@ -75,13 +75,9 @@ Tacpic.hash_branch 'users' do |r|
     return response
   end
 
-  r.post Integer do |requested_id|
+  r.post do
     rodauth.require_authentication
     user_id = rodauth.logged_in?
-    if requested_id != user_id
-      response.status = 403
-      return 'tried to change another user'
-    end
 
     User[user_id].update(display_name: request['displayName'], newsletter_active: request['newsletterActive'])
     User[user_id].values
