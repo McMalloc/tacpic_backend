@@ -41,7 +41,7 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
     super email
   end
   email_from { "#{I18n.t('verify_account.from')}@tacpic.de" }
-  email_subject_prefix { 'tacpic: ' }
+  email_subject_prefix {  (ENV['RACK_ENV'] == 'development' ? "[DEV] " : "") + 'tacpic: ' }
 
   accounts_table :users
   jwt_secret ENV.delete('TACPIC_SESSION_SECRET')
