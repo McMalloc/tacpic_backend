@@ -10,6 +10,14 @@ de:
       auf den unten stehenden Link. Wenn Sie kein Konto auf tacpic.de erstellt
       haben, ignorieren Sie diese E-Mail bitte.
     link_text: Benutzerkonto bestätigen
+  verify_login_change:
+    from: Kontoverwaltung
+    subject: Bestätigung Ihrer neuen E-Mail-Adresse
+    body: >-
+      Bitte klicken Sie zum Bestätigen Ihrer neuen E-Mail-Adresse
+      auf den unten stehenden Link. Wenn Sie die Änderung Ihrer E-Mail-Adresse nicht ausgelöst haben,
+      nehmen Sie bitte Kontakt mit uns auf.
+    link_text: Neue E-Mail-Adresse bestätigen
   reset:
     from: Kontoverwaltung
     subject: Zurücksetzen Ihres Passworts

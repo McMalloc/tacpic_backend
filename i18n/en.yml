@@ -10,6 +10,13 @@ en:
       continue. If you didn't create an account on tacpic.de, please ignore this
       email.
     link_text: Verify account
+  verify_login_change:
+    from: Accounts
+    subject: Verification of your new email address
+    body: >-
+      please follow the link below to
+      verify your new email address. If you didn't request the change of your email address, please contact us.
+    link_text: Confirm new email address
   reset:
     from: Accounts
     subject: Reset your password
