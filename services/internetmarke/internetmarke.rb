@@ -198,6 +198,8 @@ module Internetmarke
           created_at: Time.now
         )
         @error = e
+      ensure
+        nil
       end
     end
   end

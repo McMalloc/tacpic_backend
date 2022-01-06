@@ -31,13 +31,6 @@ Tacpic.hash_branch 'orders' do |r|
     Invoice.join(:orders, id: :order_id).where(user_id: rodauth.logged_in?).map(&:values)
   end
 
-  # GET /orders/:id/invoice_link
-  r.get Integer, 'invoice_link' do |_id|
-    rodauth.require_authentication
-    user_id = rodauth.logged_in?
-    return 'hey'
-  end
-
   # GET /orders/:id
   r.get Integer do |id|
     rodauth.require_authentication
@@ -181,6 +174,8 @@ Tacpic.hash_branch 'orders' do |r|
       response.status = CONSTANTS::HTTP::CREATED
     rescue StandardError => e
       raise e
+    ensure
+      return order.values # TODO code smell, aber wie nach einem Fehler den Code 202 zurückgeben?
     end
 
     return order.values

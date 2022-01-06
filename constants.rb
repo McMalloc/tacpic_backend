@@ -40,7 +40,9 @@ module CONSTANTS
     UNPAID = 1
     PAID = 2
     PARTIALLY = 3
-    CANCELED = 4
+    REPLACED = 4 # Stornorechnung ausgestellt
+    CANCELLED = 5 # storniert
+    CREDIT_NOTE = 6 # Gutschrift / Stornorechnung
   end
   module EWR_ISO
     GERMANY = 'DEU'

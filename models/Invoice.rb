@@ -21,7 +21,7 @@ class Invoice < Sequel::Model
   end
 
   def invoice_date
-    created_at + (5*24*60*60)
+    created_at + (5 * 24 * 60 * 60)
   end
 
   def get_voucher(force_checkout: false, ppl_id: nil)
@@ -56,6 +56,8 @@ class Invoice < Sequel::Model
       else
         raise voucher.error
       end
+    else
+      File.join(ENV['APPLICATION_BASE'], '/files/vouchers/', voucher_filename, '0.png')
     end
   end
 
@@ -96,8 +98,13 @@ class Invoice < Sequel::Model
     # due_date = Helper.add_working_days(self.created_at, 20)
     shipment_date = Helper.add_working_days(created_at, 3) # TODO: Zeiten zentraler speichern
     invoice_date = self.invoice_date
+    status = self.status
 
-    voucher_path = get_voucher
+    voucher_path = if status == CONSTANTS::INVOICE_STATUS::CANCELLED
+                     voucher_filename.nil? ? nil : get_voucher
+                   else
+                     get_voucher
+                   end
 
     item_table_data = [
       ['Pos.', 'Stck.', 'Art.-Nr.', 'Netto p. Stck.', 'Artikel', 'Netto', 'USt.-Satz']
@@ -145,7 +152,7 @@ class Invoice < Sequel::Model
 
       text 'RECHNUNG', size: 24, style: :black
       image logo_path, at: [second_column_offset - 5.mm, (297 - 20).mm], width: 75.mm
-      image voucher_path, at: [first_column_offset, (297 - 45).mm], width: 80.mm
+      image voucher_path, at: [first_column_offset, (297 - 45).mm], width: 80.mm unless voucher_path.nil?
 
       bounding_box([second_column_offset, (297 - 50).mm], width: 60.mm, height: 100.mm) do
         text 'Anschrift', style: :bold
@@ -185,7 +192,11 @@ class Invoice < Sequel::Model
       end
 
       move_down 15.mm
-      text "Rechnung #{invoice_number}", style: :bold, size: 12
+      if status == CONSTANTS::INVOICE_STATUS::CREDIT_NOTE
+        text "Rechnungsgutschrift #{invoice_number}", style: :bold, size: 12
+      else
+        text "Rechnung #{invoice_number}", style: :bold, size: 12
+      end
       text 'Vereinbarungsgemäß berechnen wir unsere Leistungen wie folgt: '
       move_down 3.mm
 
@@ -221,8 +232,19 @@ class Invoice < Sequel::Model
         row(-1).border_width = 1
       end
 
+      if status == CONSTANTS::INVOICE_STATUS::CANCELLED
+        move_up 200.mm
+        rotate 30
+        fill_color 'ff0000'
+        transparent(0.5, 0.75) do
+          draw_text 'storniert', at: [100, 0], size: 80
+        end
+        restore_graphics_state
+        move_down 200.mm
+      end
+
       move_down 3.mm
-      if order.payment_method == 'invoice'
+      if order.payment_method == 'invoice' && status != CONSTANTS::INVOICE_STATUS::CREDIT_NOTE
         text 'Die Zahlung des Gesamtbetrag ist <b>20 Tage nach Rechnungsdatum fällig</b>. Bitte überweisen Sie ihn auf das am Dokumentenende aufgeführte Konto. Geben Sie dabei bitte die <b>Rechnungsnummer als Verwendungszweck</b> an.',
              inline_format: true
       end
