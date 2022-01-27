@@ -173,9 +173,10 @@ Tacpic.hash_branch 'orders' do |r|
 
       response.status = CONSTANTS::HTTP::CREATED
     rescue StandardError => e
-      raise e
-    ensure
-      return order.values # TODO code smell, aber wie nach einem Fehler den Code 202 zurückgeben?
+      $_logger.error e.message
+      return order.values
+    # ensure
+    #   return order.values # TODO code smell, aber wie nach einem Fehler den Code 202 zurückgeben?
     end
 
     return order.values

@@ -41,6 +41,9 @@ Tacpic.hash_branch :internal, 'orders' do |r|
           Invoice[request[:invoice_id]].update(status: CONSTANTS::INVOICE_STATUS::CANCELLED) unless Order[id].invoices.empty?
           Invoice[request[:invoice_id]].generate_invoice_pdf
           return 'ok'
+        when 'change_status'
+          Order[id].update(status: request[:status])
+          return 'ok'
         when 'purchase_invoice_voucher'
           Invoice[request[:invoice_id]].get_voucher force_checkout: true, ppl_id: 1
           Invoice[request[:invoice_id]].generate_invoice_pdf

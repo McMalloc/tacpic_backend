@@ -183,6 +183,17 @@ class Invoice < Sequel::Model
         text 'Lieferdatum:'
       end
 
+      if invoice_address.id != shipment.address_id && !shipment_address.nil?
+        bounding_box([second_column_offset / 2, customer_info_position], width: 60.mm) do
+          text 'Lieferadresse', style: :bold
+          text shipment_address.company_name
+          text shipment_address.first_name + ' ' + invoice_address.last_name
+          text shipment_address.street + ' ' + invoice_address.house_number
+          text shipment_address.zip + ' ' + invoice_address.city
+          text shipment_address.country
+        end
+      end
+
       bounding_box([second_column_offset + 30.mm, customer_info_position], width: 60.mm) do
         text user.id.to_s.rjust(4, '0'), style: :bold
         text invoice_number

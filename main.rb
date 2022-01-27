@@ -17,6 +17,8 @@ require_relative 'db/config' # gets Database
 require_relative 'env' # gets Config
 require_relative 'helper/functions'
 require_relative 'helper/exceptions'
+require_relative 'terminal_colors'
+require_relative 'logging'
 
 # business logic and rules
 require_relative 'services/commerce/commerce_data'
@@ -32,6 +34,13 @@ require_relative 'services/files/file'
 require 'pry' if ENV['RACK_ENV'] != 'production'
 
 class Tacpic < Roda
+  init_logging
+
+  unless RUBY_VERSION === '2.7.0'
+    $_logger.error "[ENV] The current ruby version is #{RUBY_VERSION}, but 2.7.0 is required. Exiting."
+    exit!
+  end
+
   $_db = Database.init ENV['TACPIC_DATABASE_URL']
 
   $_db.extension :pg_trgm # https://github.com/mitchellhenke/sequel-pg-trgm
@@ -62,9 +71,6 @@ class Tacpic < Roda
      files/temp
      files/vouchers
      files/jobs].each { |dir| Dir.mkdir(dir) unless Dir.exist?(dir) }
-
-  $_logger = Logger.new('logs/log_' + Time.now.strftime('%Y-%m-%dT%H:%M:%S.%L%z') + '.log') # ISO 8601 time format
-  plugin :common_logger, $_logger
 
   secret = SecureRandom.random_bytes(64)
   # read and instantly delete sensitive information from the ENV hash
@@ -111,4 +117,5 @@ require_relative 'routes/invoices'
 require_relative 'routes/quotes'
 require_relative 'routes/trace'
 require_relative 'routes/legal'
+require_relative 'routes/test' unless ENV['RACK_ENV'] == 'production'
 require_relative 'routes/internal/index'
