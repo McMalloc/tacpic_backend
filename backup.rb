@@ -9,6 +9,7 @@ def getSizeinKB(path)
   (File.size(path) / 1000).to_i.to_s + 'KB'
 end
 
+# This methods will create a viable backup for the current state of the application and can be called from within the Rakefile.
 def backup
 
   # Prepae filesystem

@@ -3,6 +3,37 @@ Tacpic.hash_branch :internal, 'orders' do |r|
     r.get do
       Order.all.map(&:values)
     end
+
+    r.post do
+      new_order = Order.create(
+        user_id: request[:userId],
+        total_gross: request[:totalGross],
+        total_net: request[:totalNet],
+        payment_method: 'invoice',
+        idempotency_key: ('a'..'z').to_a.sample(32).join
+      )
+      request[:items].each do |item|
+        new_order.add_order_item(
+          content_id: nil,
+          net_price: item['netPrice'],
+          gross_price: item['grossPrice'],
+          description: item['description'] || 'other',
+          product_id: item['productId'] || 'other',
+          quantity: item['quantity'] || 1
+        )
+      end
+      new_order.add_order_item(
+        product_id: 'postage',
+        quantity: 1,
+        content_id: item['pplId'] || 1 # Standardbrief
+      )
+      Invoice.create(
+        order_id: new_order.id,
+        status: CONSTANTS::INVOICE_STATUS::UNPAID,
+        address_id: request[:addressId]
+      ).generate_invoice_pdf
+      return 'ok'
+    end
   end
 
   r.on Integer do |id|
@@ -13,12 +44,12 @@ Tacpic.hash_branch :internal, 'orders' do |r|
           .where(order_id: id, product_id: ['graphic_nobraille', 'graphic'])
           .join(:variants, id: :content_id)
           .map(&:values),
-        shipments: Order[id].shipments.map(&:values),
+        shipments: Order[id].shipments&.map(&:values),
         invoices: Order[id].invoices.map(&:values),
         payments: Order[id].invoices.map { |invoice| invoice.payments.map(&:values) },
         user: {
-          user: Order[id].user.values,
-          addresses: Order[id].user.addresses.map(&:values)
+          user: Order[id].user&.values,
+          addresses: Order[id].user&.addresses&.map(&:values)
         }
       }
     end

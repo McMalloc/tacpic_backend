@@ -115,8 +115,8 @@ Tacpic.hash_branch 'graphics' do |r|
       where_clause += %{
         AND (variants.title        ILIKE ANY('{%#{term}%}') OR
               variants.description ILIKE ANY('{%#{term}%}') OR
-              graphics.title       ILIKE ANY('{%(#{term}%}') OR
-              "tags"."name"        ILIKE ANY('{%(#{term}%}'))
+              graphics.title       ILIKE ANY('{%#{term}%}') OR
+              "tags"."name"        ILIKE ANY('{%#{term}%}'))
       }
     end
 

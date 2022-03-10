@@ -2,7 +2,9 @@
 
 module CONSTANTS
   module ROLE
+    STANDARD = 0
     ADMIN = 1
+    EXTERNAL = 2
   end
 
   module HTTP

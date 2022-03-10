@@ -4,7 +4,7 @@ Tacpic.hash_branch 'users' do |r|
   r.on 'addresses' do
     r.post Integer do |id|
       rodauth.require_authentication
-      if Address[id].user_id != rodauth.logged_in?
+      unless Address[id].user_id == rodauth.logged_in? || User[user_id].user_rights.can_view_admin
         response.status = CONSTANTS::HTTP::FORBIDDEN
         return 'unauthorized to update address'
       end

@@ -5,3 +5,4 @@ postage,false,true
 postage_reduced,true,true
 packaging,false,true
 packaging_reduced,true,true
+other,false,false

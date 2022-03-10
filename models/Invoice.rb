@@ -79,7 +79,9 @@ class Invoice < Sequel::Model
           Helper.format_currency(item.net_price),
           item.description,
           Helper.format_currency(item.net_price * item.quantity),
-          get_taxrate(:de_reduced_vat).to_s + '%' # TODO: lookup for product_id
+          get_taxrate(
+            !get_product(item.product_id).nil? && get_product(item.product_id)[:reduced_vat] ? :de_reduced_vat : :de_vat
+          ).to_s + '%' # TODO: lookup for product_id
         ]
       )
     end
@@ -187,9 +189,9 @@ class Invoice < Sequel::Model
         bounding_box([second_column_offset / 2, customer_info_position], width: 60.mm) do
           text 'Lieferadresse', style: :bold
           text shipment_address.company_name
-          text shipment_address.first_name + ' ' + invoice_address.last_name
-          text shipment_address.street + ' ' + invoice_address.house_number
-          text shipment_address.zip + ' ' + invoice_address.city
+          text shipment_address.first_name + ' ' + shipment_address.last_name
+          text shipment_address.street + ' ' + shipment_address.house_number
+          text shipment_address.zip + ' ' + shipment_address.city
           text shipment_address.country
         end
       end

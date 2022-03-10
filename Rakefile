@@ -47,7 +47,7 @@ namespace 'db' do
 
   desc 'Populate database with test data'
   task :populate, [:mode] do |_t, _args|
-    sh 'ruby tests/populate_db.rb'
+    # sh 'ruby test/populate_db.rb'
   end
 
   desc 'Copy contents of the example database (tacpic-template) to the test database'
