@@ -2,7 +2,14 @@
   "name": "tacpic-backend",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "test-e2e": "npx playwright test"
+  },
   "dependencies": {
     "puppeteer": "^3.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.20.2",
+    "playwright": "^1.20.2"
   }
 }

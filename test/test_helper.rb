@@ -83,6 +83,8 @@ def create_test_user(login, password)
   header 'Content-Type', 'application/json'
   post 'login', data.to_json
 
+  user = User.where(email: login).first
+
   Address.create(
     is_invoice_addr: false,
     street: 'Route',
@@ -92,10 +94,18 @@ def create_test_user(login, password)
     last_name: 'Eich',
     city: 'Alabastia',
     zip: '34563',
-    user_id: User.where(email: login).first.id
+    user_id: user.id
   )
 
-  [last_response.original_headers['Authorization'], User.where(email: login).first]
+  UserRights.create(
+    user_id: user.id,
+    can_order: true,
+    can_hide_variants: true,
+    can_view_admin: true,
+    can_edit_admin: true
+  )
+
+  [last_response.original_headers['Authorization'], user]
 end
 
 $token, $test_user = create_test_user('test@tacpic.de', '12345678')

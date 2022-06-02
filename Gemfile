@@ -14,15 +14,16 @@ gem 'rack-cors'
 gem 'rake'
 gem 'roda'
 gem 'rodauth'
+gem 'rqrcode'
 gem 'rrtf'
 gem 'rubyzip'
 gem 'rufus-scheduler'
 gem 'savon'
 gem 'sequel'
 gem 'sequel-pg-trgm'
+
 gem 'tilt'
 gem 'zlib'
-gem 'rqrcode'
 
 # Test requirements
 group :test, :development do

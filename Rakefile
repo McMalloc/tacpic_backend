@@ -2,7 +2,6 @@ require 'rake/testtask'
 require 'yard'
 require 'sequel'
 require 'digest'
-require 'rufus-scheduler'
 require_relative 'db/config'
 require_relative 'env'
 require_relative 'terminal_colors'
@@ -110,6 +109,10 @@ namespace 'test' do
     t.warning = false
   end
 
+  task :e2e do
+    system 'npm run test-e2e'
+  end
+
   task :cleanup do
     unless ENV['SAFE_FOR_DELETE'] == 'true'
       raise 'You probably don\'t want to run this task on this machine: It will delete all contents in /files'
@@ -121,7 +124,8 @@ namespace 'test' do
   end
 
   desc 'Purges test db and runs tests'
-  task :all, [:mode] => [:cleanup, 'db:purge', :users, :graphics, :orders]
+  task :all, [:mode] => [:cleanup, 'db:purge', :graphics]
+  # task :all, [:mode] => [:cleanup, 'db:purge', :graphics, :e2e]
 
   # task :reset_and_routes, [:mode] => ['db:reset', :routes]
   # task :all_routes, [:mode] => [:routes]
@@ -147,6 +151,11 @@ namespace 'run' do
   desc 'Runs the main script with as debugger'
   task :debug do
     system 'rdebug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 /usr/local/bin/rackup'
+  end
+
+  desc 'Starts interactive shell with all relational models loaded'
+  task :irb do
+    system 'irb -r ./test/playground.rb'
   end
 end
 

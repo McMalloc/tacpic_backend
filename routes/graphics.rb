@@ -88,7 +88,6 @@ Tacpic.hash_branch 'graphics' do |r|
     unless r.params['plain'].nil?
       return Graphic.limit(r.params['limit'] || 20).offset(r.params['offset'] || 0).map(&:values)
     end
-
     subquery = ''
     unless r.params['tags'].nil? || r.params['tags'].length.zero?
       tag_ids = r.params['tags'].split(',').map(&:to_i)

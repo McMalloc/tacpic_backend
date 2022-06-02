@@ -196,3 +196,9 @@ tmux a -t app
 rake run:main RACK_ENV=production &
 # ctrl+b, d detached von der Session
 ```
+
+## e2e Tests
+
+Befinden sich im Schwesterrepository tacpic-test, da die Entwicklungsumgebung Linux voraussetzt und 
+für die e2e-Tests aber ein Displayserver und ein Browser installiert sein muss. So können die Tests
+außerhalb der Entwicklungsumgebung laufen.

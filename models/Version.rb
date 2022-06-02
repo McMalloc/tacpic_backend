@@ -30,11 +30,9 @@ class Version < Sequel::Model
 
   # Override to transparently get the dezipped document data since Versions save their documents encoded int he database
   def document
-    begin
+    begin # decode
       decoded = Zlib::Inflate.inflate Base64.decode64(self[:document])
-    rescue Zlib::DataError => e
-      # logs = $_db[:backend_errors]
-      $_logger.error "[MODEL] #{e.class.name}: #{e.message}"
+    rescue Zlib::DataError => e # data already decoded, or at least no zip
       super
     else
       decoded

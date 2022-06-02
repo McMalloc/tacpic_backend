@@ -12,7 +12,7 @@ end
 # This methods will create a viable backup for the current state of the application and can be called from within the Rakefile.
 def backup
 
-  # Prepae filesystem
+  # Prepare filesystem
   timestamp = DateTime.now.strftime '%Y-%m-%d_%H-%M-%S'
   log_file = File.join ENV['APPLICATION_BASE'], "backups/#{timestamp}_backup.log"
   logger = Logger.new log_file

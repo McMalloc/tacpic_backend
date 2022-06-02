@@ -66,7 +66,6 @@ class Tacpic < Roda
   %w[logs
      public/thumbnails
      files/invoices
-     files/thumbnails
      files/shipment_receipts
      files/temp
      files/vouchers
@@ -87,7 +86,7 @@ class Tacpic < Roda
   end
 
   s = Rufus::Scheduler.new
-  s.cron '0 8 1 * *' do # 1st of month
+  s.cron '0 0 1 * *' do # 1st of month
     last_transaction = InternetmarkeTransaction.last
     SMTP::SendMail.instance.send_info(
       'Kontostand der Portokasse',

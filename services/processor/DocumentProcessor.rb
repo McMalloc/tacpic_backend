@@ -146,11 +146,7 @@ class DocumentProcessor
 
   def save_thumbnails(index)
     source = "#{@@root.shellescape}/#{@file_name}-RASTER-p#{index}.png"
-    dest_prefix = if ENV['RACK_ENV'] == 'test'
-                    "#{@@root.shellescape}/thumbnails/#{@file_name}"
-                  else
-                    "#{@@root.shellescape}/../public/thumbnails/#{@file_name}"
-                  end
+    dest_prefix = "#{@@root.shellescape}/../public/thumbnails/#{@file_name}"
     system "cat #{source} | pngtopnm | pnmscale 0.2 | pnmtopng > #{dest_prefix}-THUMBNAIL-sm-p#{index}.png"
     system "cat #{source} | pngtopnm | pnmscale 0.6 | pnmtopng > #{dest_prefix}-THUMBNAIL-xl-p#{index}.png"
   end
