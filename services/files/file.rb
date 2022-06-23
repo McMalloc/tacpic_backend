@@ -120,7 +120,8 @@ class TpFile
       if tag['tag_id'].nil?
         created_tag = Tag.create(
           name: tag['name'],
-          user_id: @user_id
+          user_id: @user_id,
+          taxonomy_id: 1
         )
         tag['tag_id'] = created_tag.id
       end
@@ -146,7 +147,7 @@ class TpFile
           name: tag['name'],
           user_id: @user_id,
           taxonomy_id: 1
-        ) 
+        )
 
         tag['tag_id'] = created_tag.id
       end
