@@ -1,7 +1,7 @@
 pplId,  id,         price,  threshold,  antikink
-1,      standard,   80,     20,         false
-11,     kompakt,    95,     50,         false
-21,     gross,      155,    500,        false
-31,     maxi,       270,    1000,       false
-282,    buewa500,   190,    500,        true
-290,    buewa1000,  220,    1000,       true
+1,      standard,   85,     20,         false
+11,     kompakt,    100,     50,         false
+21,     gross,      160,    500,        false
+31,     maxi,       275,    1000,       false
+282,    buewa500,   195,    500,        true
+290,    buewa1000,  225,    1000,       true

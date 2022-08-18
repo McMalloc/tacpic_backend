@@ -43,7 +43,13 @@ module Internetmarke
     attr_accessor :wallet_balance, :client
 
     def initialize
-      @client = Savon.client(wsdl: ENV['INTERNETMARKE_WSDL_URL'])
+      @client = Savon.client(
+        wsdl: ENV['INTERNETMARKE_WSDL_URL'],
+        log: true,
+        log_level: :info,
+        logger: $_logger,
+        pretty_print_xml: true
+      )
       @oparations = @client.operations
       @time_of_last_request = nil
       @token = nil
@@ -180,7 +186,7 @@ module Internetmarke
             backend_version: $_version,
             type: e.class.name,
             backtrace: e.backtrace,
-            message: e.message,
+            message: e.message + ' | Whole body: ' + e.http.body,
             created_at: Time.now
           )
           @error = e
