@@ -85,7 +85,7 @@ class DocumentProcessor
     # system "qrencode -o #{filename} \"https://tacpic.de/catalogue/#{@version[:graphic_id]}/variant/#{@version[:variant_id]}\""
     # system "convert #{filename} -colorspace gray -contrast-stretch 0 +level-colors '#0000FF,' #{filename}"
     # @qr64 = `base64 -w0 #{filename}`
-    url = "https://tacpic.de/catalogue/#{@version[:graphic_id]}/variant/#{@version[:variant_id]}"
+    url = "https://tacpic.de/catalogue/#{@variant[:graphic_id]}/variant/#{@version[:variant_id]}"
     RQRCode::QRCode.new(url).as_svg(
       color: "0000FF",
       fill: 'ffffff',
