@@ -3,7 +3,7 @@ class UserRights < Sequel::Migration
     create_table :user_rights do
       primary_key :id
       foreign_key :user_id, :users, null: false
-      TrueClass :can_order, default: false
+      TrueClass :can_order, default: true
       TrueClass :can_hide_variants, default: false
       TrueClass :can_view_admin, default: false
       TrueClass :can_edit_admin, default: false

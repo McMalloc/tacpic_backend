@@ -9,11 +9,5 @@ class User < Sequel::Model
   one_to_many :downloads
   one_to_many :lists
   one_to_one :user_rights
-
   one_to_one :account
-
-  def before_save
-    # self[:display_name] = request.params['display_name']
-    super
-  end
 end

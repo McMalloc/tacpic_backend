@@ -21,7 +21,14 @@ Tacpic.plugin :rodauth, json: :only, csrf: :route_csrf do
     enable :verify_account
 
     after_verify_account do
-      response.write @account.to_json
+      UserRights.create(
+        user_id: @account[:id],
+        can_order: true,
+        can_hide_variants: false,
+        can_view_admin: false,
+        can_edit_admin: false
+      )
+      # response.write @account.to_json
     end
 
     verify_account_email_subject { "#{I18n.t('verify_account.subject')}" }
