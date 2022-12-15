@@ -20,9 +20,9 @@ sudo apt-get install git nano unrtf postgresql postgresql-client postgresql-cont
 # notwendig zum Kompilieren der Ruby native extensions
 sudo apt-get install libpq-dev ruby-dev build-essentials zlibc zlib1g zlib1g-dev
 # Packages für headless Chrome
-sudo apt-get install libgbm1 libxcb-dri3-0 libxcursor1
+sudo apt-get install libgbm1 libxcb-dri3-0 libxcursor1 libx11-xcb1 libxcomposite1 libxdamage1
 # Packages für headless Chrome / Puppeteer 3
-sudo apt-get install libxcursor1 libnss3 libgbm-dev libatk libatk-bridge-2.0-0
+sudo apt-get install ca-certificates  fonts-liberation  libasound2  libatk-bridge2.0-0  libatk1.0-0  libc6  libcairo2  libcups2  libdbus-1-3  libexpat1  libfontconfig1  libgbm1  libgcc1  libglib2.0-0  libgtk-3-0  libnspr4  libnss3  libpango-1.0-0  libpangocairo-1.0-0  libstdc++6  libx11-6  libx11-xcb1  libxcb1  libxcomposite1  libxcursor1  libxdamage1  libxext6  libxfixes3  libxi6  libxrandr2  libxrender1  libxss1  libxtst6  lsb-release  wget  xdg-utils
 ```
 
 # Proxy mit Apache
@@ -132,8 +132,16 @@ mkdir tacpic_backend/files/invoices
 mkdir tacpic_backend/files/thumbnails
 mkdir tacpic_backend/files/shipment_receipts
 mkdir tacpic_backend/files/temp
+mkdir tacpic_backend/files/logs
 mkdir tacpic_backend/files/jobs
 ```
+
+Gitlog anlegen
+```
+./git_log_to_json.sh public BACKEND.json
+```
+
+
 ## Datenbank einrichten
 
 ```
