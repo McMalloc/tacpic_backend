@@ -104,7 +104,7 @@ class Shipment < Sequel::Model
 
       bounding_box([second_column_offset, (297 - 50).mm], width: 60.mm, height: 100.mm) do
         text 'Anschrift', style: :bold
-        text 'tacpic UG (haftungsbeschränkt)'
+        text 'tacpic UG (haftungsbeschränkt) i. L.'
         text 'Breitscheidstr. 51'
         text '39114 Magdeburg'
         move_down 10.mm

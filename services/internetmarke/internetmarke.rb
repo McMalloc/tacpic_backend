@@ -108,7 +108,7 @@ module Internetmarke
                   :context_id, :total, :voucher_id, :product
 
     def initialize(product, context_id, receiver_address, sender_address = {
-      company_name: 'tacpic UG (haftungsbeschränkt)',
+      company_name: 'tacpic UG (haftungsbeschränkt) i. L.',
       street: 'Breitscheidtr.',
       house_number: '51',
       zip: '39114',
